@@ -386,9 +386,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         UI.stamp.downloadBtn.addEventListener('click', () => {
+            if (!state.stamp.dataUrl) return;
             const link = document.createElement('a');
-            link.download = 'stampify-custom-stamp.png';
-            link.href = UI.stamp.canvas.toDataURL('image/png');
+            link.download = 'onlinestampdoc-custom-stamp.png';
+            link.href = state.stamp.dataUrl;
             link.click();
         });
 
