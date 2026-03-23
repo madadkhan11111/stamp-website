@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stampify | Premium Online Stamp & Document Stamper</title>
+    <meta name="description" content="Create aesthetic, personalized digital stamps online. Upload your documents, add your custom stamp, and download in high quality. The world's finest stamp creation tool.">
+    
+    <!-- Google Fonts for Multi-Language Support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- External Libraries -->
+    <!-- pdf.js for rendering PDFs to canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <!-- pdf-lib for modifying PDFs (adding the stamp) -->
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="app-background">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <header class="app-header">
+        <div class="logo">
+            <i class="fa-solid fa-stamp"></i>
+            <span>Stampify</span>
+        </div>
+        <nav class="step-nav">
+            <button class="step-btn active" data-step="1">
+                <span class="step-num">1</span> Create Stamp
+            </button>
+            <div class="step-connector"></div>
+            <button class="step-btn" data-step="2" id="nav-step-2" disabled>
+                <span class="step-num">2</span> Stamp Document
+            </button>
+        </nav>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <main class="app-main">
+        
+        <!-- STEP 1: STAMP CREATOR -->
+        <section class="step-section active" id="step-1">
+            <div class="glass-panel controls-panel">
+                <h2>Design Your Stamp</h2>
+
+                <!-- QUICK TEMPLATES -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Quick Templates</label>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button class="secondary-btn" id="tpl-approved" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">APPROVED</button>
+                        <button class="secondary-btn" id="tpl-paid" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; color: var(--success);">PAID</button>
+                        <button class="secondary-btn" id="tpl-confidential" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; color: var(--danger);">CONFIDENTIAL</button>
+                        <button class="secondary-btn" id="tpl-received" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">RECEIVED</button>
+                        <button class="secondary-btn" id="tpl-draft" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; color: #f59e0b;">DRAFT</button>
+                    </div>
+                </div>
+                
+                <!-- ACCORDION: Shape -->
+                <div class="accordion-item" id="acc-shape">
+                    <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
+                        <h3><i class="fa-solid fa-shapes"></i> Stamp Shape</h3>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="radio-group" id="shape-selector" style="flex-wrap: wrap;">
+                            <label class="radio-card active" style="flex: 1 1 calc(33% - 1rem);">
+                                <input type="radio" name="stamp-shape" value="circle" checked>
+                                <i class="fa-regular fa-circle"></i>
+                                <span>Circular</span>
+                            </label>
+                            <label class="radio-card" style="flex: 1 1 calc(33% - 1rem);">
+                                <input type="radio" name="stamp-shape" value="rectangle">
+                                <i class="fa-regular fa-square"></i>
+                                <span>Basic Rect</span>
+                            </label>
+                            <label class="radio-card" style="flex: 1 1 calc(33% - 1rem);">
+                                <input type="radio" name="stamp-shape" value="rounded">
+                                <i class="fa-solid fa-vector-square"></i>
+                                <span>Rounded Rect</span>
+                            </label>
+                            <label class="radio-card" style="flex: 1 1 calc(50% - 1rem);">
+                                <input type="radio" name="stamp-shape" value="oval">
+                                <i class="fa-regular fa-circle" style="transform: scaleX(1.3);"></i>
+                                <span>Oval</span>
+                            </label>
+                            <label class="radio-card" style="flex: 1 1 calc(50% - 1rem);">
+                                <input type="radio" name="stamp-shape" value="diamond">
+                                <i class="fa-solid fa-diamond"></i>
+                                <span>Diamond</span>
+                            </label>
+                            <label class="radio-card" style="flex: 1 1 100%;">
+                                <input type="radio" name="stamp-shape" value="address">
+                                <i class="fa-solid fa-address-card"></i>
+                                <span>Address / Business</span>
+                            </label>
+                            <label class="radio-card" style="flex: 1 1 calc(50% - 1rem);">
+                                <input type="radio" name="stamp-shape" value="star">
+                                <i class="fa-solid fa-certificate"></i>
+                                <span>Star / Badge</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACCORDION: Color & Text -->
+                <div class="accordion-item active" id="acc-text">
+                    <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
+                        <h3><i class="fa-solid fa-palette"></i> Color &amp; Text</h3>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="control-group">
+                            <label for="stamp-color">Ink Color</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" id="stamp-color" value="#E63946">
+                                <span class="color-hex" id="color-hex-display">#E63946</span>
+                                <div class="preset-colors">
+                                    <button class="preset-color active" style="background-color: #E63946;" data-color="#E63946"></button>
+                                    <button class="preset-color" style="background-color: #2B68D1;" data-color="#2B68D1" title="Classic Stamp Blue"></button>
+                                    <button class="preset-color" style="background-color: #4169E1;" data-color="#4169E1" title="Royal Blue"></button>
+                                    <button class="preset-color" style="background-color: #000000;" data-color="#000000"></button>
+                                    <button class="preset-color" style="background-color: #2A9D8F;" data-color="#2A9D8F"></button>
+                                    <button class="preset-color" style="background-color: #6D23B6;" data-color="#6D23B6"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group" id="circle-controls">
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.5rem;">
+                                <div style="flex-grow: 1;">
+                                    <label for="outer-text">Outer Ring Text</label>
+                                    <input type="text" id="outer-text" class="glass-input" value="AUTHORIZED SIGNATURE • OFFICIAL •" style="margin-bottom: 0;">
+                                </div>
+                                <div style="width: 70px;">
+                                    <label for="outer-text-size" style="font-size: 0.75rem;">Size</label>
+                                    <input type="number" id="outer-text-size" class="glass-input" value="24" min="10" max="60" style="margin-bottom: 0; padding: 0.5rem;">
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.5rem;">
+                                <div style="flex-grow: 1;">
+                                    <label for="inner-text">Center Text</label>
+                                    <input type="text" id="inner-text" class="glass-input" value="APPROVED" maxlength="15" style="margin-bottom: 0;">
+                                </div>
+                                <div style="width: 70px;">
+                                    <label for="inner-text-size" style="font-size: 0.75rem;">Size</label>
+                                    <input type="number" id="inner-text-size" class="glass-input" value="36" min="10" max="80" style="margin-bottom: 0; padding: 0.5rem;">
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
+                                <div style="flex-grow: 1;">
+                                    <label for="date-text">Bottom/Date Text</label>
+                                    <input type="text" id="date-text" class="glass-input" value="15 MAR 2026" maxlength="20" style="margin-bottom: 0;">
+                                </div>
+                                <div style="width: 70px;">
+                                    <label for="date-text-size" style="font-size: 0.75rem;">Size</label>
+                                    <input type="number" id="date-text-size" class="glass-input" value="18" min="8" max="40" style="margin-bottom: 0; padding: 0.5rem;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group hidden" id="rect-controls">
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.5rem;">
+                                <div style="flex-grow: 1;">
+                                    <label for="rect-top-text">Top Text</label>
+                                    <input type="text" id="rect-top-text" class="glass-input" value="CONFIDENTIAL" maxlength="30" style="margin-bottom: 0;">
+                                </div>
+                                <div style="width: 70px;">
+                                    <label for="rect-top-size" style="font-size: 0.75rem;">Size</label>
+                                    <input type="number" id="rect-top-size" class="glass-input" value="22" min="10" max="50" style="margin-bottom: 0; padding: 0.5rem;">
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.5rem;">
+                                <div style="flex-grow: 1;">
+                                    <label for="rect-mid-text">Middle Text</label>
+                                    <input type="text" id="rect-mid-text" class="glass-input" value="DO NOT DISTRIBUTE" maxlength="30" style="margin-bottom: 0;">
+                                </div>
+                                <div style="width: 70px;">
+                                    <label for="rect-mid-size" style="font-size: 0.75rem;">Size</label>
+                                    <input type="number" id="rect-mid-size" class="glass-input" value="40" min="10" max="80" style="margin-bottom: 0; padding: 0.5rem;">
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
+                                <div style="flex-grow: 1;">
+                                    <label for="rect-bot-text">Bottom Text</label>
+                                    <input type="text" id="rect-bot-text" class="glass-input" value="Date: 15-03-2026" maxlength="30" style="margin-bottom: 0;">
+                                </div>
+                                <div style="width: 70px;">
+                                    <label for="rect-bot-size" style="font-size: 0.75rem;">Size</label>
+                                    <input type="number" id="rect-bot-size" class="glass-input" value="18" min="8" max="40" style="margin-bottom: 0; padding: 0.5rem;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group hidden" id="address-controls">
+                            <small style="color: var(--accent-primary); margin-bottom: 0.5rem; display: block;"><i class="fa-solid fa-building"></i> Multi-line Address / Business Stamp</small>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.4rem;">
+                                <div style="flex-grow: 1;">
+                                    <label for="addr-line1" style="font-size: 0.75rem;">Company / Title</label>
+                                    <input type="text" id="addr-line1" class="glass-input" value="MH TRADERS" maxlength="40" style="margin-bottom: 0;">
+                                </div>
+                                <div style="width: 60px;">
+                                    <label for="addr-line1-size" style="font-size: 0.7rem;">Size</label>
+                                    <input type="number" id="addr-line1-size" class="glass-input" value="28" min="10" max="60" style="margin-bottom: 0; padding: 0.4rem;">
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.4rem;">
+                                <div style="flex-grow: 1;">
+                                    <label for="addr-line2" style="font-size: 0.75rem;">Address Line 1</label>
+                                    <input type="text" id="addr-line2" class="glass-input" value="OFFICE NO: 505, TRADE AVENUE" maxlength="50" style="margin-bottom: 0;">
+                                </div>
+                                <div style="width: 60px;">
+                                    <label for="addr-line2-size" style="font-size: 0.7rem;">Size</label>
+                                    <input type="number" id="addr-line2-size" class="glass-input" value="16" min="8" max="40" style="margin-bottom: 0; padding: 0.4rem;">
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.4rem;">
+                                <div style="flex-grow: 1;">
+                                    <label for="addr-line3" style="font-size: 0.75rem;">Address Line 2</label>
+                                    <input type="text" id="addr-line3" class="glass-input" value="HASRAT MOHANI ROAD," maxlength="50" style="margin-bottom: 0;">
+                                </div>
+                                <div style="width: 60px;">
+                                    <label for="addr-line3-size" style="font-size: 0.7rem;">Size</label>
+                                    <input type="number" id="addr-line3-size" class="glass-input" value="14" min="8" max="40" style="margin-bottom: 0; padding: 0.4rem;">
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.4rem;">
+                                <div style="flex-grow: 1;">
+                                    <label for="addr-line4" style="font-size: 0.75rem;">City / Region</label>
+                                    <input type="text" id="addr-line4" class="glass-input" value="I.I. CHUNDRIGAR ROAD, KARACHI." maxlength="50" style="margin-bottom: 0;">
+                                </div>
+                                <div style="width: 60px;">
+                                    <label for="addr-line4-size" style="font-size: 0.7rem;">Size</label>
+                                    <input type="number" id="addr-line4-size" class="glass-input" value="14" min="8" max="40" style="margin-bottom: 0; padding: 0.4rem;">
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
+                                <div style="flex-grow: 1;">
+                                    <label for="addr-line5" style="font-size: 0.75rem;">Phone / Reference</label>
+                                    <input type="text" id="addr-line5" class="glass-input" value="C.H.A.L: # 9018599" maxlength="50" style="margin-bottom: 0;">
+                                </div>
+                                <div style="width: 60px;">
+                                    <label for="addr-line5-size" style="font-size: 0.7rem;">Size</label>
+                                    <input type="number" id="addr-line5-size" class="glass-input" value="13" min="8" max="40" style="margin-bottom: 0; padding: 0.4rem;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACCORDION: Effects & Logo -->
+                <div class="accordion-item" id="acc-effects">
+                    <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
+                        <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Effects &amp; Logo</h3>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="control-group">
+                            <div style="display: flex; justify-content: space-between;">
+                                <label for="stamp-border-thickness">Border Thickness</label>
+                                <span id="border-val" class="text-highlight">Medium</span>
+                            </div>
+                            <input type="range" id="stamp-border-thickness" class="glass-slider" min="1" max="10" step="1" value="4">
+                        </div>
+
+                        <div class="control-group">
+                            <div style="display: flex; justify-content: space-between;">
+                                <label for="stamp-opacity">Ink Opacity</label>
+                                <span id="opacity-val" class="text-highlight">100%</span>
+                            </div>
+                            <input type="range" id="stamp-opacity" class="glass-slider" min="0.1" max="1" step="0.05" value="1">
+                        </div>
+
+                        <div class="control-group toggle-group" style="border-top: none; padding-top: 0; margin-top: 0.5rem;">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="add-distress">
+                                <span class="slider"></span>
+                            </label>
+                            <span class="toggle-label">Distressed / Realistic Effect</span>
+                        </div>
+                        
+                        <div class="control-group toggle-group" style="border-top: none; padding-top: 0; margin-top: 0.5rem;">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="use-custom-logo">
+                                <span class="slider"></span>
+                            </label>
+                            <span class="toggle-label">Use Custom Center Logo</span>
+                        </div>
+
+                        <div class="control-group hidden" id="logo-upload-group" style="background: rgba(0,0,0,0.1); padding: 1rem; border-radius: var(--border-radius-sm);">
+                            <input type="file" id="stamp-logo-upload" accept="image/png, image/jpeg, image/svg+xml" class="glass-input" style="padding: 0.5rem;">
+                            <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">For best results, use a transparent PNG.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACCORDION: Typography -->
+                <div class="accordion-item" id="acc-typo">
+                    <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
+                        <h3><i class="fa-solid fa-font"></i> Typography</h3>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <label for="font-family">Global Font Style</label>
+                        <select id="font-family" class="glass-input" style="color: var(--text-primary); margin-bottom: 0.5rem; background: rgba(0,0,0,0.2);">
+                            <option value="'Outfit', sans-serif">Outfit (Modern Sans)</option>
+                            <option value="Arial, sans-serif">Arial (Classic Sans)</option>
+                            <option value="'Times New Roman', serif">Times New Roman (Formal Serif)</option>
+                            <option value="'Courier New', monospace">Courier New (Monospace)</option>
+                            <option value="'Space Grotesk', sans-serif">Space Grotesk (Tech)</option>
+                        </select>
+
+                        <div class="toggle-group" style="border-top: none; padding-top: 0; margin-top: 0.5rem;">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="font-bold" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span class="toggle-label">Extra Bold Text</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACCORDION: Save / Load Presets -->
+                <div class="accordion-item" id="acc-presets">
+                    <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
+                        <h3><i class="fa-solid fa-floppy-disk"></i> Save / Load Presets</h3>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <input type="text" id="preset-name" class="glass-input" placeholder="My Stamp Design..." style="margin-bottom: 0; flex-grow: 1;">
+                            <button class="secondary-btn" id="save-preset-btn" style="white-space: nowrap; padding: 0.5rem 0.8rem;"><i class="fa-solid fa-save"></i> Save</button>
+                        </div>
+                        <div id="presets-list" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 200px; overflow-y: auto;"></div>
+                        <small style="color: var(--text-secondary); display: block; margin-top: 0.5rem;">Presets are saved in your browser.</small>
+                    </div>
+                </div>
+
+                <button class="primary-btn glow-effect" id="proceed-to-doc-btn" style="margin-top: 1rem;">
+                    Confirm &amp; Proceed <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div class="glass-panel preview-panel">
+                <h2>Live Preview</h2>
+                <div class="canvas-container">
+                    <canvas id="stamp-preview-canvas" width="400" height="400"></canvas>
+                </div>
+                <div class="preview-actions">
+                    <button class="icon-btn" id="download-stamp-img" title="Download Stamp Image">
+                        <i class="fa-solid fa-download"></i> Download PNG
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 2: DOCUMENT STAMPER -->
+        <section class="step-section" id="step-2">
+            <div class="glass-panel upload-panel" id="upload-container">
+                <input type="file" id="document-upload" accept="image/png, image/jpeg, application/pdf" hidden>
+                <div class="drop-zone" id="drop-zone">
+                    <div class="drop-zone-content">
+                        <div class="upload-icon-pulse">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <h3>Upload Document</h3>
+                        <p>Drag & drop or <span class="text-highlight">browse</span></p>
+                        <p class="file-limits">Supports JPG, PNG, and PDF (Max 10MB)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workspace-area hidden" id="workspace-area">
+                <div class="workspace-toolbar">
+                    <button class="secondary-btn" id="change-doc-btn">
+                        <i class="fa-solid fa-rotate-left"></i> Change Document
+                    </button>
+                    
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <div class="zoom-controls">
+                            <button class="icon-btn" id="zoom-out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                            <span id="zoom-level">100%</span>
+                            <button class="icon-btn" id="zoom-in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                        </div>
+                        <div class="zoom-controls" style="min-width: 140px; justify-content: space-between;" title="Rotate Stamp">
+                            <button class="icon-btn" id="rot-left"><i class="fa-solid fa-rotate-left"></i></button>
+                            <span id="rot-level">0&deg;</span>
+                            <button class="icon-btn" id="rot-right"><i class="fa-solid fa-rotate-right"></i></button>
+                        </div>
+                    </div>
+
+                    <button class="primary-btn success glow-effect" id="export-doc-btn">
+                        <i class="fa-solid fa-file-export"></i> Export Stamped Document
+                    </button>
+                </div>
+
+                <div class="document-viewer-wrapper" id="document-viewer-wrapper">
+                    <div class="document-container" id="document-container">
+                        <canvas id="doc-render-canvas"></canvas>
+                        <img id="doc-render-image" style="display: none;" draggable="false">
+                        
+                        <!-- The draggable stamp overlay -->
+                        <div id="stamp-overlay" class="draggable-stamp">
+                            <img id="stamp-overlay-img" src="" alt="Your Stamp" draggable="false">
+                            <div class="resize-handle se"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pdf-controls hidden" id="pdf-controls">
+                    <button class="icon-btn" id="prev-page" disabled><i class="fa-solid fa-chevron-left"></i></button>
+                    <span>Page <span id="page-num">1</span> of <span id="page-count">1</span></span>
+                    <button class="icon-btn" id="next-page"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="loading-overlay hidden" id="loading-overlay">
+        <div class="spinner"></div>
+        <p id="loading-text">Processing...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
