@@ -956,52 +956,41 @@ document.addEventListener('DOMContentLoaded', () => {
         const existingPdfBytes = await state.document.file.arrayBuffer();
         const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
         
-        // Get the target page (pdf-lib pages are 0-indexed)
+        // Get all pages to apply the stamp to every page
         const pages = pdfDoc.getPages();
-        const page = pages[state.document.pageNum - 1];
         
-        // Get page dimensions
-        const { width: pdfPageW, height: pdfPageH } = page.getSize();
-        
-        // We rendered the PDF visually at viewport.width/height (state.document.originalWidth/Height)
-        // We need to map the visual coordinates to PDF coordinates
-        // Note: PDF coordinate system starts from BOTTOM LEFT!
-        
-        const scaleX = pdfPageW / state.document.originalWidth;
-        const scaleY = pdfPageH / state.document.originalHeight;
-        
-        const stampVisualW = state.draggable.width;
-        const stampVisualX = state.draggable.currentX - (stampVisualW / 2); // left
-        const stampVisualY = state.draggable.currentY + (stampVisualW / 2); // bottom visual edge
-        
-        const stampPdfW = stampVisualW * scaleX;
-        const stampPdfH = stampVisualW * scaleY; // assumes square
-        const stampPdfX = stampVisualX * scaleX;
-        // Invert Y coordinate
-        const stampPdfY = pdfPageH - (stampVisualY * scaleY);
-        
-        // Embed stamp png
+        // Embed stamp png once
         const pngImageBytes = await fetch(state.stamp.dataUrl).then(res => res.arrayBuffer());
         const pngImage = await pdfDoc.embedPng(pngImageBytes);
         
-        // Convert degrees to radians (pdf-lib rotates counter-clockwise naturally)
-        // PDF-lib's `degrees()` function is handy
-        const rotationAngle = PDFLib.degrees(-state.draggable.rotation);
-        
-        // Draw the image onto the page
-        // pdf-lib drawImage x/y define the bottom-left corner WITHOUT rotation
-        // If we want to rotate around the center, we need to manipulate the coordinates carefully.
-        // Or simply draw it with rotation. Let's position the center:
-        
-        const rotateX = stampPdfX + (stampPdfW / 2);
-        const rotateY = stampPdfY + (stampPdfH / 2);
-        
-        page.drawImage(pngImage, {
-            x: stampPdfX,
-            y: stampPdfY,
-            width: stampPdfW,
-            height: stampPdfH,
-        });
+        // Apply to ALL pages
+        for (let i = 0; i < pages.length; i++) {
+            const page = pages[i];
+            const { width: pdfPageW, height: pdfPageH } = page.getSize();
+            
+            // Map the visual coordinates to PDF coordinates for this specific page
+            const scaleX = pdfPageW / state.document.originalWidth;
+            const scaleY = pdfPageH / state.document.originalHeight;
+            
+            const stampVisualW = state.draggable.width;
+            const stampVisualX = state.draggable.currentX - (stampVisualW / 2); // left
+            const stampVisualY = state.draggable.currentY + (stampVisualW / 2); // bottom visual edge
+            
+            const stampPdfW = stampVisualW * scaleX;
+            const stampPdfH = stampVisualW * scaleY; // assumes square
+            const stampPdfX = stampVisualX * scaleX;
+            // Invert Y coordinate
+            const stampPdfY = pdfPageH - (stampVisualY * scaleY);
+            
+            // TODO: If you ever want to add PDF rotation, pdf-lib rotates around the bottom-left corner.
+            // For now, we place it exactly where it is visually.
+            page.drawImage(pngImage, {
+                x: stampPdfX,
+                y: stampPdfY,
+                width: stampPdfW,
+                height: stampPdfH,
+            });
+        }
         
         // Save the modified PDF
         const pdfBytes = await pdfDoc.save();
