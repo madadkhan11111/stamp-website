@@ -1494,12 +1494,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // startOffset="50%" places the middle of the text exactly halfway along the path.
         // For the top text path, halfway is 12 o'clock. For the bottom text path, halfway is 6 o'clock.
         const svg = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" xml:space="preserve">
                 <path id="curve" d="${pathD}" fill="transparent" />
-                <text fill="${color}" font-family="${fontFamily}" font-size="${fontSize}px" font-weight="${isBold ? 'bold' : 'normal'}" text-anchor="middle" dominant-baseline="central">
-                    <textPath href="#curve" startOffset="50%">
-                        ${escapedStr}
-                    </textPath>
+                <text fill="${color}" font-family="${fontFamily}" font-size="${fontSize}px" font-weight="${isBold ? 'bold' : 'normal'}" text-anchor="middle" dominant-baseline="central" xml:space="preserve">
+                    <textPath href="#curve" startOffset="50%" xml:space="preserve">${escapedStr}</textPath>
                 </text>
             </svg>
         `;
