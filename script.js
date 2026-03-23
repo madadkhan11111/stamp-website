@@ -109,7 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
             prevPageBtn: document.getElementById('prev-page'),
             nextPageBtn: document.getElementById('next-page'),
             pageNumSpan: document.getElementById('page-num'),
-            pageCountSpan: document.getElementById('page-count')
+            pageCountSpan: document.getElementById('page-count'),
+            pageStampToggle: document.getElementById('toggle-page-stamp')
         },
         
         loading: {
@@ -170,7 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
             pageCount: 1,
             zoom: 1.0,
             originalWidth: 0,
-            originalHeight: 0
+            originalHeight: 0,
+            pageStamps: {} // Map of pageNum -> stamp settings for that page
         },
         draggable: {
             isDragging: false,
@@ -567,11 +569,64 @@ document.addEventListener('DOMContentLoaded', () => {
         UI.doc.prevPageBtn.addEventListener('click', () => changePdfPage(-1));
         UI.doc.nextPageBtn.addEventListener('click', () => changePdfPage(1));
 
+        UI.doc.pageStampToggle.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                UI.doc.stampOverlay.style.display = 'block';
+                if (state.document.pageStamps[state.document.pageNum]) {
+                    const s = state.document.pageStamps[state.document.pageNum];
+                    state.draggable.currentX = s.x;
+                    state.draggable.currentY = s.y;
+                    state.draggable.width = s.w;
+                    state.draggable.rotation = s.r;
+                    updateStampDOM();
+                } else {
+                    centerStamp();
+                }
+            } else {
+                UI.doc.stampOverlay.style.display = 'none';
+            }
+            saveCurrentPageStamp();
+        });
+
         // Setup Draggable Stamp
         setupDraggableStamp();
 
         // Export Document
         UI.doc.exportBtn.addEventListener('click', exportDocument);
+    }
+
+    function saveCurrentPageStamp() {
+        if (!state.document.file) return;
+        if (state.document.type !== 'pdf') return; // Only applies to multi-page PDF
+        
+        if (UI.doc.pageStampToggle.checked) {
+            state.document.pageStamps[state.document.pageNum] = {
+                x: state.draggable.currentX,
+                y: state.draggable.currentY,
+                w: state.draggable.width,
+                r: state.draggable.rotation
+            };
+        } else {
+            delete state.document.pageStamps[state.document.pageNum];
+        }
+    }
+
+    function loadCurrentPageStamp() {
+        if (state.document.type !== 'pdf') return;
+        
+        const s = state.document.pageStamps[state.document.pageNum];
+        if (s) {
+            UI.doc.pageStampToggle.checked = true;
+            UI.doc.stampOverlay.style.display = 'block';
+            state.draggable.currentX = s.x;
+            state.draggable.currentY = s.y;
+            state.draggable.width = s.w;
+            state.draggable.rotation = s.r;
+            updateStampDOM();
+        } else {
+            UI.doc.pageStampToggle.checked = false;
+            UI.doc.stampOverlay.style.display = 'none';
+        }
     }
 
     /* =========================================================================
@@ -597,12 +652,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isPdf) {
                 await loadPdf(file);
                 UI.doc.pdfControls.classList.remove('hidden');
+                
+                // Initialize page 1 stamp
+                state.document.pageStamps = {};
+                UI.doc.pageStampToggle.checked = true;
+                UI.doc.stampOverlay.style.display = 'block';
+                centerStamp();
+                saveCurrentPageStamp();
             } else {
                 await loadImage(file);
                 UI.doc.pdfControls.classList.add('hidden');
+                UI.doc.stampOverlay.style.display = 'block';
+                centerStamp();
             }
-            // Center the stamp initially
-            centerStamp();
         } catch (err) {
             console.error('Error loading file:', err);
             alert('Could not load the document. Please try a different file.');
@@ -687,6 +749,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function changePdfPage(delta) {
+        saveCurrentPageStamp(); // Save current state before switching
+
         const newNum = state.document.pageNum + delta;
         if (newNum < 1 || newNum > state.document.pageCount) return;
         
@@ -695,7 +759,10 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePdfPageControls();
         
         showLoading('Rendering page...');
-        renderPdfPage(newNum).then(hideLoading);
+        renderPdfPage(newNum).then(() => {
+            loadCurrentPageStamp();
+            hideLoading();
+        });
     }
 
     function updatePdfPageControls() {
@@ -952,6 +1019,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function exportAsPdf() {
+        // Ensure the current page's stamp is saved before exporting
+        saveCurrentPageStamp();
+
         // Use pdf-lib to load existing, draw stamp on current page, and save
         const existingPdfBytes = await state.document.file.arrayBuffer();
         const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
@@ -963,8 +1033,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const pngImageBytes = await fetch(state.stamp.dataUrl).then(res => res.arrayBuffer());
         const pngImage = await pdfDoc.embedPng(pngImageBytes);
         
-        // Apply to ALL pages
+        // Apply to ALL pages that have a stamp saved
         for (let i = 0; i < pages.length; i++) {
+            const pageNum = i + 1;
+            const stampConfig = state.document.pageStamps[pageNum];
+            
+            // If this page doesn't have a stamp enabled, skip it
+            if (!stampConfig) continue;
+
             const page = pages[i];
             const { width: pdfPageW, height: pdfPageH } = page.getSize();
             
@@ -972,9 +1048,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const scaleX = pdfPageW / state.document.originalWidth;
             const scaleY = pdfPageH / state.document.originalHeight;
             
-            const stampVisualW = state.draggable.width;
-            const stampVisualX = state.draggable.currentX - (stampVisualW / 2); // left
-            const stampVisualY = state.draggable.currentY + (stampVisualW / 2); // bottom visual edge
+            // Use the saved dimensions for this specific page
+            const stampVisualW = stampConfig.w;
+            const stampVisualX = stampConfig.x - (stampVisualW / 2); // left
+            const stampVisualY = stampConfig.y + (stampVisualW / 2); // bottom visual edge
             
             const stampPdfW = stampVisualW * scaleX;
             const stampPdfH = stampVisualW * scaleY; // assumes square
