@@ -1409,21 +1409,21 @@ document.addEventListener('DOMContentLoaded', () => {
             </svg>
         `;
         
-        const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
+        const url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
         
         const img = new Image();
         await new Promise((resolve, reject) => {
             img.onload = resolve;
-            img.onerror = reject;
+            img.onerror = (e) => {
+                console.error("SVG Load Error", e);
+                resolve(); // resolve anyway so we don't crash the entire renderer, just miss the text
+            };
             img.src = url;
         });
         
         const drawX = cx - center;
         const drawY = cy - center;
         context.drawImage(img, drawX, drawY);
-        
-        URL.revokeObjectURL(url);
     }
 
     function renderOvalStamp(center, size) {
@@ -1693,49 +1693,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize
-    // ==================== QUICK TEMPLATES ====================
-    function applyTemplate(text, color, isBold = true, isRect = true) {
-        state.stamp.color = color;
-        UI.stamp.colorInput.value = color;
-        document.getElementById('color-hex-display').textContent = color;
-        
-        state.stamp.font.isBold = isBold;
-        UI.stamp.fontBold.checked = isBold;
-
-        if (isRect) {
-            state.stamp.shape = 'rect';
-            state.stamp.rect.topText = '';
-            state.stamp.rect.midText = text;
-            state.stamp.rect.botText = Date.now().toString().slice(0, 10);
-            
-            UI.stamp.rectTopText.value = state.stamp.rect.topText;
-            UI.stamp.rectMidText.value = state.stamp.rect.midText;
-            UI.stamp.rectBotText.value = state.stamp.rect.botText;
-        } else {
-            state.stamp.shape = 'circle';
-            state.stamp.circle.outerText = text;
-            state.stamp.circle.innerText = '★ VERIFIED ★';
-            
-            UI.stamp.outerText.value = state.stamp.circle.outerText;
-            UI.stamp.innerText.value = state.stamp.circle.innerText;
-        }
-
-        // Trigger UI shape update
-        const shapeInput = document.querySelector(`input[name="stamp-shape"][value="${state.stamp.shape}"]`);
-        if (shapeInput) {
-            shapeInput.checked = true;
-            shapeInput.dispatchEvent(new Event('change'));
-        } else {
-            renderStamp();
-        }
-    }
-
-    document.getElementById('tpl-approved').addEventListener('click', () => applyTemplate('APPROVED', '#16a34a'));
-    document.getElementById('tpl-paid').addEventListener('click', () => applyTemplate('PAID', '#16a34a'));
-    document.getElementById('tpl-confidential').addEventListener('click', () => applyTemplate('CONFIDENTIAL', '#dc2626'));
-    document.getElementById('tpl-received').addEventListener('click', () => applyTemplate('RECEIVED', '#2563eb'));
-    document.getElementById('tpl-draft').addEventListener('click', () => applyTemplate('DRAFT', '#d97706', true, false));
-
+    // Initialized at bottom
     // ==================== INITIALIZATION ====================
     init();
 
