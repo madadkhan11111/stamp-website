@@ -1396,10 +1396,12 @@ document.addEventListener('DOMContentLoaded', () => {
                              .replace(/>/g, '&gt;')
                              .replace(/ /g, '&#160;');
         
+        const safeFontFamily = fontFamily.replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+        
         const svg = `
             <svg xmlns="http://www.w3.org/2000/svg" width="${svgSize}" height="${svgSize}">
                 <path id="curve-${isBottom ? 'bot' : 'top'}" d="${pathData}" fill="transparent" />
-                <text fill="${color}" font-family="${fontFamily}" font-size="${fontSize}px" font-weight="${isBold ? 'bold' : 'normal'}">
+                <text fill="${color}" font-family="${safeFontFamily}" font-size="${fontSize}px" font-weight="${isBold ? 'bold' : 'normal'}">
                     <textPath href="#curve-${isBottom ? 'bot' : 'top'}" startOffset="50%" text-anchor="middle">
                         ${safeText}
                     </textPath>
