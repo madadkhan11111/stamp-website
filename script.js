@@ -197,6 +197,24 @@ document.addEventListener('DOMContentLoaded', () => {
     function init() {
         setupEventListeners();
         renderStamp(); // Initial render
+        checkCookieConsent();
+    }
+
+    function checkCookieConsent() {
+        const banner = document.getElementById('cookie-banner');
+        const btn = document.getElementById('accept-cookies');
+        
+        if (!localStorage.getItem('stampify_cookie_consent')) {
+            // Slight delay so it slides up after load
+            setTimeout(() => {
+                banner.classList.add('show');
+            }, 1000);
+        }
+
+        btn.addEventListener('click', () => {
+            localStorage.setItem('stampify_cookie_consent', 'true');
+            banner.classList.remove('show');
+        });
     }
 
     function setupEventListeners() {
