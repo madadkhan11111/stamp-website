@@ -1367,6 +1367,62 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Helper to draw text in a circle gracefully without overflowing
      */
+    async function drawTextAlongArcSVG(context, text, cx, cy, radius, isBottom) {
+        if (!text) return;
+        
+        // Extract font properties from canvas context
+        const fontArr = context.font.split('px ');
+        const fontSizeStr = fontArr[0].split(' ').pop();
+        const fontSize = parseInt(fontSizeStr, 10);
+        const fontFamily = fontArr[1] || 'sans-serif';
+        const isBold = context.font.includes('bold');
+        const color = context.fillStyle;
+        
+        const svgSize = radius * 2 + fontSize * 4;
+        const center = svgSize / 2;
+        
+        let pathData = '';
+        if (isBottom) {
+            // Arc from left to right along the bottom edge
+            pathData = `M ${center - radius},${center} A ${radius},${radius} 0 0,0 ${center + radius},${center}`;
+        } else {
+            // Arc from left to right along the top edge
+            pathData = `M ${center - radius},${center} A ${radius},${radius} 0 0,1 ${center + radius},${center}`;
+        }
+        
+        // Replace spaces with non-breaking spaces so they don't collapse when the user adds multiple spaces
+        const safeText = text.replace(/&/g, '&amp;')
+                             .replace(/</g, '&lt;')
+                             .replace(/>/g, '&gt;')
+                             .replace(/ /g, '&#160;');
+        
+        const svg = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="${svgSize}" height="${svgSize}">
+                <path id="curve-${isBottom ? 'bot' : 'top'}" d="${pathData}" fill="transparent" />
+                <text fill="${color}" font-family="${fontFamily}" font-size="${fontSize}px" font-weight="${isBold ? 'bold' : 'normal'}">
+                    <textPath href="#curve-${isBottom ? 'bot' : 'top'}" startOffset="50%" text-anchor="middle">
+                        ${safeText}
+                    </textPath>
+                </text>
+            </svg>
+        `;
+        
+        const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        
+        const img = new Image();
+        await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = url;
+        });
+        
+        const drawX = cx - center;
+        const drawY = cy - center;
+        context.drawImage(img, drawX, drawY);
+        
+        URL.revokeObjectURL(url);
+    }
 
     function renderOvalStamp(center, size) {
         const width = 360;
