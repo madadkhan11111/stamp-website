@@ -836,11 +836,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const overlay = UI.doc.stampOverlay;
         const handle = overlay.querySelector('.resize-handle');
         const rotateHandle = overlay.querySelector('.rotate-handle');
+
+        function beginRotate(clientX, clientY) {
+            state.draggable.isRotating = true;
+            state.draggable.rotateStartRotation = state.draggable.rotation;
+
+            const rect = UI.doc.container.getBoundingClientRect();
+            state.draggable.rotateCenterX = rect.left + (state.draggable.currentX * state.document.zoom);
+            state.draggable.rotateCenterY = rect.top + (state.draggable.currentY * state.document.zoom);
+            state.draggable.rotateStartAngle = Math.atan2(
+                clientY - state.draggable.rotateCenterY,
+                clientX - state.draggable.rotateCenterX
+            );
+        }
         
         // Drag logic
         overlay.addEventListener('mousedown', (e) => {
             if (e.target === handle) return;
             if (rotateHandle && rotateHandle.contains(e.target)) return;
+
+            if (e.button === 2 || e.altKey) {
+                e.preventDefault();
+                beginRotate(e.clientX, e.clientY);
+                return;
+            }
             
             state.draggable.isDragging = true;
             // Get initial mouse position
@@ -852,17 +871,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rotateHandle.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-
-                state.draggable.isRotating = true;
-                state.draggable.rotateStartRotation = state.draggable.rotation;
-
-                const rect = overlay.getBoundingClientRect();
-                state.draggable.rotateCenterX = rect.left + (rect.width / 2);
-                state.draggable.rotateCenterY = rect.top + (rect.height / 2);
-                state.draggable.rotateStartAngle = Math.atan2(
-                    e.clientY - state.draggable.rotateCenterY,
-                    e.clientX - state.draggable.rotateCenterX
-                );
+                beginRotate(e.clientX, e.clientY);
             });
         }
 
@@ -882,6 +891,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const step = e.deltaY > 0 ? 5 : -5;
             updateRotation(step);
         }, { passive: false });
+
+        overlay.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
 
         document.addEventListener('mousemove', (e) => {
             if (state.draggable.isDragging) {
@@ -948,16 +961,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rotateHandle.addEventListener('touchstart', (e) => {
                 e.stopPropagation();
                 const touch = e.touches[0];
-                state.draggable.isRotating = true;
-                state.draggable.rotateStartRotation = state.draggable.rotation;
-
-                const rect = overlay.getBoundingClientRect();
-                state.draggable.rotateCenterX = rect.left + (rect.width / 2);
-                state.draggable.rotateCenterY = rect.top + (rect.height / 2);
-                state.draggable.rotateStartAngle = Math.atan2(
-                    touch.clientY - state.draggable.rotateCenterY,
-                    touch.clientX - state.draggable.rotateCenterX
-                );
+                beginRotate(touch.clientX, touch.clientY);
             }, { passive: true });
         }
 
