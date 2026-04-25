@@ -177,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         draggable: {
             isDragging: false,
             isResizing: false,
+            isRotating: false,
             startX: 0,
             startY: 0,
             startWidth: 0,
@@ -186,7 +187,11 @@ document.addEventListener('DOMContentLoaded', () => {
             currentX: 0, // Relative to document container
             currentY: 0,
             width: 200,
-            rotation: 0 // Degrees
+            rotation: 0, // Degrees
+            rotateStartAngle: 0,
+            rotateStartRotation: 0,
+            rotateCenterX: 0,
+            rotateCenterY: 0
         }
     };
 
@@ -810,7 +815,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateRotation(delta) {
-        state.draggable.rotation = (state.draggable.rotation + delta) % 360;
+        const next = state.draggable.rotation + delta;
+        state.draggable.rotation = ((next % 360) + 360) % 360;
         UI.doc.rotLevel.textContent = `${state.draggable.rotation}°`;
         updateStampDOM();
     }
@@ -829,16 +835,36 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupDraggableStamp() {
         const overlay = UI.doc.stampOverlay;
         const handle = overlay.querySelector('.resize-handle');
+        const rotateHandle = overlay.querySelector('.rotate-handle');
         
         // Drag logic
         overlay.addEventListener('mousedown', (e) => {
-            if (e.target === handle) return; // Let resize handle manage itself
+            if (e.target === handle) return;
+            if (rotateHandle && rotateHandle.contains(e.target)) return;
             
             state.draggable.isDragging = true;
             // Get initial mouse position
             state.draggable.startX = e.clientX;
             state.draggable.startY = e.clientY;
         });
+
+        if (rotateHandle) {
+            rotateHandle.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                state.draggable.isRotating = true;
+                state.draggable.rotateStartRotation = state.draggable.rotation;
+
+                const rect = overlay.getBoundingClientRect();
+                state.draggable.rotateCenterX = rect.left + (rect.width / 2);
+                state.draggable.rotateCenterY = rect.top + (rect.height / 2);
+                state.draggable.rotateStartAngle = Math.atan2(
+                    e.clientY - state.draggable.rotateCenterY,
+                    e.clientX - state.draggable.rotateCenterX
+                );
+            });
+        }
 
         // Resize Logic
         handle.addEventListener('mousedown', (e) => {
@@ -850,6 +876,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Calculate a ratio to lock aspect ratio (since our stamps are square-ish)
         });
+
+        overlay.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const step = e.deltaY > 0 ? 5 : -5;
+            updateRotation(step);
+        }, { passive: false });
 
         document.addEventListener('mousemove', (e) => {
             if (state.draggable.isDragging) {
@@ -881,21 +913,53 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateStampDOM();
                 }
             }
+
+            if (state.draggable.isRotating) {
+                const angle = Math.atan2(
+                    e.clientY - state.draggable.rotateCenterY,
+                    e.clientX - state.draggable.rotateCenterX
+                );
+                const delta = angle - state.draggable.rotateStartAngle;
+                const degrees = state.draggable.rotateStartRotation + (delta * 180 / Math.PI);
+                const normalized = ((degrees % 360) + 360) % 360;
+                state.draggable.rotation = Math.round(normalized);
+                UI.doc.rotLevel.textContent = `${state.draggable.rotation}°`;
+                updateStampDOM();
+            }
         });
 
         document.addEventListener('mouseup', () => {
             state.draggable.isDragging = false;
             state.draggable.isResizing = false;
+            state.draggable.isRotating = false;
         });
 
         // Touch Support
         overlay.addEventListener('touchstart', (e) => {
             if (e.target === handle) return;
+            if (rotateHandle && rotateHandle.contains(e.target)) return;
             const touch = e.touches[0];
             state.draggable.isDragging = true;
             state.draggable.startX = touch.clientX;
             state.draggable.startY = touch.clientY;
         }, { passive: true });
+
+        if (rotateHandle) {
+            rotateHandle.addEventListener('touchstart', (e) => {
+                e.stopPropagation();
+                const touch = e.touches[0];
+                state.draggable.isRotating = true;
+                state.draggable.rotateStartRotation = state.draggable.rotation;
+
+                const rect = overlay.getBoundingClientRect();
+                state.draggable.rotateCenterX = rect.left + (rect.width / 2);
+                state.draggable.rotateCenterY = rect.top + (rect.height / 2);
+                state.draggable.rotateStartAngle = Math.atan2(
+                    touch.clientY - state.draggable.rotateCenterY,
+                    touch.clientX - state.draggable.rotateCenterX
+                );
+            }, { passive: true });
+        }
 
         handle.addEventListener('touchstart', (e) => {
             e.stopPropagation();
@@ -907,7 +971,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
 
         document.addEventListener('touchmove', (e) => {
-            if (!state.draggable.isDragging && !state.draggable.isResizing) return;
+            if (!state.draggable.isDragging && !state.draggable.isResizing && !state.draggable.isRotating) return;
             
             const touch = e.touches[0];
             
@@ -931,11 +995,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateStampDOM();
                 }
             }
+
+            if (state.draggable.isRotating) {
+                const angle = Math.atan2(
+                    touch.clientY - state.draggable.rotateCenterY,
+                    touch.clientX - state.draggable.rotateCenterX
+                );
+                const delta = angle - state.draggable.rotateStartAngle;
+                const degrees = state.draggable.rotateStartRotation + (delta * 180 / Math.PI);
+                const normalized = ((degrees % 360) + 360) % 360;
+                state.draggable.rotation = Math.round(normalized);
+                UI.doc.rotLevel.textContent = `${state.draggable.rotation}°`;
+                updateStampDOM();
+            }
         }, { passive: true });
 
         document.addEventListener('touchend', () => {
             state.draggable.isDragging = false;
             state.draggable.isResizing = false;
+            state.draggable.isRotating = false;
         });
     }
 
@@ -1051,22 +1129,27 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Use the saved dimensions for this specific page
             const stampVisualW = stampConfig.w;
-            const stampVisualX = stampConfig.x - (stampVisualW / 2); // left
-            const stampVisualY = stampConfig.y + (stampVisualW / 2); // bottom visual edge
-            
             const stampPdfW = stampVisualW * scaleX;
             const stampPdfH = stampVisualW * scaleY; // assumes square
-            const stampPdfX = stampVisualX * scaleX;
-            // Invert Y coordinate
-            const stampPdfY = pdfPageH - (stampVisualY * scaleY);
-            
-            // TODO: If you ever want to add PDF rotation, pdf-lib rotates around the bottom-left corner.
-            // For now, we place it exactly where it is visually.
+            const stampPdfCenterX = stampConfig.x * scaleX;
+            const stampPdfCenterY = pdfPageH - (stampConfig.y * scaleY);
+
+            const theta = (stampConfig.r || 0) * Math.PI / 180;
+            const cos = Math.cos(theta);
+            const sin = Math.sin(theta);
+            const halfW = stampPdfW / 2;
+            const halfH = stampPdfH / 2;
+            const dx = (cos * halfW) - (sin * halfH);
+            const dy = (sin * halfW) + (cos * halfH);
+            const stampPdfX = stampPdfCenterX - dx;
+            const stampPdfY = stampPdfCenterY - dy;
+
             page.drawImage(pngImage, {
                 x: stampPdfX,
                 y: stampPdfY,
                 width: stampPdfW,
                 height: stampPdfH,
+                rotate: PDFLib.degrees(stampConfig.r || 0),
             });
         }
         

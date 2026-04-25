@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <circle cx="256" cy="256" r="224" fill="none" stroke="#0B3D6E" stroke-width="32"/>
+  <circle cx="256" cy="256" r="184" fill="none" stroke="#0B3D6E" stroke-width="16" opacity="0.9"/>
+  <path d="M176 156h132l28 28v172c0 17.673-14.327 32-32 32H176c-17.673 0-32-14.327-32-32V188c0-17.673 14.327-32 32-32Z" fill="#0B3D6E"/>
+  <path d="M308 156v52h52" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  <text x="256" y="320" text-anchor="middle" font-family="Outfit, Arial, sans-serif" font-size="172" font-weight="700" fill="#FFFFFF">S</text>
+</svg>

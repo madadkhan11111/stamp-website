@@ -1003,6 +1003,51 @@ input:checked+.slider:before {
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
+.rotate-handle {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px;
+    height: 28px;
+    background: white;
+    border: 2px solid var(--accent-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 11;
+    cursor: grab;
+}
+
+.rotate-handle:active {
+    cursor: grabbing;
+}
+
+.rotate-handle i {
+    font-size: 0.9rem;
+    color: var(--accent-primary);
+}
+
+.draggable-stamp:hover .rotate-handle {
+    opacity: 1;
+}
+
+@media (max-width: 600px) {
+    .rotate-handle {
+        width: 36px;
+        height: 36px;
+        opacity: 0.85;
+        top: -18px;
+    }
+
+    .rotate-handle i {
+        font-size: 1.05rem;
+    }
+}
+
 .resize-handle {
     position: absolute;
     width: 16px;
