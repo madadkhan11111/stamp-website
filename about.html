@@ -26,31 +26,66 @@
     </header>
     <main class="app-main" style="min-height: calc(100vh - 200px);">
         <div class="page-content">
-            <h1>About Us</h1>
+            <h1>About Online Stamp Doc</h1>
             
-            <h2>Our Mission</h2>
-            <p>At Online Stamp Doc, our mission is to provide the world's most intuitive and powerful online stamp creation tool. We believe that adding official seals, custom badges, or personalized stamps to documents shouldn't require installing bulky, expensive software.</p>
+            <div class="about-section">
+                <h2>Our Vision</h2>
+                <p>At Online Stamp Doc, we believe that the digital transformation of businesses should be accessible, affordable, and secure. For decades, physical rubber stamps have been a staple of professional life—representing authority, organization, and validation. As the world moves toward paperless offices, we recognized the need for a digital equivalent that doesn't compromise on the "official" feel of traditional documents.</p>
+                <p>Our mission is to provide the world's most intuitive and powerful online stamp creation tool, empowering freelancers, small businesses, and large enterprises to maintain professional standards without the need for physical hardware or expensive software subscriptions.</p>
+            </div>
             
-            <h2>What We Do</h2>
-            <p>Online Stamp Doc offers a suite of web-based tools designed to help individuals and businesses generate beautiful digital stamps. Whether you need a formal company seal, a multi-line address stamp, or a fun custom badge, our tool lets you build it in seconds directly inside your browser.</p>
-            
-            <h2>Privacy First</h2>
-            <p>We built Online Stamp Doc with a privacy-first approach. All the heavy lifting—rendering the stamps and modifying PDFs—happens locally on your device. Your sensitive files never touch our servers, guaranteeing complete confidentiality.</p>
+            <div class="about-section">
+                <h2>What Sets Us Apart?</h2>
+                <p>Unlike many other online document tools, Online Stamp Doc was built with a "Privacy-First" architecture. Most PDF tools require you to upload your sensitive documents to their servers for processing. This creates a significant security risk for confidential contracts, financial statements, and personal IDs.</p>
+                <p><strong>We do things differently.</strong> All the heavy lifting—rendering the stamps, modifying the PDF structures, and exporting the final files—happens entirely within your own web browser. Your files never touch our servers. This means you can use our tool even for your most sensitive documents with 100% confidence in your data privacy.</p>
+            </div>
 
-            <h2>How We Keep This Tool Free</h2>
-            <p>To support hosting and ongoing improvements, this site may display advertisements (including Google AdSense). We do not sell your uploaded documents, and your files are not uploaded to our servers.</p>
+            <div class="about-section">
+                <h2>Our Technology Stack</h2>
+                <p>To achieve high-performance document processing in the browser, we utilize industry-leading open-source libraries:</p>
+                <ul>
+                    <li><strong>PDF.js:</strong> Developed by Mozilla, this library allows us to render PDF documents with pixel-perfect accuracy directly onto an HTML5 canvas.</li>
+                    <li><strong>PDF-lib:</strong> This powerful engine allows us to modify existing PDF files, enabling us to "burn" your custom stamps into the document layer rather than just placing an image on top.</li>
+                    <li><strong>HTML5 Canvas:</strong> Our stamp designer uses the latest web canvas technologies to provide a real-time, high-resolution preview of your design, including complex effects like transparency and distress textures.</li>
+                </ul>
+            </div>
 
+            <div class="about-section">
+                <h2>Commitment to Free Access</h2>
+                <p>We are committed to keeping the core features of Online Stamp Doc free for everyone. To support our hosting costs and ongoing development, we partner with premium advertisers. However, we ensure that advertisements never interfere with the usability of our tool or the privacy of your data.</p>
+                <p>By using Online Stamp Doc, you are joining a community of thousands of professionals who value efficiency, security, and professional presentation. We are constantly updating our tool with new stamp shapes, fonts, and features based on user feedback.</p>
+            </div>
         </div>
     </main>
     <footer class="app-footer">
         <div class="footer-content">
-            <div class="footer-links" style="display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap;">
-                <a href="privacy.html">Privacy Policy</a>
-                <a href="terms.html">Terms of Service</a>
-                <a href="about.html">About Us</a>
-                <a href="contact.html">Contact Us</a>
+            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 2rem;">
+                <div class="footer-info">
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <i class="fa-solid fa-stamp"></i>
+                        <span>Online Stamp Doc</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Professional digital stamping and document management tool. 100% private and secure.</p>
+                </div>
+                <div class="footer-nav-col">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Home</a></li>
+                        <li><a href="about.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">About Us</a></li>
+                        <li><a href="contact.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-col">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Knowledge Base</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="guide-business-stamps.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Business Stamp Guide</a></li>
+                        <li><a href="guide-security.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Document Security Guide</a></li>
+                        <li><a href="privacy.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Privacy Policy</a></li>
+                        <li><a href="terms.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Terms of Service</a></li>
+                    </ul>
+                </div>
             </div>
-            <p style="text-align: center; color: var(--text-secondary);">&copy; 2026 Online Stamp Doc. All rights reserved.</p>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 0.8rem;">&copy; 2026 Online Stamp Doc. All rights reserved.</p>
         </div>
     </footer>
 </body>

@@ -71,13 +71,33 @@
     </main>
     <footer class="app-footer">
         <div class="footer-content">
-            <div class="footer-links" style="display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap;">
-                <a href="privacy.html">Privacy Policy</a>
-                <a href="terms.html">Terms of Service</a>
-                <a href="about.html">About Us</a>
-                <a href="contact.html">Contact Us</a>
+            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 2rem;">
+                <div class="footer-info">
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <i class="fa-solid fa-stamp"></i>
+                        <span>Online Stamp Doc</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Professional digital stamping and document management tool. 100% private and secure.</p>
+                </div>
+                <div class="footer-nav-col">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Home</a></li>
+                        <li><a href="about.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">About Us</a></li>
+                        <li><a href="contact.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-col">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Knowledge Base</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="guide-business-stamps.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Business Stamp Guide</a></li>
+                        <li><a href="guide-security.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Document Security Guide</a></li>
+                        <li><a href="privacy.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Privacy Policy</a></li>
+                        <li><a href="terms.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Terms of Service</a></li>
+                    </ul>
+                </div>
             </div>
-            <p style="text-align: center; color: var(--text-secondary);">&copy; 2026 Online Stamp Doc. All rights reserved.</p>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 0.8rem;">&copy; 2026 Online Stamp Doc. All rights reserved.</p>
         </div>
     </footer>
 </body>
