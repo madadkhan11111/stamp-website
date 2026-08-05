@@ -1,0 +1,15 @@
+{
+  "name": "stamp-website",
+  "version": "1.2.0",
+  "description": "Online Stamp Doc - Premium online stamp creator and document stamper",
+  "main": "deploy.js",
+  "private": true,
+  "scripts": {
+    "deploy": "node deploy.js",
+    "deploy:gitless": "node deploy-gitless.js",
+    "serve": "npx http-server . -p 8000 -c-1"
+  },
+  "keywords": ["stamp", "digital-stamp", "pdf", "online-tool", "signature"],
+  "author": "Online Stamp Doc",
+  "license": "UNLICENSED"
+}

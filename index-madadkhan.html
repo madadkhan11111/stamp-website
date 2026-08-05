@@ -7,7 +7,6 @@
     <meta name="description" content="Need to stamp a document online? Design your custom stamp in seconds and apply it to any PDF or image — free, instant, and completely private. No file uploads ever.">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://onlinestampdoc.com/">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Online Stamp Doc">
@@ -31,18 +30,22 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2509436669190309" crossorigin="anonymous"></script>
 
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-
+    
     <!-- Google Fonts for Multi-Language Support -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- External Libraries -->
+    <!-- pdf.js for rendering PDFs to canvas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <!-- pdf-lib for modifying PDFs (adding the stamp) -->
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
     
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -66,7 +69,8 @@
             <button class="step-btn" data-step="2" id="nav-step-2" disabled>
                 <span class="step-num">2</span> Stamp Document
             </button>
-            <a href="guide-business-stamps.html" class="step-btn guides-link" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem; border: 1px dashed var(--glass-border);" title="Learn how to use stamps">
+            <div class="step-connector"></div>
+            <a href="guide-business-stamps.html" class="step-btn" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem; border: 1px dashed var(--glass-border);">
                 <i class="fa-solid fa-book"></i> Guides
             </a>
         </nav>
@@ -89,28 +93,28 @@
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <div class="accordion-content">
-                        <div class="template-grid">
-                            <button class="template-btn" data-template="paid"><i class="fa-solid fa-check"></i> PAID</button>
-                            <button class="template-btn" data-template="approved"><i class="fa-solid fa-thumbs-up"></i> APPROVED</button>
-                            <button class="template-btn" data-template="confidential"><i class="fa-solid fa-lock"></i> CONFIDENTIAL</button>
-                            <button class="template-btn" data-template="urgent"><i class="fa-solid fa-bolt-lightning"></i> URGENT</button>
-                            <button class="template-btn" data-template="received"><i class="fa-solid fa-inbox"></i> RECEIVED</button>
-                            <button class="template-btn" data-template="copy"><i class="fa-regular fa-copy"></i> COPY</button>
-                            <button class="template-btn" data-template="draft"><i class="fa-regular fa-file-lines"></i> DRAFT</button>
-                            <button class="template-btn" data-template="void"><i class="fa-solid fa-ban"></i> VOID</button>
+                        <div class="template-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                            <button class="template-btn" data-template="paid">PAID</button>
+                            <button class="template-btn" data-template="approved">APPROVED</button>
+                            <button class="template-btn" data-template="confidential">CONFIDENTIAL</button>
+                            <button class="template-btn" data-template="urgent">URGENT</button>
+                            <button class="template-btn" data-template="received">RECEIVED</button>
+                            <button class="template-btn" data-template="copy">COPY</button>
+                            <button class="template-btn" data-template="draft">DRAFT</button>
+                            <button class="template-btn" data-template="void">VOID</button>
                         </div>
                     </div>
                 </div>
 
                 <!-- ACCORDION: Shape -->
-                <div class="accordion-item active" id="acc-shape">
+                <div class="accordion-item" id="acc-shape">
                     <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
                         <h3><i class="fa-solid fa-shapes"></i> Stamp Shape</h3>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <div class="accordion-content">
                         <div class="radio-group" id="shape-selector" style="flex-wrap: wrap;">
-                            <label class="radio-card active" style="flex: 1 1 calc(33% - 1rem);" title="Classic official seal">
+                            <label class="radio-card active" style="flex: 1 1 calc(33% - 1rem);">
                                 <input type="radio" name="stamp-shape" value="circle" checked>
                                 <i class="fa-regular fa-circle"></i>
                                 <span>Circular</span>
@@ -135,6 +139,16 @@
                                 <i class="fa-solid fa-diamond"></i>
                                 <span>Diamond</span>
                             </label>
+                            <label class="radio-card" style="flex: 1 1 100%;">
+                                <input type="radio" name="stamp-shape" value="address">
+                                <i class="fa-solid fa-address-card"></i>
+                                <span>Address / Business</span>
+                            </label>
+                            <label class="radio-card" style="flex: 1 1 calc(50% - 1rem);">
+                                <input type="radio" name="stamp-shape" value="star">
+                                <i class="fa-solid fa-certificate"></i>
+                                <span>Star / Badge</span>
+                            </label>
                             <label class="radio-card" style="flex: 1 1 calc(50% - 1rem);">
                                 <input type="radio" name="stamp-shape" value="triangle">
                                 <i class="fa-solid fa-play" style="transform: rotate(-90deg);"></i>
@@ -146,19 +160,9 @@
                                 <span>Hexagon</span>
                             </label>
                             <label class="radio-card" style="flex: 1 1 100%;">
-                                <input type="radio" name="stamp-shape" value="address">
-                                <i class="fa-solid fa-address-card"></i>
-                                <span>Address / Business</span>
-                            </label>
-                            <label class="radio-card" style="flex: 1 1 calc(50% - 1rem);">
-                                <input type="radio" name="stamp-shape" value="star">
-                                <i class="fa-solid fa-certificate"></i>
-                                <span>Star / Badge</span>
-                            </label>
-                            <label class="radio-card signature-option" style="flex: 1 1 calc(50% - 1rem);" title="Draw your handwritten signature">
                                 <input type="radio" name="stamp-shape" value="signature">
                                 <i class="fa-solid fa-signature"></i>
-                                <span>Handwritten Sig.</span>
+                                <span>Handwritten Signature</span>
                             </label>
                         </div>
                     </div>
@@ -312,23 +316,13 @@
                         </div>
 
                         <div class="control-group hidden" id="signature-controls">
-                            <small style="color: var(--accent-primary); margin-bottom: 0.75rem; display: block; font-weight: 500;">
-                                <i class="fa-solid fa-signature"></i> Draw Your Handwritten Signature
-                            </small>
-                            <div class="signature-pad-wrapper">
-                                <canvas id="signature-pad" width="340" height="140"></canvas>
-                                <div class="signature-placeholder" id="sig-placeholder">
-                                    <i class="fa-solid fa-pen-ruler"></i>
-                                    <span>Sign with your mouse or finger</span>
-                                </div>
+                            <label>Draw Your Signature</label>
+                            <div class="signature-pad-wrapper" style="background: white; border-radius: 8px; margin-bottom: 0.5rem; cursor: crosshair; touch-action: none;">
+                                <canvas id="signature-pad" width="300" height="150" style="width: 100%; height: 150px; border-radius: 8px;"></canvas>
                             </div>
-                            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                                <button type="button" class="secondary-btn" id="clear-signature-btn" style="flex: 1;">
-                                    <i class="fa-solid fa-eraser"></i> Clear
-                                </button>
-                                <button type="button" class="primary-btn" id="save-signature-btn" style="flex: 1;">
-                                    <i class="fa-solid fa-check"></i> Use Signature
-                                </button>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="secondary-btn" id="clear-signature-btn" style="flex: 1;"><i class="fa-solid fa-eraser"></i> Clear</button>
+                                <button class="secondary-btn" id="save-signature-btn" style="flex: 1;"><i class="fa-solid fa-check"></i> Use Signature</button>
                             </div>
                         </div>
                     </div>
@@ -486,10 +480,10 @@
                         <img id="doc-render-image" style="display: none;" draggable="false">
                         
                         <!-- The draggable stamp overlay -->
-                        <div id="stamp-overlay" class="draggable-stamp" title="Drag to move. Scroll over to rotate. Alt+Drag or handle to rotate.">
+                        <div id="stamp-overlay" class="draggable-stamp">
                             <img id="stamp-overlay-img" src="" alt="Your Stamp" draggable="false">
-                            <div class="resize-handle se" title="Drag to resize"></div>
-                            <div class="rotate-handle" title="Drag to rotate">
+                            <div class="resize-handle se"></div>
+                            <div class="rotate-handle" title="Hold to rotate (Alt+Drag also works)">
                                 <i class="fa-solid fa-rotate"></i>
                             </div>
                         </div>
@@ -534,33 +528,33 @@
     <!-- FOOTER -->
     <footer class="app-footer">
         <div class="footer-content">
-            <div class="footer-grid">
+            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 2rem;">
                 <div class="footer-info">
                     <div class="logo" style="margin-bottom: 1rem;">
                         <i class="fa-solid fa-stamp"></i>
                         <span>Online Stamp Doc</span>
                     </div>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">Professional digital stamping and document management tool. 100% private and secure, all processing happens right in your browser.</p>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Professional digital stamping and document management tool. 100% private and secure.</p>
                 </div>
                 <div class="footer-nav-col">
                     <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Quick Links</h4>
-                    <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem;">
-                        <li><a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Home</a></li>
-                        <li><a href="about.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">About Us</a></li>
-                        <li><a href="contact.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Contact Us</a></li>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Home</a></li>
+                        <li><a href="about.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">About Us</a></li>
+                        <li><a href="contact.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="footer-nav-col">
                     <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Knowledge Base</h4>
-                    <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem;">
-                        <li><a href="guide-business-stamps.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Business Stamp Guide</a></li>
-                        <li><a href="guide-security.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Document Security Guide</a></li>
-                        <li><a href="privacy.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Privacy Policy</a></li>
-                        <li><a href="terms.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Terms of Service</a></li>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="guide-business-stamps.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Business Stamp Guide</a></li>
+                        <li><a href="guide-security.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Document Security Guide</a></li>
+                        <li><a href="privacy.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Privacy Policy</a></li>
+                        <li><a href="terms.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
-            <p style="text-align: center; color: var(--text-secondary); font-size: 0.8rem; margin-top: 1rem;">&copy; 2026 Online Stamp Doc. All rights reserved.</p>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 0.8rem;">&copy; 2026 Online Stamp Doc. All rights reserved.</p>
         </div>
     </footer>
 

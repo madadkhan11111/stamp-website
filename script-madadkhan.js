@@ -339,22 +339,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Signature Pad Logic
         const sigCanvas = UI.stamp.signaturePad;
         const sigCtx = sigCanvas.getContext('2d');
-        const sigPlaceholder = document.getElementById('sig-placeholder');
         let isDrawing = false;
 
         sigCtx.lineWidth = 3;
         sigCtx.lineCap = 'round';
-        sigCtx.lineJoin = 'round';
-        sigCtx.strokeStyle = state.stamp.color;
-
-        let sigPixelsDrawn = 0;
-        function updateSigPlaceholder() {
-            if (sigPlaceholder) {
-                sigPlaceholder.style.opacity = sigPixelsDrawn < 10 ? '1' : '0';
-                sigPlaceholder.style.pointerEvents = sigPixelsDrawn < 10 ? 'none' : 'none';
-            }
-        }
-        updateSigPlaceholder();
+        sigCtx.strokeStyle = '#000';
 
         const getPos = (e) => {
             const rect = sigCanvas.getBoundingClientRect();
@@ -369,7 +358,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const startDraw = (e) => {
             isDrawing = true;
             const pos = getPos(e);
-            sigCtx.strokeStyle = state.stamp.color;
             sigCtx.beginPath();
             sigCtx.moveTo(pos.x, pos.y);
         };
@@ -380,15 +368,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const pos = getPos(e);
             sigCtx.lineTo(pos.x, pos.y);
             sigCtx.stroke();
-            sigPixelsDrawn++;
-            if (sigPixelsDrawn % 8 === 0) updateSigPlaceholder();
         };
 
         const stopDraw = () => {
-            if (isDrawing) {
-                isDrawing = false;
-                updateSigPlaceholder();
-            }
+            isDrawing = false;
         };
 
         sigCanvas.addEventListener('mousedown', startDraw);
@@ -401,30 +384,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         UI.stamp.clearSignatureBtn.addEventListener('click', () => {
             sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
-            sigPixelsDrawn = 0;
-            updateSigPlaceholder();
             state.stamp.signatureImg = null;
             renderStamp();
         });
 
         UI.stamp.saveSignatureBtn.addEventListener('click', () => {
-            if (sigPixelsDrawn < 5) {
-                UI.stamp.saveSignatureBtn.animate([
-                    { transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' },
-                    { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }
-                ], { duration: 400 });
-                return;
-            }
             const img = new Image();
             img.onload = () => {
                 state.stamp.signatureImg = img;
                 renderStamp();
-                // Success pulse feedback
-                const btn = UI.stamp.saveSignatureBtn;
-                const oldHTML = btn.innerHTML;
-                btn.innerHTML = '<i class="fa-solid fa-check-double"></i> Added!';
-                btn.style.backgroundColor = 'var(--success)';
-                setTimeout(() => { btn.innerHTML = oldHTML; btn.style.backgroundColor = ''; }, 1200);
             };
             img.src = sigCanvas.toDataURL();
         });
@@ -1404,7 +1372,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let hasRTL = false;
         if (state.stamp.shape === 'circle') {
             hasRTL = isRTL(state.stamp.circle.outerText) || isRTL(state.stamp.circle.innerText) || isRTL(state.stamp.circle.dateText);
-        } else if (state.stamp.shape.includes('rect') || state.stamp.shape === 'oval' || state.stamp.shape === 'diamond' || state.stamp.shape === 'star' || state.stamp.shape === 'triangle' || state.stamp.shape === 'hexagon') {
+        } else if (state.stamp.shape.includes('rect') || state.stamp.shape === 'oval' || state.stamp.shape === 'diamond' || state.stamp.shape === 'star') {
             hasRTL = isRTL(state.stamp.rect.topText) || isRTL(state.stamp.rect.midText) || isRTL(state.stamp.rect.botText);
         } else if (state.stamp.shape === 'address') {
             hasRTL = state.stamp.address.lines.some(line => isRTL(line.text));
