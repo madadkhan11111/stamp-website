@@ -2054,3 +2054,49 @@ document.addEventListener('DOMContentLoaded', () => {
     init();
 
 });
+
+/* =========================================================================
+   FAQ ACCORDION — Global function (called via onclick in HTML)
+   ========================================================================= */
+function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('faq-open');
+
+    // Close all open FAQs
+    document.querySelectorAll('.faq-item.faq-open').forEach(el => {
+        el.classList.remove('faq-open');
+        el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+    });
+
+    // If it wasn't open, open it
+    if (!isOpen) {
+        item.classList.add('faq-open');
+        btn.setAttribute('aria-expanded', 'true');
+    }
+}
+
+/* =========================================================================
+   HELP MODAL — Floating ? button
+   ========================================================================= */
+(function () {
+    const fab     = document.getElementById('help-fab-btn');
+    const overlay = document.getElementById('help-modal-overlay');
+    const closeBtn = document.getElementById('help-modal-close');
+
+    if (!fab || !overlay) return;
+
+    fab.addEventListener('click', () => overlay.classList.add('open'));
+    closeBtn.addEventListener('click', () => overlay.classList.remove('open'));
+
+    // Close on overlay background click
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('open');
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) {
+            overlay.classList.remove('open');
+        }
+    });
+})();
