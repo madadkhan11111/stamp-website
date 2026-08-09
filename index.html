@@ -144,25 +144,31 @@
                 <section class="easy-step" aria-labelledby="easy-step-1">
                     <div class="easy-step-head">
                         <span class="easy-step-num">1</span>
-                        <h3 id="easy-step-1">Choose a template</h3>
+                        <h3 id="easy-step-1">Choose stamp type</h3>
                     </div>
-                    <div class="template-grid" id="acc-templates">
-                        <button type="button" class="template-btn" data-template="paid">PAID</button>
-                        <button type="button" class="template-btn" data-template="approved">APPROVED</button>
-                        <button type="button" class="template-btn" data-template="confidential">CONFIDENTIAL</button>
-                        <button type="button" class="template-btn" data-template="urgent">URGENT</button>
-                        <button type="button" class="template-btn" data-template="received">RECEIVED</button>
-                        <button type="button" class="template-btn" data-template="copy">COPY</button>
-                        <button type="button" class="template-btn" data-template="draft">DRAFT</button>
-                        <button type="button" class="template-btn" data-template="void">VOID</button>
-                        <button type="button" class="template-btn template-btn-wide" data-template="address">ADDRESS / BUSINESS</button>
+                    <div class="quick-shapes" aria-label="Stamp type">
+                        <button type="button" class="quick-shape-btn active" data-quick-shape="circle">Circular seal</button>
+                        <button type="button" class="quick-shape-btn" data-quick-shape="rectangle">Rectangle</button>
+                        <button type="button" class="quick-shape-btn" data-quick-shape="address">Address stamp</button>
+                        <button type="button" class="quick-shape-btn" data-quick-shape="signature">Signature</button>
                     </div>
 
-                    <div class="quick-shapes" aria-label="Common stamp shapes">
-                        <button type="button" class="quick-shape-btn active" data-quick-shape="circle">Circular</button>
-                        <button type="button" class="quick-shape-btn" data-quick-shape="rectangle">Rectangle</button>
-                        <button type="button" class="quick-shape-btn" data-quick-shape="address">Address</button>
-                        <button type="button" class="quick-shape-btn" data-quick-shape="signature">Signature</button>
+                    <div id="seal-templates-block" class="seal-templates-block">
+                        <p class="easy-help easy-help-tight">Quick text templates (for seals):</p>
+                        <div class="template-grid" id="acc-templates">
+                            <button type="button" class="template-btn" data-template="paid">PAID</button>
+                            <button type="button" class="template-btn" data-template="approved">APPROVED</button>
+                            <button type="button" class="template-btn" data-template="confidential">CONFIDENTIAL</button>
+                            <button type="button" class="template-btn" data-template="urgent">URGENT</button>
+                            <button type="button" class="template-btn" data-template="received">RECEIVED</button>
+                            <button type="button" class="template-btn" data-template="copy">COPY</button>
+                            <button type="button" class="template-btn" data-template="draft">DRAFT</button>
+                            <button type="button" class="template-btn" data-template="void">VOID</button>
+                        </div>
+                    </div>
+
+                    <div id="address-type-note" class="address-type-note hidden">
+                        <p class="easy-help">Address stamp selected. Edit your company lines in step 2 — preview updates live.</p>
                     </div>
                 </section>
 

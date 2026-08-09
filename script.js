@@ -345,18 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     received: { top: 'RECEIVED', mid: '15-03-2026', bot: 'ACCOUNTS DEPT', color: '#2B68D1', shape: 'circle' },
                     copy: { top: 'COPY', mid: 'DUPLICATE', bot: 'ORIGINAL FILED', color: '#000000', shape: 'rectangle' },
                     draft: { top: 'DRAFT', mid: 'PRELIMINARY', bot: 'NOT FOR RELEASE', color: '#6D23B6', shape: 'rectangle' },
-                    void: { top: 'VOID', mid: 'CANCELLED', bot: 'INVALID DOCUMENT', color: '#000000', shape: 'rectangle' },
-                    address: {
-                        shape: 'address',
-                        color: '#111111',
-                        lines: [
-                            { text: 'MH TRADERS', size: 28 },
-                            { text: 'OFFICE NO: 505, TRADE AVENUE', size: 16 },
-                            { text: 'HASRAT MOHANI ROAD,', size: 14 },
-                            { text: 'I.I. CHUNDRIGAR ROAD, KARACHI.', size: 14 },
-                            { text: 'C.H.A.L: # 9018599', size: 13 }
-                        ]
-                    }
+                    void: { top: 'VOID', mid: 'CANCELLED', bot: 'INVALID DOCUMENT', color: '#000000', shape: 'rectangle' }
                 };
 
                 const config = configs[template];
@@ -365,18 +354,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 UI.stamp.templateBtns.forEach(b => b.classList.remove('selected'));
                 templateBtn.classList.add('selected');
                 updateColor(config.color);
-
-                if (config.shape === 'address') {
-                    state.stamp.address.lines = config.lines.map(l => ({ ...l }));
-                    config.lines.forEach((line, i) => {
-                        const textEl = UI.stamp['addrLine' + (i + 1)];
-                        const sizeEl = UI.stamp['addrLine' + (i + 1) + 'Size'];
-                        if (textEl) textEl.value = line.text;
-                        if (sizeEl) sizeEl.value = String(line.size);
-                    });
-                    setStampShape('address');
-                    return;
-                }
 
                 state.stamp.rect.topText = config.top;
                 state.stamp.rect.midText = config.mid;
@@ -1914,8 +1891,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Map less-common shapes onto the closest quick-type highlight
+        const quickKey = (shape === 'address' || shape === 'signature' || shape === 'circle')
+            ? shape
+            : 'rectangle';
         document.querySelectorAll('.quick-shape-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.quickShape === shape);
+            btn.classList.toggle('active', btn.dataset.quickShape === quickKey);
         });
 
         UI.stamp.circleControls.classList.add('hidden');
@@ -1923,12 +1904,23 @@ document.addEventListener('DOMContentLoaded', () => {
         UI.stamp.addressControls.classList.add('hidden');
         UI.stamp.signatureControls.classList.add('hidden');
 
+        const sealTemplates = document.getElementById('seal-templates-block');
+        const addressNote = document.getElementById('address-type-note');
+        if (sealTemplates) {
+            sealTemplates.classList.toggle('hidden', shape === 'address' || shape === 'signature');
+        }
+        if (addressNote) {
+            addressNote.classList.toggle('hidden', shape !== 'address');
+        }
+
         if (shape === 'circle') {
             UI.stamp.circleControls.classList.remove('hidden');
         } else if (shape === 'address') {
             syncAddressFromInputs();
             UI.stamp.addressControls.classList.remove('hidden');
-            UI.stamp.addressControls.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            if (UI.stamp.addressControls) {
+                UI.stamp.addressControls.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
         } else if (shape === 'signature') {
             UI.stamp.signatureControls.classList.remove('hidden');
         } else {
