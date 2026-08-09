@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge PDF Online Free – Combine PDFs Privately | OnlineStampDoc</title>
+    <meta name="description" content="Merge multiple PDF files into one online free. Private browser merge — no uploads to a server.">
+    <link rel="canonical" href="https://onlinestampdoc.com/merge-pdf.html">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="styles.css?v=20260809c">
+    <link rel="stylesheet" href="tools.css?v=2">
+</head>
+<body>
+    <div class="app-background"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
+    <header class="app-header">
+        <a href="index.html" class="logo"><i class="fa-solid fa-stamp"></i><span>Online Stamp Doc</span></a>
+        <nav class="tool-page-nav"><a href="tools.html">All Tools</a><a href="merge-pdf.html" class="active">Merge PDF</a><a href="index.html">Stamp Maker</a></nav>
+    </header>
+    <section class="tool-hero">
+        <div class="tool-badge"><i class="fa-solid fa-shield-halved"></i> Private — No Upload</div>
+        <h1>Merge PDF Files</h1>
+        <p>Combine several PDFs into one file. Order is the order you add them.</p>
+    </section>
+    <main class="tool-layout">
+        <aside class="glass-panel tool-panel">
+            <div class="tool-drop" id="drop-zone">
+                <i class="fa-solid fa-object-group"></i>
+                <p><strong>Drop PDFs here</strong> or browse</p>
+                <p class="file-limits">Multiple PDFs · Max 10MB each</p>
+                <input type="file" id="file-input" accept="application/pdf" multiple hidden>
+            </div>
+            <p id="status" class="easy-help" style="margin-top:0.75rem;"></p>
+            <div class="tool-actions">
+                <button type="button" class="primary-btn" id="export-btn" disabled><i class="fa-solid fa-download"></i> Download Merged PDF</button>
+                <button type="button" class="secondary-btn" id="clear-btn" disabled>Clear</button>
+            </div>
+        </aside>
+        <section class="glass-panel">
+            <h2 style="margin-bottom:1rem;">File order</h2>
+            <ul id="file-list" class="tool-file-list" style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
+                <li style="color:var(--text-secondary);">Add two or more PDFs to merge.</li>
+            </ul>
+        </section>
+    </main>
+    <div class="loading-overlay hidden" id="loading-overlay"><div class="spinner"></div><p id="loading-text">Processing...</p></div>
+    <script src="tools-common.js"></script>
+    <script src="merge-pdf.js" defer></script>
+</body>
+</html>

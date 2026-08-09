@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotate PDF Online Free – Flip Pages Privately | OnlineStampDoc</title>
+    <meta name="description" content="Rotate PDF pages online free. Private browser tool — rotate 90°, 180°, or 270° with no upload.">
+    <link rel="canonical" href="https://onlinestampdoc.com/rotate-pdf.html">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="styles.css?v=20260809c">
+    <link rel="stylesheet" href="tools.css?v=2">
+</head>
+<body>
+    <div class="app-background"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
+    <header class="app-header">
+        <a href="index.html" class="logo"><i class="fa-solid fa-stamp"></i><span>Online Stamp Doc</span></a>
+        <nav class="tool-page-nav"><a href="tools.html">All Tools</a><a href="rotate-pdf.html" class="active">Rotate PDF</a><a href="index.html">Stamp Maker</a></nav>
+    </header>
+    <section class="tool-hero">
+        <div class="tool-badge"><i class="fa-solid fa-shield-halved"></i> Private — No Upload</div>
+        <h1>Rotate PDF Pages</h1>
+        <p>Rotate every page left, right, or upside down, then download.</p>
+    </section>
+    <main class="tool-layout">
+        <aside class="glass-panel tool-panel">
+            <div class="tool-drop" id="drop-zone">
+                <i class="fa-solid fa-rotate"></i>
+                <p><strong>Drop PDF here</strong> or browse</p>
+                <p class="file-limits">PDF · Max 10MB</p>
+                <input type="file" id="file-input" accept="application/pdf" hidden>
+            </div>
+            <div class="control-group" style="margin-top:1rem;">
+                <label for="angle">Rotation</label>
+                <select id="angle" class="glass-input">
+                    <option value="90">90° clockwise</option>
+                    <option value="180">180°</option>
+                    <option value="270">90° counter-clockwise</option>
+                </select>
+            </div>
+            <div class="tool-actions">
+                <button type="button" class="primary-btn" id="export-btn" disabled><i class="fa-solid fa-download"></i> Download Rotated PDF</button>
+                <button type="button" class="secondary-btn" id="clear-btn" disabled>Clear</button>
+            </div>
+            <p id="status" class="easy-help" style="margin-top:0.75rem;"></p>
+        </aside>
+        <section class="glass-panel">
+            <h2 style="margin-bottom:1rem;">Preview</h2>
+            <div class="tool-preview-wrap" id="preview-wrap"><p style="color:var(--text-secondary);">Upload a PDF to preview page 1.</p></div>
+        </section>
+    </main>
+    <div class="loading-overlay hidden" id="loading-overlay"><div class="spinner"></div><p id="loading-text">Processing...</p></div>
+    <script src="tools-common.js"></script>
+    <script src="rotate-pdf.js" defer></script>
+</body>
+</html>
