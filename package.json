@@ -5,9 +5,11 @@
   "main": "deploy.js",
   "private": true,
   "scripts": {
+    "build": "node build-site.js",
     "deploy": "node deploy.js",
     "deploy:gitless": "node deploy-gitless.js",
-    "serve": "npx http-server . -p 8000 -c-1"
+    "serve": "npx http-server . -p 8000 -c-1",
+    "serve:prod": "npm run build && npx http-server site -p 8000 -c-1"
   },
   "keywords": ["stamp", "digital-stamp", "pdf", "online-tool", "signature"],
   "author": "Online Stamp Doc",

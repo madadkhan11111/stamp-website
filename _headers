@@ -1,0 +1,29 @@
+# Cache headers for Cloudflare Pages.
+# Note: assets are not content-hashed, so avoid "immutable" year-long cache.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-Frame-Options: DENY
+
+/*.css
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/*.js
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/*.svg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+
+/*.xml
+  Cache-Control: public, max-age=3600
+
+/*.txt
+  Cache-Control: public, max-age=3600
+
+/
+  Cache-Control: public, max-age=300, must-revalidate
+
+/*.html
+  Cache-Control: public, max-age=300, must-revalidate

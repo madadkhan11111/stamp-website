@@ -1,6 +1,53 @@
 /**
- * Stampify - Main Application Logic
+ * Online Stamp Doc - Main Application Logic
  */
+
+const PDF_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+const PDF_WORKER_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const PDF_LIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+
+let pdfLibsPromise = null;
+
+function loadScriptOnce(src) {
+    return new Promise((resolve, reject) => {
+        const existing = document.querySelector(`script[data-lazy-src="${src}"]`);
+        if (existing) {
+            if (existing.dataset.loaded === 'true') resolve();
+            else existing.addEventListener('load', () => resolve(), { once: true });
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.dataset.lazySrc = src;
+        script.onload = () => {
+            script.dataset.loaded = 'true';
+            resolve();
+        };
+        script.onerror = () => reject(new Error(`Failed to load ${src}`));
+        document.head.appendChild(script);
+    });
+}
+
+function ensurePdfLibs() {
+    if (window.pdfjsLib && window.PDFLib) return Promise.resolve();
+    if (!pdfLibsPromise) {
+        pdfLibsPromise = Promise.all([
+            loadScriptOnce(PDF_JS_URL),
+            loadScriptOnce(PDF_LIB_URL)
+        ]).then(() => {
+            if (!window.pdfjsLib || !window.PDFLib) {
+                throw new Error('PDF libraries failed to initialize');
+            }
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
+        }).catch((err) => {
+            pdfLibsPromise = null;
+            throw err;
+        });
+    }
+    return pdfLibsPromise;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -256,10 +303,24 @@ document.addEventListener('DOMContentLoaded', () => {
             state.stamp.dataUrl = UI.stamp.canvas.toDataURL('image/png');
             UI.doc.stampOverlayImg.src = state.stamp.dataUrl;
             
-            // Enable and navigate to step 2
-            document.getElementById('nav-step-2').disabled = false;
+            // Enable and navigate to step 2; prefetch PDF libs in background
+            const step2Btn = document.getElementById('nav-step-2') || document.querySelector('.step-btn[data-step="2"]');
+            if (step2Btn) step2Btn.disabled = false;
+            ensurePdfLibs().catch(() => {});
             goToStep('2');
         });
+
+        // Mobile sidebar toggle
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const sidebar = document.getElementById('sidebar');
+        if (hamburgerBtn && sidebar) {
+            hamburgerBtn.addEventListener('click', () => {
+                const isOpen = sidebar.classList.toggle('active');
+                sidebar.classList.toggle('collapsed', !isOpen);
+                sidebar.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+                hamburgerBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            });
+        }
 
         // Stamp Generator Inputs triggers re-render
         UI.stamp.shapeInputs.forEach(input => {
@@ -859,6 +920,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadPdf(file) {
+        await ensurePdfLibs();
         const fileReader = new FileReader();
         
         return new Promise((resolve, reject) => {
@@ -878,6 +940,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     reject(err);
                 }
             };
+            fileReader.onerror = reject;
             fileReader.readAsArrayBuffer(file);
         });
     }
@@ -1261,6 +1324,8 @@ document.addEventListener('DOMContentLoaded', () => {
     async function exportAsPdf() {
         // Ensure the current page's stamp is saved before exporting
         saveCurrentPageStamp();
+
+        await ensurePdfLibs();
 
         // Use pdf-lib to load existing, draw stamp on current page, and save
         const existingPdfBytes = await state.document.file.arrayBuffer();

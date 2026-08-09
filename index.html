@@ -7,7 +7,6 @@
     <meta name="description" content="Need to stamp a document online? Design your custom stamp in seconds and apply it to any PDF or image — free, instant, and completely private. No file uploads ever.">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://onlinestampdoc.com/">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Online Stamp Doc">
@@ -81,20 +80,36 @@
 
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
-    <!-- Google Fonts for Multi-Language Support -->
+    <!-- Critical fonts only (Arabic/CJK load on demand in script.js if needed) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- External Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
-    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Non-blocking icon CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+
+    <!-- PDF libs are lazy-loaded in script.js only when stamping a document -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+                    <aside class="sidebar collapsed" id="sidebar" role="navigation" aria-label="Primary navigation" aria-hidden="true">
+        <nav class="sidebar-nav">
+            <button class="step-btn active" data-step="1" aria-label="Step 1: Create Stamp" aria-current="page">
+                <i class="fa-solid fa-stamp"></i>
+                <span class="step-num">1</span> Create Stamp
+            </button>
+            <button class="step-btn" data-step="2" id="nav-step-2" disabled aria-label="Step 2: Stamp Document">
+                <i class="fa-solid fa-file-arrow-up"></i>
+                <span class="step-num">2</span> Stamp Document
+            </button>
+            <a href="guide-business-stamps.html" class="step-btn guides-link" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem; border: 1px dashed var(--glass-border);" title="Learn how to use stamps">
+                <i class="fa-solid fa-book"></i> Guides
+            </a>
+        </nav>
+    </aside>
+    <div class="content-wrapper">
 
     <div class="app-background">
         <div class="blob blob-1"></div>
@@ -107,18 +122,9 @@
             <i class="fa-solid fa-stamp"></i>
             <span>Online Stamp Doc</span>
         </div>
-        <nav class="step-nav">
-            <button class="step-btn active" data-step="1">
-                <span class="step-num">1</span> Create Stamp
-            </button>
-            <div class="step-connector"></div>
-            <button class="step-btn" data-step="2" id="nav-step-2" disabled>
-                <span class="step-num">2</span> Stamp Document
-            </button>
-            <a href="guide-business-stamps.html" class="step-btn guides-link" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem; border: 1px dashed var(--glass-border);" title="Learn how to use stamps">
-                <i class="fa-solid fa-book"></i> Guides
-            </a>
-        </nav>
+                <button class="hamburger-btn" id="hamburger-btn" aria-label="Menu" aria-controls="sidebar" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+        </button>
         <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
             <i class="fa-solid fa-moon"></i>
         </button>
@@ -769,6 +775,7 @@
             <p style="text-align: center; color: var(--text-secondary); font-size: 0.8rem; margin-top: 1rem;">&copy; 2026 Online Stamp Doc. All rights reserved.</p>
         </div>
     </footer>
+    </div>
 
     <div class="loading-overlay hidden" id="loading-overlay">
         <div class="spinner"></div>
@@ -835,6 +842,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
