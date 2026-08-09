@@ -1836,19 +1836,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const height = Math.max(totalTextHeight + paddingY * 2, 90);
         const width = 360;
-        const x = center - width / 2;
         const y = center - height / 2;
-        const t = Math.max(2, state.stamp.borderThickness || 4);
 
-        // Visible stamp frame (needed so address stamps actually show)
-        ctx.lineWidth = t;
-        ctx.strokeStyle = state.stamp.color;
+        // Text only — no border/ring on address stamps
         ctx.fillStyle = state.stamp.color;
-        ctx.strokeRect(x, y, width, height);
-        ctx.lineWidth = Math.max(1, t - 2);
-        ctx.strokeRect(x + 6, y + 6, width - 12, height - 12);
-
-        // Draw text lines — centered horizontally
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
         let curY = y + paddingY;
