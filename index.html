@@ -76,21 +76,16 @@
         }
     </script>
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2509436669190309" crossorigin="anonymous"></script>
-
+    <!-- AdSense loads after first paint so it does not slow the tool -->
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
-    <!-- Critical fonts only (Arabic/CJK load on demand in script.js if needed) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Non-blocking icon CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <!-- PDF libs are lazy-loaded in script.js only when stamping a document -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -131,59 +126,10 @@
         </div>
     </header>
 
-    <!-- ===================== HERO SECTION ===================== -->
-    <section class="hero-section" id="home" aria-label="Hero">
-        <div class="hero-badge"><i class="fa-solid fa-shield-halved"></i> 100% Private &mdash; Your Files Never Leave Your Device</div>
-        <h1 class="hero-title">Stamp Any Document Online<br><span class="hero-gradient">Free &amp; Instant</span></h1>
-        <p class="hero-subtitle">Design professional custom stamps &mdash; circular seals, business address stamps, signatures &amp; more &mdash; and apply them directly to PDF, JPG, or PNG files right in your browser.</p>
-        <div class="hero-actions">
-            <a href="#tool" class="primary-btn hero-cta" id="hero-start-btn">
-                <i class="fa-solid fa-stamp"></i> Create Your Stamp — It&apos;s Free
-            </a>
-        </div>
-        <div class="trust-badges">
-            <span class="trust-badge"><i class="fa-solid fa-lock"></i> No File Upload Ever</span>
-            <span class="trust-badge"><i class="fa-solid fa-bolt"></i> Works Instantly</span>
-            <span class="trust-badge"><i class="fa-solid fa-user-slash"></i> No Sign-up Needed</span>
-        </div>
-    </section>
-
-    <!-- ===================== STATS BAR ===================== -->
-    <div class="stats-bar" aria-label="Key facts">
-        <div class="stats-bar-inner">
-            <div class="stat-item"><i class="fa-solid fa-circle-check"></i> <span><strong>100% Free</strong> — No hidden costs</span></div>
-            <div class="stat-item"><i class="fa-solid fa-circle-check"></i> <span><strong>10+ Stamp Shapes</strong> to choose from</span></div>
-            <div class="stat-item"><i class="fa-solid fa-circle-check"></i> <span><strong>PDF, PNG &amp; JPG</strong> supported</span></div>
-            <div class="stat-item"><i class="fa-solid fa-circle-check"></i> <span><strong>Zero Data Stored</strong> on our servers</span></div>
-        </div>
-    </div>
-
-    <!-- ===================== HOW IT WORKS ===================== -->
-    <section class="how-it-works" aria-labelledby="hiw-title">
-        <p class="section-label">Simple 3-Step Process</p>
-        <h2 class="section-title" id="hiw-title">How to Stamp a Document Online</h2>
-        <div class="steps-grid">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <i class="fa-solid fa-pen-ruler step-icon-big"></i>
-                <h3>Design Your Stamp</h3>
-                <p>Pick a shape, customize colors, add your text or logo, and apply effects. See changes live in real-time.</p>
-            </div>
-            <div class="step-arrow-icon"><i class="fa-solid fa-chevron-right"></i></div>
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <i class="fa-solid fa-file-arrow-up step-icon-big"></i>
-                <h3>Upload Your Document</h3>
-                <p>Drag &amp; drop or browse for any PDF, JPG, or PNG file. Your document never leaves your browser.</p>
-            </div>
-            <div class="step-arrow-icon"><i class="fa-solid fa-chevron-right"></i></div>
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <i class="fa-solid fa-file-export step-icon-big"></i>
-                <h3>Export &amp; Download</h3>
-                <p>Position, resize, and rotate your stamp on the document, then export the final stamped file instantly.</p>
-            </div>
-        </div>
+    <!-- Compact intro — tool comes first so the site is usable immediately -->
+    <section class="hero-section hero-compact" id="home" aria-label="Hero">
+        <h1 class="hero-title">Online Stamp Doc <span class="hero-gradient">— Free Stamp Maker</span></h1>
+        <p class="hero-subtitle">Create a stamp, apply it to PDF/JPG/PNG in your browser. Files never leave your device.</p>
     </section>
 
     <!-- ===================== MAIN TOOL AREA ===================== -->
@@ -193,14 +139,14 @@
         <section class="step-section active" id="step-1">
             <div class="glass-panel controls-panel">
                 <h2>Design Your Stamp</h2>
-                <p class="tool-step-hint" style="margin-top: -0.75rem; margin-bottom: 1rem; border: none; display: block;">
-                    Pick a template or shape, customize it, then continue to stamp your document.
+                <p class="tool-step-hint controls-intro">
+                    1) Tap a template &nbsp;·&nbsp; 2) Edit text/color &nbsp;·&nbsp; 3) Click Next
                 </p>
 
-                <!-- ACCORDION: Templates -->
-                <div class="accordion-item" id="acc-templates">
+                <!-- ACCORDION: Templates (open first — easiest path) -->
+                <div class="accordion-item active" id="acc-templates">
                     <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
-                        <h3><i class="fa-solid fa-bolt"></i> Quick Templates</h3>
+                        <h3><i class="fa-solid fa-bolt"></i> Quick Templates <span class="acc-hint">start here</span></h3>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <div class="accordion-content">
@@ -217,63 +163,63 @@
                     </div>
                 </div>
 
-                <!-- ACCORDION: Shape -->
-                <div class="accordion-item active" id="acc-shape">
+                <!-- ACCORDION: Shape (collapsed by default) -->
+                <div class="accordion-item" id="acc-shape">
                     <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
                         <h3><i class="fa-solid fa-shapes"></i> Stamp Shape</h3>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <div class="accordion-content">
-                        <div class="radio-group" id="shape-selector" style="flex-wrap: wrap;">
-                            <label class="radio-card active" style="flex: 1 1 calc(33% - 1rem);" title="Classic official seal">
+                        <div class="radio-group shape-grid" id="shape-selector">
+                            <label class="radio-card active" title="Classic official seal">
                                 <input type="radio" name="stamp-shape" value="circle" checked>
                                 <i class="fa-regular fa-circle"></i>
                                 <span>Circular</span>
                             </label>
-                            <label class="radio-card" style="flex: 1 1 calc(33% - 1rem);">
+                            <label class="radio-card">
                                 <input type="radio" name="stamp-shape" value="rectangle">
                                 <i class="fa-regular fa-square"></i>
-                                <span>Basic Rect</span>
+                                <span>Rectangle</span>
                             </label>
-                            <label class="radio-card" style="flex: 1 1 calc(33% - 1rem);">
+                            <label class="radio-card">
                                 <input type="radio" name="stamp-shape" value="rounded">
                                 <i class="fa-solid fa-vector-square"></i>
-                                <span>Rounded Rect</span>
+                                <span>Rounded</span>
                             </label>
-                            <label class="radio-card" style="flex: 1 1 calc(50% - 1rem);">
+                            <label class="radio-card">
                                 <input type="radio" name="stamp-shape" value="oval">
                                 <i class="fa-regular fa-circle" style="transform: scaleX(1.3);"></i>
                                 <span>Oval</span>
                             </label>
-                            <label class="radio-card" style="flex: 1 1 calc(50% - 1rem);">
+                            <label class="radio-card">
                                 <input type="radio" name="stamp-shape" value="diamond">
                                 <i class="fa-solid fa-diamond"></i>
                                 <span>Diamond</span>
                             </label>
-                            <label class="radio-card" style="flex: 1 1 calc(50% - 1rem);">
+                            <label class="radio-card">
                                 <input type="radio" name="stamp-shape" value="triangle">
                                 <i class="fa-solid fa-play" style="transform: rotate(-90deg);"></i>
                                 <span>Triangle</span>
                             </label>
-                            <label class="radio-card" style="flex: 1 1 calc(50% - 1rem);">
+                            <label class="radio-card">
                                 <input type="radio" name="stamp-shape" value="hexagon">
                                 <i class="fa-solid fa-hexagon"></i>
                                 <span>Hexagon</span>
                             </label>
-                            <label class="radio-card" style="flex: 1 1 100%;">
+                            <label class="radio-card">
                                 <input type="radio" name="stamp-shape" value="address">
                                 <i class="fa-solid fa-address-card"></i>
-                                <span>Address / Business</span>
+                                <span>Address</span>
                             </label>
-                            <label class="radio-card" style="flex: 1 1 calc(50% - 1rem);">
+                            <label class="radio-card">
                                 <input type="radio" name="stamp-shape" value="star">
                                 <i class="fa-solid fa-certificate"></i>
-                                <span>Star / Badge</span>
+                                <span>Star</span>
                             </label>
-                            <label class="radio-card signature-option" style="flex: 1 1 calc(50% - 1rem);" title="Draw your handwritten signature">
+                            <label class="radio-card signature-option" title="Draw your handwritten signature">
                                 <input type="radio" name="stamp-shape" value="signature">
                                 <i class="fa-solid fa-signature"></i>
-                                <span>Handwritten Sig.</span>
+                                <span>Signature</span>
                             </label>
                         </div>
                     </div>
@@ -303,73 +249,43 @@
                         </div>
 
                         <div class="control-group" id="circle-controls">
-                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.5rem;">
-                                <div style="flex-grow: 1;">
-                                    <label for="outer-text">Outer Ring Text</label>
-                                    <input type="text" id="outer-text" class="glass-input" value="AUTHORIZED SIGNATURE • OFFICIAL •" style="margin-bottom: 0;">
+                            <label for="outer-text">Outer Ring Text</label>
+                            <input type="text" id="outer-text" class="glass-input" value="AUTHORIZED SIGNATURE • OFFICIAL •">
+                            <label for="inner-text">Center Text</label>
+                            <input type="text" id="inner-text" class="glass-input" value="APPROVED" maxlength="15">
+                            <label for="date-text">Bottom / Date Text</label>
+                            <input type="text" id="date-text" class="glass-input" value="15 MAR 2026" maxlength="20">
+                            <details class="advanced-sizes">
+                                <summary>Adjust text sizes</summary>
+                                <div class="size-row">
+                                    <label for="outer-text-size">Outer</label>
+                                    <input type="number" id="outer-text-size" class="glass-input" value="24" min="10" max="60">
+                                    <label for="inner-text-size">Center</label>
+                                    <input type="number" id="inner-text-size" class="glass-input" value="36" min="10" max="80">
+                                    <label for="date-text-size">Date</label>
+                                    <input type="number" id="date-text-size" class="glass-input" value="18" min="8" max="40">
                                 </div>
-                                <div style="width: 70px;">
-                                    <label for="outer-text-size" style="font-size: 0.75rem;">Size</label>
-                                    <input type="number" id="outer-text-size" class="glass-input" value="24" min="10" max="60" style="margin-bottom: 0; padding: 0.5rem;">
-                                </div>
-                            </div>
-                            
-                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.5rem;">
-                                <div style="flex-grow: 1;">
-                                    <label for="inner-text">Center Text</label>
-                                    <input type="text" id="inner-text" class="glass-input" value="APPROVED" maxlength="15" style="margin-bottom: 0;">
-                                </div>
-                                <div style="width: 70px;">
-                                    <label for="inner-text-size" style="font-size: 0.75rem;">Size</label>
-                                    <input type="number" id="inner-text-size" class="glass-input" value="36" min="10" max="80" style="margin-bottom: 0; padding: 0.5rem;">
-                                </div>
-                            </div>
-                            
-                            <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
-                                <div style="flex-grow: 1;">
-                                    <label for="date-text">Bottom/Date Text</label>
-                                    <input type="text" id="date-text" class="glass-input" value="15 MAR 2026" maxlength="20" style="margin-bottom: 0;">
-                                </div>
-                                <div style="width: 70px;">
-                                    <label for="date-text-size" style="font-size: 0.75rem;">Size</label>
-                                    <input type="number" id="date-text-size" class="glass-input" value="18" min="8" max="40" style="margin-bottom: 0; padding: 0.5rem;">
-                                </div>
-                            </div>
+                            </details>
                         </div>
 
                         <div class="control-group hidden" id="rect-controls">
-                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.5rem;">
-                                <div style="flex-grow: 1;">
-                                    <label for="rect-top-text">Top Text</label>
-                                    <input type="text" id="rect-top-text" class="glass-input" value="CONFIDENTIAL" maxlength="30" style="margin-bottom: 0;">
+                            <label for="rect-top-text">Top Text</label>
+                            <input type="text" id="rect-top-text" class="glass-input" value="CONFIDENTIAL" maxlength="30">
+                            <label for="rect-mid-text">Middle Text</label>
+                            <input type="text" id="rect-mid-text" class="glass-input" value="DO NOT DISTRIBUTE" maxlength="30">
+                            <label for="rect-bot-text">Bottom Text</label>
+                            <input type="text" id="rect-bot-text" class="glass-input" value="Date: 15-03-2026" maxlength="30">
+                            <details class="advanced-sizes">
+                                <summary>Adjust text sizes</summary>
+                                <div class="size-row">
+                                    <label for="rect-top-size">Top</label>
+                                    <input type="number" id="rect-top-size" class="glass-input" value="22" min="10" max="50">
+                                    <label for="rect-mid-size">Middle</label>
+                                    <input type="number" id="rect-mid-size" class="glass-input" value="40" min="10" max="80">
+                                    <label for="rect-bot-size">Bottom</label>
+                                    <input type="number" id="rect-bot-size" class="glass-input" value="18" min="8" max="40">
                                 </div>
-                                <div style="width: 70px;">
-                                    <label for="rect-top-size" style="font-size: 0.75rem;">Size</label>
-                                    <input type="number" id="rect-top-size" class="glass-input" value="22" min="10" max="50" style="margin-bottom: 0; padding: 0.5rem;">
-                                </div>
-                            </div>
-                            
-                            <div style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 0.5rem;">
-                                <div style="flex-grow: 1;">
-                                    <label for="rect-mid-text">Middle Text</label>
-                                    <input type="text" id="rect-mid-text" class="glass-input" value="DO NOT DISTRIBUTE" maxlength="30" style="margin-bottom: 0;">
-                                </div>
-                                <div style="width: 70px;">
-                                    <label for="rect-mid-size" style="font-size: 0.75rem;">Size</label>
-                                    <input type="number" id="rect-mid-size" class="glass-input" value="40" min="10" max="80" style="margin-bottom: 0; padding: 0.5rem;">
-                                </div>
-                            </div>
-                            
-                            <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
-                                <div style="flex-grow: 1;">
-                                    <label for="rect-bot-text">Bottom Text</label>
-                                    <input type="text" id="rect-bot-text" class="glass-input" value="Date: 15-03-2026" maxlength="30" style="margin-bottom: 0;">
-                                </div>
-                                <div style="width: 70px;">
-                                    <label for="rect-bot-size" style="font-size: 0.75rem;">Size</label>
-                                    <input type="number" id="rect-bot-size" class="glass-input" value="18" min="8" max="40" style="margin-bottom: 0; padding: 0.5rem;">
-                                </div>
-                            </div>
+                            </details>
                         </div>
 
                         <div class="control-group hidden" id="address-controls">
@@ -508,7 +424,6 @@
                             <option value="Arial, sans-serif">Arial (Classic Sans)</option>
                             <option value="'Times New Roman', serif">Times New Roman (Formal Serif)</option>
                             <option value="'Courier New', monospace">Courier New (Monospace)</option>
-                            <option value="'Space Grotesk', sans-serif">Space Grotesk (Tech)</option>
                         </select>
 
                         <div class="toggle-group" style="border-top: none; padding-top: 0; margin-top: 0.5rem;">
@@ -537,9 +452,14 @@
                     </div>
                 </div>
 
-                <button class="primary-btn glow-effect" id="proceed-to-doc-btn" style="margin-top: 1rem;">
-                    Next: Stamp a Document <i class="fa-solid fa-arrow-right"></i>
-                </button>
+                <div class="controls-sticky-actions">
+                    <button type="button" class="secondary-btn" id="download-stamp-img" title="Download Stamp Image">
+                        <i class="fa-solid fa-download"></i> PNG
+                    </button>
+                    <button type="button" class="primary-btn glow-effect" id="proceed-to-doc-btn">
+                        Next: Stamp Document <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="glass-panel preview-panel">
@@ -547,11 +467,7 @@
                 <div class="canvas-container">
                     <canvas id="stamp-preview-canvas" width="400" height="400"></canvas>
                 </div>
-                <div class="preview-actions">
-                    <button class="icon-btn" id="download-stamp-img" title="Download Stamp Image">
-                        <i class="fa-solid fa-download"></i> Download PNG
-                    </button>
-                </div>
+                <p class="preview-tip">Preview updates as you type. When ready, click <strong>Next: Stamp Document</strong>.</p>
             </div>
         </section>
 
@@ -629,6 +545,34 @@
                             <span class="slider" style="border-radius: 20px;"></span>
                         </label>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS (below the tool so first visit stays usable) -->
+        <section class="how-it-works" aria-labelledby="hiw-title">
+            <p class="section-label">Simple 3-Step Process</p>
+            <h2 class="section-title" id="hiw-title">How to Stamp a Document Online</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <i class="fa-solid fa-pen-ruler step-icon-big"></i>
+                    <h3>Design Your Stamp</h3>
+                    <p>Pick a template, customize colors and text, see changes live.</p>
+                </div>
+                <div class="step-arrow-icon"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <i class="fa-solid fa-file-arrow-up step-icon-big"></i>
+                    <h3>Upload Your Document</h3>
+                    <p>Drag &amp; drop a PDF, JPG, or PNG. Files never leave your browser.</p>
+                </div>
+                <div class="step-arrow-icon"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <i class="fa-solid fa-file-export step-icon-big"></i>
+                    <h3>Export &amp; Download</h3>
+                    <p>Place the stamp, then export the stamped file instantly.</p>
                 </div>
             </div>
         </section>
@@ -850,6 +794,25 @@
         </div>
     </div>
 
+    <script>
+        // Load AdSense only after the tool is interactive
+        (function loadAdsLater() {
+            const inject = () => {
+                if (document.getElementById('adsbygoogle-js')) return;
+                const s = document.createElement('script');
+                s.id = 'adsbygoogle-js';
+                s.async = true;
+                s.crossOrigin = 'anonymous';
+                s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2509436669190309';
+                document.body.appendChild(s);
+            };
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(inject, { timeout: 5000 });
+            } else {
+                setTimeout(inject, 2500);
+            }
+        })();
+    </script>
     <script src="script.js" defer></script>
 </body>
 </html>

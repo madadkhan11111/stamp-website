@@ -321,16 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        const heroStartBtn = document.getElementById('hero-start-btn');
-        if (heroStartBtn) {
-            heroStartBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                goToStep('1');
-                const tool = document.getElementById('tool');
-                if (tool) tool.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        }
-
         // Stamp Generator Inputs triggers re-render
         UI.stamp.shapeInputs.forEach(input => {
             input.addEventListener('change', (e) => {
@@ -511,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const bindInput = (el, statePath, key, isNumber = false) => {
             el.addEventListener('input', (e) => {
                 statePath[key] = isNumber ? parseInt(e.target.value, 10) || 12 : e.target.value;
-                renderStamp();
+                scheduleRender();
             });
         };
 
@@ -537,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (val <= 2) label = 'Thin';
             else if (val >= 8) label = 'Thick';
             UI.stamp.borderVal.textContent = label;
-            renderStamp();
+            scheduleRender();
         });
 
         // Address line bindings
@@ -546,8 +536,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const textEl = UI.stamp['addrLine' + lineNum];
             const sizeEl = UI.stamp['addrLine' + lineNum + 'Size'];
             ((idx) => {
-                textEl.addEventListener('input', (e) => { state.stamp.address.lines[idx].text = e.target.value; renderStamp(); });
-                sizeEl.addEventListener('input', (e) => { state.stamp.address.lines[idx].size = parseInt(e.target.value, 10) || 12; renderStamp(); });
+                textEl.addEventListener('input', (e) => { state.stamp.address.lines[idx].text = e.target.value; scheduleRender(); });
+                sizeEl.addEventListener('input', (e) => { state.stamp.address.lines[idx].size = parseInt(e.target.value, 10) || 12; scheduleRender(); });
             })(i);
         }
         
@@ -555,7 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
         UI.stamp.opacityInput.addEventListener('input', (e) => {
             state.stamp.opacity = parseFloat(e.target.value);
             UI.stamp.opacityVal.textContent = Math.round(state.stamp.opacity * 100) + '%';
-            renderStamp();
+            scheduleRender();
         });
 
         UI.stamp.useCustomLogo.addEventListener('change', (e) => {
@@ -1442,9 +1432,20 @@ document.addEventListener('DOMContentLoaded', () => {
     /* =========================================================================
        STAMP RENDERING ENGINE (Canvas)
        ========================================================================= */
-    // Debounce timer for renderStamp to prevent overlapping SVG loads
+    // Debounced stamp preview updates (typing should not freeze the UI)
+    let renderTimer = null;
     let isRendering = false;
     let renderPending = false;
+
+    function scheduleRender(immediate = false) {
+        if (immediate) {
+            clearTimeout(renderTimer);
+            renderStamp();
+            return;
+        }
+        clearTimeout(renderTimer);
+        renderTimer = setTimeout(() => renderStamp(), 120);
+    }
 
     /**
      * Main render function - draws everything onto the canvas based on `state`
