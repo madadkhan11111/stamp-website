@@ -324,34 +324,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Stamp Generator Inputs triggers re-render
         UI.stamp.shapeInputs.forEach(input => {
             input.addEventListener('change', (e) => {
-                state.stamp.shape = e.target.value;
-                
-                // Update UI active states
-                UI.stamp.shapeCards.forEach(card => card.classList.remove('active'));
-                e.target.closest('.radio-card').classList.add('active');
-                
-                // Toggle controls
-                UI.stamp.circleControls.classList.add('hidden');
-                UI.stamp.rectControls.classList.add('hidden');
-                UI.stamp.addressControls.classList.add('hidden');
-                UI.stamp.signatureControls.classList.add('hidden');
-                
-                if (state.stamp.shape === 'circle') {
-                    UI.stamp.circleControls.classList.remove('hidden');
-                } else if (state.stamp.shape === 'address') {
-                    UI.stamp.addressControls.classList.remove('hidden');
-                } else if (state.stamp.shape === 'signature') {
-                    UI.stamp.signatureControls.classList.remove('hidden');
-                    UI.stamp.rectControls.classList.add('hidden'); // Signature doesn't need text inputs usually
-                } else if (state.stamp.shape === 'star') {
-                    // Star uses rect controls (top/mid/bot text)
-                    UI.stamp.rectControls.classList.remove('hidden');
-                } else {
-                    UI.stamp.rectControls.classList.remove('hidden');
-                }
-                
-                renderStamp();
+                setStampShape(e.target.value);
             });
+        });
+
+        document.querySelectorAll('.quick-shape-btn').forEach(btn => {
+            btn.addEventListener('click', () => setStampShape(btn.dataset.quickShape));
         });
 
         // Template logic
@@ -367,42 +345,54 @@ document.addEventListener('DOMContentLoaded', () => {
                     received: { top: 'RECEIVED', mid: '15-03-2026', bot: 'ACCOUNTS DEPT', color: '#2B68D1', shape: 'circle' },
                     copy: { top: 'COPY', mid: 'DUPLICATE', bot: 'ORIGINAL FILED', color: '#000000', shape: 'rectangle' },
                     draft: { top: 'DRAFT', mid: 'PRELIMINARY', bot: 'NOT FOR RELEASE', color: '#6D23B6', shape: 'rectangle' },
-                    void: { top: 'VOID', mid: 'CANCELLED', bot: 'INVALID DOCUMENT', color: '#000000', shape: 'rectangle' }
+                    void: { top: 'VOID', mid: 'CANCELLED', bot: 'INVALID DOCUMENT', color: '#000000', shape: 'rectangle' },
+                    address: {
+                        shape: 'address',
+                        color: '#111111',
+                        lines: [
+                            { text: 'MH TRADERS', size: 28 },
+                            { text: 'OFFICE NO: 505, TRADE AVENUE', size: 16 },
+                            { text: 'HASRAT MOHANI ROAD,', size: 14 },
+                            { text: 'I.I. CHUNDRIGAR ROAD, KARACHI.', size: 14 },
+                            { text: 'C.H.A.L: # 9018599', size: 13 }
+                        ]
+                    }
                 };
 
                 const config = configs[template];
-                if (config) {
-                    UI.stamp.templateBtns.forEach(b => b.classList.remove('selected'));
-                    templateBtn.classList.add('selected');
+                if (!config) return;
 
-                    state.stamp.shape = config.shape;
-                    state.stamp.color = config.color;
-                    state.stamp.rect.topText = config.top;
-                    state.stamp.rect.midText = config.mid;
-                    state.stamp.rect.botText = config.bot;
-                    state.stamp.circle.innerText = config.top;
-                    state.stamp.circle.dateText = config.mid;
-                    state.stamp.circle.outerText = `${config.bot} • OFFICIAL • `;
-                    
-                    // Sync UI
-                    updateColor(config.color);
-                    UI.stamp.rectTopText.value = config.top;
-                    UI.stamp.rectMidText.value = config.mid;
-                    UI.stamp.rectBotText.value = config.bot;
-                    UI.stamp.innerText.value = config.top;
-                    UI.stamp.dateText.value = config.mid;
-                    UI.stamp.outerText.value = state.stamp.circle.outerText;
-                    
-                    // Update shape radio buttons
-                    UI.stamp.shapeInputs.forEach(input => {
-                        if (input.value === config.shape) {
-                            input.checked = true;
-                            input.dispatchEvent(new Event('change'));
-                        }
+                UI.stamp.templateBtns.forEach(b => b.classList.remove('selected'));
+                templateBtn.classList.add('selected');
+                updateColor(config.color);
+
+                if (config.shape === 'address') {
+                    state.stamp.address.lines = config.lines.map(l => ({ ...l }));
+                    config.lines.forEach((line, i) => {
+                        const textEl = UI.stamp['addrLine' + (i + 1)];
+                        const sizeEl = UI.stamp['addrLine' + (i + 1) + 'Size'];
+                        if (textEl) textEl.value = line.text;
+                        if (sizeEl) sizeEl.value = String(line.size);
                     });
-                    
-                    renderStamp();
+                    setStampShape('address');
+                    return;
                 }
+
+                state.stamp.rect.topText = config.top;
+                state.stamp.rect.midText = config.mid;
+                state.stamp.rect.botText = config.bot;
+                state.stamp.circle.innerText = config.top;
+                state.stamp.circle.dateText = config.mid;
+                state.stamp.circle.outerText = `${config.bot} • OFFICIAL • `;
+
+                UI.stamp.rectTopText.value = config.top;
+                UI.stamp.rectMidText.value = config.mid;
+                UI.stamp.rectBotText.value = config.bot;
+                UI.stamp.innerText.value = config.top;
+                UI.stamp.dateText.value = config.mid;
+                UI.stamp.outerText.value = state.stamp.circle.outerText;
+
+                setStampShape(config.shape);
             });
         });
 
@@ -546,8 +536,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const textEl = UI.stamp['addrLine' + lineNum];
             const sizeEl = UI.stamp['addrLine' + lineNum + 'Size'];
             ((idx) => {
-                textEl.addEventListener('input', (e) => { state.stamp.address.lines[idx].text = e.target.value; scheduleRender(); });
-                sizeEl.addEventListener('input', (e) => { state.stamp.address.lines[idx].size = parseInt(e.target.value, 10) || 12; scheduleRender(); });
+                if (textEl) {
+                    textEl.addEventListener('input', (e) => {
+                        state.stamp.address.lines[idx].text = e.target.value;
+                        scheduleRender();
+                    });
+                }
+                if (sizeEl) {
+                    sizeEl.addEventListener('input', (e) => {
+                        state.stamp.address.lines[idx].size = parseInt(e.target.value, 10) || 12;
+                        scheduleRender();
+                    });
+                }
             })(i);
         }
         
@@ -1841,53 +1841,101 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderAddressStamp(center, size) {
+        syncAddressFromInputs();
         const lines = state.stamp.address.lines;
-        const padding = 20;
-        const lineSpacing = 6;
+        const paddingX = 24;
+        const paddingY = 22;
+        const lineSpacing = 8;
         
         // Calculate total height based on all lines
         let totalTextHeight = 0;
-        const lineHeights = [];
         for (const line of lines) {
-            if (line.text.trim()) {
-                const h = line.size + lineSpacing;
-                lineHeights.push(h);
-                totalTextHeight += h;
-            } else {
-                lineHeights.push(0);
+            if (line.text && line.text.trim()) {
+                totalTextHeight += (Number(line.size) || 14) + lineSpacing;
             }
         }
-        totalTextHeight -= lineSpacing; // Remove extra spacing after last line
+        if (totalTextHeight > 0) totalTextHeight -= lineSpacing;
+        else totalTextHeight = 20;
         
-        const height = totalTextHeight + padding * 2;
-        const width = 380;
+        const height = Math.max(totalTextHeight + paddingY * 2, 90);
+        const width = 360;
         const x = center - width / 2;
         const y = center - height / 2;
-        const t = state.stamp.borderThickness;
+        const t = Math.max(2, state.stamp.borderThickness || 4);
 
-        // Borders removed as per user request to remove "brackets"
-        // Draw outer border
-        // ctx.lineWidth = t;
-        // ctx.strokeRect(x, y, width, height);
-
-        // Draw inner border
-        // ctx.lineWidth = Math.max(0.5, t - 2.5);
-        // ctx.strokeRect(x + 5, y + 5, width - 10, height - 10);
+        // Visible stamp frame (needed so address stamps actually show)
+        ctx.lineWidth = t;
+        ctx.strokeStyle = state.stamp.color;
+        ctx.fillStyle = state.stamp.color;
+        ctx.strokeRect(x, y, width, height);
+        ctx.lineWidth = Math.max(1, t - 2);
+        ctx.strokeRect(x + 6, y + 6, width - 12, height - 12);
 
         // Draw text lines — centered horizontally
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
-        let curY = y + padding;
+        let curY = y + paddingY;
 
         for (let i = 0; i < lines.length; i++) {
-            if (!lines[i].text.trim()) continue;
-            const isBoldLine = (i === 0); // First line (company name) is always bold
-            ctx.font = getFontStr(lines[i].size, isBoldLine ? true : null);
-            ctx.fillText(lines[i].text.toUpperCase(), center, curY, width - padding * 2);
-            curY += lines[i].size + lineSpacing;
+            const text = (lines[i].text || '').trim();
+            if (!text) continue;
+            const fontSize = Number(lines[i].size) || 14;
+            const isBoldLine = (i === 0);
+            ctx.font = getFontStr(fontSize, isBoldLine ? true : null);
+            ctx.fillText(text.toUpperCase(), center, curY, width - paddingX * 2);
+            curY += fontSize + lineSpacing;
         }
         
         ctx.textBaseline = 'middle'; // Reset
+    }
+
+    function syncAddressFromInputs() {
+        for (let i = 0; i < 5; i++) {
+            const textEl = UI.stamp['addrLine' + (i + 1)];
+            const sizeEl = UI.stamp['addrLine' + (i + 1) + 'Size'];
+            if (!state.stamp.address.lines[i]) {
+                state.stamp.address.lines[i] = { text: '', size: 14 };
+            }
+            if (textEl) state.stamp.address.lines[i].text = textEl.value;
+            if (sizeEl) state.stamp.address.lines[i].size = parseInt(sizeEl.value, 10) || 14;
+        }
+    }
+
+    function setStampShape(shape) {
+        state.stamp.shape = shape;
+
+        UI.stamp.shapeCards.forEach(card => card.classList.remove('active'));
+        UI.stamp.shapeInputs.forEach(input => {
+            const match = input.value === shape;
+            input.checked = match;
+            if (match) {
+                const card = input.closest('.radio-card');
+                if (card) card.classList.add('active');
+            }
+        });
+
+        document.querySelectorAll('.quick-shape-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.quickShape === shape);
+        });
+
+        UI.stamp.circleControls.classList.add('hidden');
+        UI.stamp.rectControls.classList.add('hidden');
+        UI.stamp.addressControls.classList.add('hidden');
+        UI.stamp.signatureControls.classList.add('hidden');
+
+        if (shape === 'circle') {
+            UI.stamp.circleControls.classList.remove('hidden');
+        } else if (shape === 'address') {
+            syncAddressFromInputs();
+            UI.stamp.addressControls.classList.remove('hidden');
+            UI.stamp.addressControls.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else if (shape === 'signature') {
+            UI.stamp.signatureControls.classList.remove('hidden');
+        } else {
+            UI.stamp.rectControls.classList.remove('hidden');
+        }
+
+        renderStamp();
     }
 
     function renderStarStamp(center, size) {

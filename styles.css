@@ -1520,10 +1520,39 @@ input:checked+.slider:before {
     text-overflow: ellipsis;
 }
 
-.easy-controls .template-btn.selected,
-.easy-controls .template-btn:focus-visible {
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.35);
+.easy-controls .template-btn.template-btn-wide {
+    grid-column: 1 / -1;
+}
+
+.quick-shapes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+    margin-top: 0.75rem;
+}
+
+.quick-shape-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    border-radius: 999px;
+    padding: 0.55rem 0.7rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.quick-shape-btn:hover {
+    border-color: rgba(99, 102, 241, 0.45);
+    color: var(--accent-primary);
+}
+
+.quick-shape-btn.active {
+    background: rgba(99, 102, 241, 0.18);
+    border-color: rgba(99, 102, 241, 0.65);
+    color: #fff;
 }
 
 @media (max-width: 600px) {
