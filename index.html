@@ -94,23 +94,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-                    <aside class="sidebar collapsed" id="sidebar" role="navigation" aria-label="Primary navigation" aria-hidden="true">
-        <nav class="sidebar-nav">
-            <button class="step-btn active" data-step="1" aria-label="Step 1: Create Stamp" aria-current="page">
-                <i class="fa-solid fa-stamp"></i>
-                <span class="step-num">1</span> Create Stamp
-            </button>
-            <button class="step-btn" data-step="2" id="nav-step-2" disabled aria-label="Step 2: Stamp Document">
-                <i class="fa-solid fa-file-arrow-up"></i>
-                <span class="step-num">2</span> Stamp Document
-            </button>
-            <a href="guide-business-stamps.html" class="step-btn guides-link" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem; border: 1px dashed var(--glass-border);" title="Learn how to use stamps">
-                <i class="fa-solid fa-book"></i> Guides
-            </a>
-        </nav>
-    </aside>
-    <div class="content-wrapper">
-
     <div class="app-background">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
@@ -118,16 +101,34 @@
     </div>
 
     <header class="app-header">
-        <div class="logo">
+        <a href="/" class="logo" aria-label="Online Stamp Doc home">
             <i class="fa-solid fa-stamp"></i>
             <span>Online Stamp Doc</span>
+        </a>
+
+        <nav class="step-nav" aria-label="Workflow steps">
+            <button type="button" class="step-btn active" data-step="1" id="nav-step-1" aria-current="step">
+                <span class="step-num">1</span>
+                <span class="step-label-full">Create Stamp</span>
+                <span class="step-label-short">Create</span>
+            </button>
+            <div class="step-connector" aria-hidden="true"></div>
+            <button type="button" class="step-btn" data-step="2" id="nav-step-2" disabled>
+                <span class="step-num">2</span>
+                <span class="step-label-full">Stamp Document</span>
+                <span class="step-label-short">Stamp</span>
+            </button>
+        </nav>
+
+        <div class="header-actions">
+            <a href="guide-business-stamps.html" class="header-link" title="Guides">
+                <i class="fa-solid fa-book"></i>
+                <span>Guides</span>
+            </a>
+            <button type="button" class="theme-toggle" id="theme-toggle" title="Toggle Theme" aria-label="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
         </div>
-                <button class="hamburger-btn" id="hamburger-btn" aria-label="Menu" aria-controls="sidebar" aria-expanded="false">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-        <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
-            <i class="fa-solid fa-moon"></i>
-        </button>
     </header>
 
     <!-- ===================== HERO SECTION ===================== -->
@@ -144,8 +145,6 @@
             <span class="trust-badge"><i class="fa-solid fa-lock"></i> No File Upload Ever</span>
             <span class="trust-badge"><i class="fa-solid fa-bolt"></i> Works Instantly</span>
             <span class="trust-badge"><i class="fa-solid fa-user-slash"></i> No Sign-up Needed</span>
-            <span class="trust-badge"><i class="fa-solid fa-mobile-screen"></i> Mobile Friendly</span>
-            <span class="trust-badge"><i class="fa-solid fa-globe"></i> 120+ Countries</span>
         </div>
     </section>
 
@@ -194,6 +193,9 @@
         <section class="step-section active" id="step-1">
             <div class="glass-panel controls-panel">
                 <h2>Design Your Stamp</h2>
+                <p class="tool-step-hint" style="margin-top: -0.75rem; margin-bottom: 1rem; border: none; display: block;">
+                    Pick a template or shape, customize it, then continue to stamp your document.
+                </p>
 
                 <!-- ACCORDION: Templates -->
                 <div class="accordion-item" id="acc-templates">
@@ -536,7 +538,7 @@
                 </div>
 
                 <button class="primary-btn glow-effect" id="proceed-to-doc-btn" style="margin-top: 1rem;">
-                    Confirm &amp; Proceed <i class="fa-solid fa-arrow-right"></i>
+                    Next: Stamp a Document <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
 
@@ -555,6 +557,12 @@
 
         <!-- STEP 2: DOCUMENT STAMPER -->
         <section class="step-section" id="step-2">
+            <div class="tool-step-hint">
+                <p><strong>Step 2:</strong> Upload a PDF or image, place your stamp, then export.</p>
+                <button type="button" class="secondary-btn back-step-btn" id="back-to-create-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Create Stamp
+                </button>
+            </div>
             <div class="glass-panel upload-panel" id="upload-container">
                 <input type="file" id="document-upload" accept="image/png, image/jpeg, application/pdf" hidden>
                 <div class="drop-zone" id="drop-zone">
@@ -623,8 +631,9 @@
                     </div>
                 </div>
             </div>
-            
-                <!-- IMPROVED SEO CONTENT SECTION -->
+        </section>
+
+        <!-- SEO CONTENT (always visible, outside tool steps) -->
         <section class="seo-content-section glass-panel" style="margin-top: 2rem; padding: 2rem; text-align: left;">
             <h2>The Best Free Online Stamp Maker — No Upload, No Sign-up</h2>
             <p><strong>Online Stamp Doc</strong> is the world&apos;s most private online stamp creator. Unlike other tools, your documents are <strong>never uploaded to any server</strong>. Everything runs in your browser — design, stamping, and export all happen instantly on your own device.</p>
@@ -739,7 +748,7 @@
                 </div>
 
             </div>
-        </section>    </section>
+        </section>
 
     </main>
 
@@ -775,7 +784,6 @@
             <p style="text-align: center; color: var(--text-secondary); font-size: 0.8rem; margin-top: 1rem;">&copy; 2026 Online Stamp Doc. All rights reserved.</p>
         </div>
     </footer>
-    </div>
 
     <div class="loading-overlay hidden" id="loading-overlay">
         <div class="spinner"></div>
@@ -814,7 +822,7 @@
                 <div class="help-step-num">3</div>
                 <div class="help-step-content">
                     <h4>Download Stamp PNG or Stamp a Document</h4>
-                    <p>Click <strong>Download PNG</strong> to save just the stamp image, or click <strong>Confirm &amp; Proceed</strong> to apply it to a PDF, JPG, or PNG document.</p>
+                    <p>Click <strong>Download PNG</strong> to save just the stamp image, or click <strong>Next: Stamp a Document</strong> to apply it to a PDF, JPG, or PNG file.</p>
                 </div>
             </div>
             <div class="help-step">

@@ -308,17 +308,26 @@ document.addEventListener('DOMContentLoaded', () => {
             if (step2Btn) step2Btn.disabled = false;
             ensurePdfLibs().catch(() => {});
             goToStep('2');
+            const tool = document.getElementById('tool');
+            if (tool) tool.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
-        // Mobile sidebar toggle
-        const hamburgerBtn = document.getElementById('hamburger-btn');
-        const sidebar = document.getElementById('sidebar');
-        if (hamburgerBtn && sidebar) {
-            hamburgerBtn.addEventListener('click', () => {
-                const isOpen = sidebar.classList.toggle('active');
-                sidebar.classList.toggle('collapsed', !isOpen);
-                sidebar.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-                hamburgerBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        const backToCreateBtn = document.getElementById('back-to-create-btn');
+        if (backToCreateBtn) {
+            backToCreateBtn.addEventListener('click', () => {
+                goToStep('1');
+                const tool = document.getElementById('tool');
+                if (tool) tool.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
+
+        const heroStartBtn = document.getElementById('hero-start-btn');
+        if (heroStartBtn) {
+            heroStartBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToStep('1');
+                const tool = document.getElementById('tool');
+                if (tool) tool.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         }
 
@@ -1391,11 +1400,21 @@ document.addEventListener('DOMContentLoaded', () => {
        HELPER FUNCTIONS
        ========================================================================= */
     function goToStep(step) {
-        UI.steps.navBtns.forEach(b => b.classList.remove('active'));
-        document.querySelector(`.step-btn[data-step="${step}"]`).classList.add('active');
+        UI.steps.navBtns.forEach(b => {
+            if (!b.classList.contains('step-btn') || !b.hasAttribute('data-step')) return;
+            b.classList.remove('active');
+            b.removeAttribute('aria-current');
+        });
+
+        const activeBtn = document.querySelector(`.step-btn[data-step="${step}"]`);
+        if (activeBtn) {
+            activeBtn.classList.add('active');
+            activeBtn.setAttribute('aria-current', 'step');
+        }
         
         UI.steps.sections.forEach(s => s.classList.remove('active'));
-        document.getElementById(`step-${step}`).classList.add('active');
+        const section = document.getElementById(`step-${step}`);
+        if (section) section.classList.add('active');
     }
 
     function updateColor(hex) {
