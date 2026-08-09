@@ -357,7 +357,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Template logic
         UI.stamp.templateBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const template = e.target.dataset.template;
+                const templateBtn = e.currentTarget;
+                const template = templateBtn.dataset.template;
                 const configs = {
                     paid: { top: 'PAID', mid: '15 MAR 2026', bot: 'OFFICE COPY', color: '#E63946', shape: 'rectangle' },
                     approved: { top: 'APPROVED', mid: 'OFFICIAL', bot: 'MANAGER SIGNATURE', color: '#2A9D8F', shape: 'rounded' },
@@ -371,17 +372,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const config = configs[template];
                 if (config) {
+                    UI.stamp.templateBtns.forEach(b => b.classList.remove('selected'));
+                    templateBtn.classList.add('selected');
+
                     state.stamp.shape = config.shape;
                     state.stamp.color = config.color;
                     state.stamp.rect.topText = config.top;
                     state.stamp.rect.midText = config.mid;
                     state.stamp.rect.botText = config.bot;
+                    state.stamp.circle.innerText = config.top;
+                    state.stamp.circle.dateText = config.mid;
+                    state.stamp.circle.outerText = `${config.bot} • OFFICIAL • `;
                     
                     // Sync UI
                     updateColor(config.color);
                     UI.stamp.rectTopText.value = config.top;
                     UI.stamp.rectMidText.value = config.mid;
                     UI.stamp.rectBotText.value = config.bot;
+                    UI.stamp.innerText.value = config.top;
+                    UI.stamp.dateText.value = config.mid;
+                    UI.stamp.outerText.value = state.stamp.circle.outerText;
                     
                     // Update shape radio buttons
                     UI.stamp.shapeInputs.forEach(input => {

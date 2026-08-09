@@ -1504,14 +1504,194 @@ input:checked+.slider:before {
    ========================================= */
 .template-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+}
+
+.easy-controls .template-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.easy-controls .template-btn.selected,
+.easy-controls .template-btn:focus-visible {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.35);
 }
 
 @media (max-width: 600px) {
     .template-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+}
+
+/* Easy 3-step designer */
+.easy-controls {
+    gap: 0;
+}
+
+.easy-controls > h2 {
+    margin-bottom: 1rem;
+}
+
+.easy-step {
+    margin-bottom: 1.25rem;
+    padding: 1rem;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.easy-step-head {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.85rem;
+}
+
+.easy-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.easy-step-head h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.easy-controls .control-group {
+    margin-bottom: 1rem;
+    gap: 0.45rem;
+}
+
+.easy-controls .control-group label,
+.more-options label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #e4e4e7;
+}
+
+.easy-input.glass-input,
+.easy-controls .glass-input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: var(--text-primary);
+    padding: 0.75rem 0.85rem;
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+}
+
+.easy-controls .glass-input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+.easy-help {
+    color: #c4c4cc;
+    font-size: 0.9rem;
+    margin: 0 0 0.75rem;
+    line-height: 1.45;
+}
+
+.easy-btn-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.easy-btn-row .glass-input {
+    flex: 1;
+    margin: 0;
+}
+
+.easy-btn-row .secondary-btn,
+.easy-btn-row .primary-btn {
+    flex-shrink: 0;
+}
+
+.easy-inline-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.more-options {
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius-md);
+    padding: 0.75rem 1rem;
+    color: var(--text-secondary);
+}
+
+.more-options > summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--text-primary);
+    list-style: none;
+}
+
+.more-options > summary::-webkit-details-marker {
+    display: none;
+}
+
+.more-options > summary::after {
+    content: " +";
+    color: var(--accent-primary);
+}
+
+.more-options[open] > summary::after {
+    content: " −";
+}
+
+.more-block {
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+.more-block h4 {
+    margin: 0 0 0.65rem;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.presets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 180px;
+    overflow-y: auto;
+    margin-top: 0.65rem;
+}
+
+.easy-controls .controls-sticky-actions {
+    margin-top: 0.5rem;
+}
+
+.easy-controls .controls-sticky-actions .primary-btn {
+    font-size: 1rem;
+    padding: 0.85rem 1rem;
 }
 
 /* =========================================
