@@ -1,0 +1,207 @@
+/* Extra tool pages shared layout */
+.tool-hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 0.5rem;
+    text-align: center;
+}
+
+.tool-hero h1 {
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    margin-bottom: 0.5rem;
+}
+
+.tool-hero p {
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+    line-height: 1.6;
+    margin: 0 auto 0.75rem;
+    max-width: 640px;
+}
+
+.tool-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    background: rgba(99, 102, 241, 0.12);
+    color: var(--accent-primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 0.85rem;
+}
+
+.tool-layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 2rem;
+    display: grid;
+    grid-template-columns: minmax(260px, 340px) 1fr;
+    gap: 1.25rem;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .tool-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tool-panel .control-group {
+    margin-bottom: 1rem;
+}
+
+.tool-panel label {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: #e4e4e7;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.tool-drop {
+    border: 1.5px dashed var(--glass-border);
+    border-radius: var(--border-radius-md);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.03);
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.tool-drop:hover,
+.tool-drop.dragover {
+    border-color: rgba(99, 102, 241, 0.55);
+    background: rgba(99, 102, 241, 0.08);
+}
+
+.tool-drop i {
+    font-size: 1.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.tool-drop p {
+    color: var(--text-secondary);
+    margin: 0.2rem 0;
+    font-size: 0.9rem;
+}
+
+.tool-preview-wrap {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    min-height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    padding: 1rem;
+}
+
+.tool-preview-wrap canvas,
+.tool-preview-wrap img {
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.tool-actions {
+    display: grid;
+    gap: 0.55rem;
+    margin-top: 1rem;
+}
+
+.tool-actions .primary-btn,
+.tool-actions .secondary-btn {
+    width: 100%;
+    margin: 0;
+}
+
+.tool-page-nav {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.tool-page-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+
+.tool-page-nav a:hover,
+.tool-page-nav a.active {
+    color: var(--accent-primary);
+    border-color: var(--glass-border);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 3rem;
+}
+
+.tool-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    padding: 1.35rem;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.tool-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(99, 102, 241, 0.45);
+}
+
+.tool-card i {
+    font-size: 1.6rem;
+    color: var(--accent-primary);
+    margin-bottom: 0.65rem;
+    display: block;
+}
+
+.tool-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.35rem;
+    color: var(--text-primary);
+}
+
+.tool-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.sig-pad-box {
+    position: relative;
+    background: #fff;
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+}
+
+.sig-pad-box canvas {
+    display: block;
+    width: 100%;
+    height: 140px;
+    cursor: crosshair;
+    touch-action: none;
+}

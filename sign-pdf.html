@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign PDF Online Free – Private Signature Tool | OnlineStampDoc</title>
+    <meta name="description" content="Sign a PDF online for free. Draw your signature and place it on any page. 100% private — files never leave your browser.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://onlinestampdoc.com/sign-pdf.html">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="styles.css?v=20260809c">
+    <link rel="stylesheet" href="tools.css?v=1">
+</head>
+<body>
+    <div class="app-background"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
+    <header class="app-header">
+        <a href="index.html" class="logo"><i class="fa-solid fa-stamp"></i><span>Online Stamp Doc</span></a>
+        <nav class="tool-page-nav" aria-label="Tools">
+            <a href="tools.html">All Tools</a>
+            <a href="watermark-pdf.html">Watermark</a>
+            <a href="sign-pdf.html" class="active">Sign PDF</a>
+            <a href="date-stamp.html">Date Stamp</a>
+            <a href="index.html">Stamp Maker</a>
+        </nav>
+    </header>
+
+    <section class="tool-hero">
+        <div class="tool-badge"><i class="fa-solid fa-shield-halved"></i> 100% Private — No Upload</div>
+        <h1>Sign PDF Online Free</h1>
+        <p>Draw your signature, place it on the document, then download. Everything runs locally on your device.</p>
+    </section>
+
+    <main class="tool-layout">
+        <aside class="glass-panel tool-panel">
+            <div class="tool-drop" id="drop-zone">
+                <i class="fa-solid fa-file-signature"></i>
+                <p><strong>Drop PDF here</strong> or click to browse</p>
+                <p class="file-limits">PDF only · Max 10MB</p>
+                <input type="file" id="file-input" accept="application/pdf" hidden>
+            </div>
+
+            <div class="control-group" style="margin-top:1rem;">
+                <label>Draw signature</label>
+                <div class="sig-pad-box">
+                    <canvas id="sig-pad" width="320" height="140"></canvas>
+                </div>
+                <div class="tool-actions" style="grid-template-columns:1fr 1fr; margin-top:0.5rem;">
+                    <button type="button" class="secondary-btn" id="clear-sig">Clear</button>
+                    <button type="button" class="primary-btn" id="use-sig">Use Signature</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="sig-size">Signature size: <span id="sig-size-val">160</span>px</label>
+                <input type="range" id="sig-size" class="glass-slider" min="80" max="280" step="5" value="160">
+            </div>
+
+            <div class="control-group" id="page-controls" style="display:none;">
+                <label>Page</label>
+                <div style="display:flex;gap:0.5rem;align-items:center;">
+                    <button type="button" class="secondary-btn" id="prev-page" style="width:auto;padding:0.4rem 0.7rem;">Prev</button>
+                    <span id="page-label" style="color:var(--text-secondary);">1 / 1</span>
+                    <button type="button" class="secondary-btn" id="next-page" style="width:auto;padding:0.4rem 0.7rem;">Next</button>
+                </div>
+            </div>
+
+            <p class="easy-help" style="margin-top:0.5rem;">Tip: click the preview to place the signature.</p>
+
+            <div class="tool-actions">
+                <button type="button" class="primary-btn" id="export-btn" disabled>
+                    <i class="fa-solid fa-download"></i> Download Signed PDF
+                </button>
+                <button type="button" class="secondary-btn" id="clear-btn" disabled>Clear file</button>
+            </div>
+        </aside>
+
+        <section class="glass-panel">
+            <h2 style="margin-bottom:1rem;">Preview — click to place signature</h2>
+            <div class="tool-preview-wrap" id="preview-wrap" style="position:relative; cursor:crosshair;">
+                <p style="color:var(--text-secondary);">Upload a PDF, draw your signature, then click where it should go.</p>
+            </div>
+        </section>
+    </main>
+
+    <div class="loading-overlay hidden" id="loading-overlay">
+        <div class="spinner"></div>
+        <p id="loading-text">Processing...</p>
+    </div>
+
+    <script src="tools-common.js"></script>
+    <script src="sign-pdf.js" defer></script>
+</body>
+</html>

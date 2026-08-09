@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Date Stamp Maker Online – Received / Dated Seal | OnlineStampDoc</title>
+    <meta name="description" content="Create a free date stamp online for RECEIVED, PAID, or custom labels. Download PNG instantly. Private — nothing uploads to a server.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://onlinestampdoc.com/date-stamp.html">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="styles.css?v=20260809c">
+    <link rel="stylesheet" href="tools.css?v=1">
+</head>
+<body>
+    <div class="app-background"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
+    <header class="app-header">
+        <a href="index.html" class="logo"><i class="fa-solid fa-stamp"></i><span>Online Stamp Doc</span></a>
+        <nav class="tool-page-nav" aria-label="Tools">
+            <a href="tools.html">All Tools</a>
+            <a href="watermark-pdf.html">Watermark</a>
+            <a href="sign-pdf.html">Sign PDF</a>
+            <a href="date-stamp.html" class="active">Date Stamp</a>
+            <a href="index.html">Stamp Maker</a>
+        </nav>
+    </header>
+
+    <section class="tool-hero">
+        <div class="tool-badge"><i class="fa-solid fa-calendar-day"></i> Instant Date Stamp</div>
+        <h1>Free Date Stamp Maker</h1>
+        <p>Make a RECEIVED / PAID date seal in seconds. Download as PNG, or open the full stamp maker to apply it to a PDF.</p>
+    </section>
+
+    <main class="tool-layout">
+        <aside class="glass-panel tool-panel">
+            <div class="control-group">
+                <label>Quick label</label>
+                <div class="quick-shapes" style="margin-bottom:0;">
+                    <button type="button" class="quick-shape-btn active" data-label="RECEIVED">RECEIVED</button>
+                    <button type="button" class="quick-shape-btn" data-label="PAID">PAID</button>
+                    <button type="button" class="quick-shape-btn" data-label="APPROVED">APPROVED</button>
+                    <button type="button" class="quick-shape-btn" data-label="FILED">FILED</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="label-text">Center text</label>
+                <input type="text" id="label-text" class="glass-input" value="RECEIVED" maxlength="16">
+            </div>
+            <div class="control-group">
+                <label for="date-text">Date text</label>
+                <input type="text" id="date-text" class="glass-input" value="">
+            </div>
+            <div class="control-group">
+                <label for="ring-text">Outer ring text</label>
+                <input type="text" id="ring-text" class="glass-input" value="OFFICIAL • DATE STAMP •">
+            </div>
+            <div class="control-group">
+                <label for="stamp-color">Ink color</label>
+                <input type="color" id="stamp-color" value="#E63946">
+            </div>
+
+            <div class="tool-actions">
+                <button type="button" class="primary-btn" id="download-btn">
+                    <i class="fa-solid fa-download"></i> Download PNG
+                </button>
+                <a href="index.html#tool" class="secondary-btn" style="text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:0.4rem;">
+                    <i class="fa-solid fa-stamp"></i> Apply to PDF in Stamp Maker
+                </a>
+            </div>
+        </aside>
+
+        <section class="glass-panel">
+            <h2 style="margin-bottom:1rem;">Live Preview</h2>
+            <div class="tool-preview-wrap">
+                <canvas id="stamp-canvas" width="400" height="400"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <script src="tools-common.js"></script>
+    <script src="date-stamp.js" defer></script>
+</body>
+</html>

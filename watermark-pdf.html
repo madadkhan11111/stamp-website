@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free PDF Watermark Online – Private, No Upload | OnlineStampDoc</title>
+    <meta name="description" content="Add a text watermark to your PDF online for free. Runs in your browser — files never leave your device. Instant download.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://onlinestampdoc.com/watermark-pdf.html">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="styles.css?v=20260809c">
+    <link rel="stylesheet" href="tools.css?v=1">
+</head>
+<body>
+    <div class="app-background"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
+    <header class="app-header">
+        <a href="index.html" class="logo"><i class="fa-solid fa-stamp"></i><span>Online Stamp Doc</span></a>
+        <nav class="tool-page-nav" aria-label="Tools">
+            <a href="tools.html">All Tools</a>
+            <a href="watermark-pdf.html" class="active">Watermark</a>
+            <a href="sign-pdf.html">Sign PDF</a>
+            <a href="date-stamp.html">Date Stamp</a>
+            <a href="index.html">Stamp Maker</a>
+        </nav>
+    </header>
+
+    <section class="tool-hero">
+        <div class="tool-badge"><i class="fa-solid fa-shield-halved"></i> 100% Private — No Upload</div>
+        <h1>Free PDF Watermark Tool</h1>
+        <p>Add CONFIDENTIAL, DRAFT, or custom text across every page. Processing stays in your browser.</p>
+    </section>
+
+    <main class="tool-layout">
+        <aside class="glass-panel tool-panel">
+            <div class="tool-drop" id="drop-zone">
+                <i class="fa-solid fa-file-pdf"></i>
+                <p><strong>Drop PDF here</strong> or click to browse</p>
+                <p class="file-limits">PDF only · Max 10MB</p>
+                <input type="file" id="file-input" accept="application/pdf" hidden>
+            </div>
+
+            <div class="control-group" style="margin-top:1rem;">
+                <label for="wm-text">Watermark text</label>
+                <input type="text" id="wm-text" class="glass-input" value="CONFIDENTIAL">
+            </div>
+            <div class="control-group">
+                <label for="wm-color">Color</label>
+                <input type="color" id="wm-color" value="#E63946">
+            </div>
+            <div class="control-group">
+                <label for="wm-opacity">Opacity: <span id="wm-opacity-val">25%</span></label>
+                <input type="range" id="wm-opacity" class="glass-slider" min="0.08" max="0.6" step="0.02" value="0.25">
+            </div>
+            <div class="control-group">
+                <label for="wm-size">Size: <span id="wm-size-val">48</span></label>
+                <input type="range" id="wm-size" class="glass-slider" min="24" max="96" step="2" value="48">
+            </div>
+            <div class="control-group">
+                <label for="wm-angle">Angle: <span id="wm-angle-val">-35°</span></label>
+                <input type="range" id="wm-angle" class="glass-slider" min="-60" max="60" step="1" value="-35">
+            </div>
+
+            <div class="tool-actions">
+                <button type="button" class="primary-btn" id="export-btn" disabled>
+                    <i class="fa-solid fa-download"></i> Download Watermarked PDF
+                </button>
+                <button type="button" class="secondary-btn" id="clear-btn" disabled>Clear file</button>
+            </div>
+        </aside>
+
+        <section class="glass-panel">
+            <h2 style="margin-bottom:1rem;">Preview</h2>
+            <div class="tool-preview-wrap" id="preview-wrap">
+                <p style="color:var(--text-secondary);">Upload a PDF to preview page 1 with watermark.</p>
+            </div>
+        </section>
+    </main>
+
+    <div class="loading-overlay hidden" id="loading-overlay">
+        <div class="spinner"></div>
+        <p id="loading-text">Processing...</p>
+    </div>
+
+    <script src="tools-common.js"></script>
+    <script src="watermark-pdf.js" defer></script>
+</body>
+</html>
