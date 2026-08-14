@@ -7,6 +7,11 @@
     <meta name="description" content="Need to stamp a document online? Design your custom stamp in seconds and apply it to any PDF or image — free, instant, and completely private. No file uploads ever.">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://onlinestampdoc.com/">
+    <script>
+        if (location.hostname === 'onlinestampdoc.com' && (location.pathname === '/index.html' || location.pathname === '/index')) {
+            location.replace('/' + location.search + location.hash);
+        }
+    </script>
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Online Stamp Doc">
@@ -96,7 +101,7 @@
     </div>
 
     <header class="app-header">
-        <a href="index.html" class="logo" aria-label="Online Stamp Doc home">
+        <a href="/" class="logo" aria-label="Online Stamp Doc home">
             <i class="fa-solid fa-stamp"></i>
             <span>Online Stamp Doc</span>
         </a>
@@ -536,6 +541,7 @@
                 <a class="home-tool-card" href="image-to-pdf.html"><i class="fa-solid fa-images"></i><span>Image to PDF</span></a>
                 <a class="home-tool-card" href="rotate-pdf.html"><i class="fa-solid fa-rotate"></i><span>Rotate PDF</span></a>
                 <a class="home-tool-card" href="page-numbers-pdf.html"><i class="fa-solid fa-list-ol"></i><span>Page Numbers</span></a>
+                <a class="home-tool-card" href="split-pdf.html"><i class="fa-solid fa-scissors"></i><span>Split PDF</span></a>
             </div>
         </section>
 
@@ -672,7 +678,7 @@
                 <div class="footer-nav-col">
                     <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Quick Links</h4>
                     <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem;">
-                        <li><a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Home</a></li>
+                        <li><a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Home</a></li>
                         <li><a href="tools.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">All Tools</a></li>
                         <li><a href="watermark-pdf.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">PDF Watermark</a></li>
                         <li><a href="sign-pdf.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Sign PDF</a></li>
@@ -682,6 +688,7 @@
                         <li><a href="image-to-pdf.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Image to PDF</a></li>
                         <li><a href="rotate-pdf.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Rotate PDF</a></li>
                         <li><a href="page-numbers-pdf.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Page Numbers</a></li>
+                        <li><a href="split-pdf.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Split PDF</a></li>
                         <li><a href="about.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">About Us</a></li>
                         <li><a href="contact.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-primary)'" onmouseout="this.style.color='var(--text-secondary)'">Contact Us</a></li>
                     </ul>

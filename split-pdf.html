@@ -3,58 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Page Numbers to PDF Online Free | OnlineStampDoc</title>
-    <meta name="description" content="Add page numbers to a PDF online free. Private browser tool — no file uploads.">
-    <link rel="canonical" href="https://onlinestampdoc.com/page-numbers-pdf.html">
+    <title>Split PDF Online Free – Extract Pages Privately | OnlineStampDoc</title>
+    <meta name="description" content="Split a PDF online free. Extract page ranges into a new PDF in your browser — no file uploads.">
+    <link rel="canonical" href="https://onlinestampdoc.com/split-pdf.html">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="styles.css?v=20260809c">
+    <link rel="stylesheet" href="styles.css?v=20260809d">
     <link rel="stylesheet" href="tools.css?v=2">
 </head>
 <body>
     <div class="app-background"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
     <header class="app-header">
         <a href="/" class="logo"><i class="fa-solid fa-stamp"></i><span>Online Stamp Doc</span></a>
-        <nav class="tool-page-nav"><a href="tools.html">All Tools</a><a href="page-numbers-pdf.html" class="active">Page Numbers</a><a href="/">Stamp Maker</a></nav>
+        <nav class="tool-page-nav"><a href="tools.html">All Tools</a><a href="split-pdf.html" class="active">Split PDF</a><a href="/">Stamp Maker</a></nav>
     </header>
     <section class="tool-hero">
         <div class="tool-badge"><i class="fa-solid fa-shield-halved"></i> Private — No Upload</div>
-        <h1>Add Page Numbers to PDF</h1>
-        <p>Stamp page numbers on every page, then download the updated file.</p>
+        <h1>Split PDF</h1>
+        <p>Extract a page range into a new PDF file. Everything stays in your browser.</p>
     </section>
     <main class="tool-layout">
         <aside class="glass-panel tool-panel">
             <div class="tool-drop" id="drop-zone">
-                <i class="fa-solid fa-list-ol"></i>
+                <i class="fa-solid fa-scissors"></i>
                 <p><strong>Drop PDF here</strong> or browse</p>
                 <p class="file-limits">PDF · Max 10MB</p>
                 <input type="file" id="file-input" accept="application/pdf" hidden>
             </div>
             <div class="control-group" style="margin-top:1rem;">
-                <label for="position">Position</label>
-                <select id="position" class="glass-input">
-                    <option value="bottom-center">Bottom center</option>
-                    <option value="bottom-right">Bottom right</option>
-                    <option value="bottom-left">Bottom left</option>
-                    <option value="top-center">Top center</option>
-                    <option value="top-right">Top right</option>
-                    <option value="top-left">Top left</option>
-                </select>
+                <label for="from-page">From page</label>
+                <input type="number" id="from-page" class="glass-input" min="1" value="1" disabled>
             </div>
             <div class="control-group">
-                <label for="start">Start at</label>
-                <input type="number" id="start" class="glass-input" min="1" value="1">
-            </div>
-            <div class="control-group">
-                <label for="size">Font size</label>
-                <input type="number" id="size" class="glass-input" min="8" max="36" value="12">
-            </div>
-            <div class="tool-actions">
-                <button type="button" class="primary-btn" id="export-btn" disabled><i class="fa-solid fa-download"></i> Download Numbered PDF</button>
-                <button type="button" class="secondary-btn" id="clear-btn" disabled>Clear</button>
+                <label for="to-page">To page</label>
+                <input type="number" id="to-page" class="glass-input" min="1" value="1" disabled>
             </div>
             <p id="status" class="easy-help" style="margin-top:0.75rem;"></p>
+            <div class="tool-actions">
+                <button type="button" class="primary-btn" id="export-btn" disabled><i class="fa-solid fa-download"></i> Download Split PDF</button>
+                <button type="button" class="secondary-btn" id="clear-btn" disabled>Clear</button>
+            </div>
         </aside>
         <section class="glass-panel">
             <h2 style="margin-bottom:1rem;">Preview</h2>
@@ -63,6 +52,6 @@
     </main>
     <div class="loading-overlay hidden" id="loading-overlay"><div class="spinner"></div><p id="loading-text">Processing...</p></div>
     <script src="tools-common.js"></script>
-    <script src="page-numbers-pdf.js" defer></script>
+    <script src="split-pdf.js" defer></script>
 </body>
 </html>
