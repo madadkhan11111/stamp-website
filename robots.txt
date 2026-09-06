@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-# Do not index draft/backup pages if ever exposed
+# Draft / backup pages must not be indexed
 Disallow: /*madadkhan*
 
 Sitemap: https://onlinestampdoc.com/sitemap.xml

@@ -1,0 +1,23 @@
+# Canonical URL redirects (honored by Cloudflare Pages / Netlify-style hosts).
+# GitHub Pages also enforces https + apex via custom domain settings.
+# Client-side canonical guard in each HTML page covers GitHub Pages path duplicates.
+
+/index.html              /                         301
+/index                   /                         301
+
+/about                   /about.html               301
+/contact                 /contact.html             301
+/privacy                 /privacy.html             301
+/terms                   /terms.html               301
+/tools                   /tools.html               301
+/watermark-pdf           /watermark-pdf.html       301
+/sign-pdf                /sign-pdf.html            301
+/date-stamp              /date-stamp.html          301
+/merge-pdf               /merge-pdf.html           301
+/pdf-to-jpg              /pdf-to-jpg.html          301
+/image-to-pdf            /image-to-pdf.html        301
+/rotate-pdf              /rotate-pdf.html          301
+/page-numbers-pdf        /page-numbers-pdf.html    301
+/split-pdf               /split-pdf.html           301
+/guide-business-stamps   /guide-business-stamps.html 301
+/guide-security          /guide-security.html      301
