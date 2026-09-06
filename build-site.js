@@ -43,7 +43,8 @@ const STATIC_FILES = [
     'sitemap.xml',
     'ads.txt',
     'CNAME',
-    '_headers'
+    '_headers',
+    '_redirects'
 ];
 
 function ensureExists(file) {
@@ -76,5 +77,7 @@ execSync(`npx --yes clean-css-cli -o ${path.join(OUT, 'styles.css')} styles.css`
 const totalBytes = fs
     .readdirSync(OUT)
     .reduce((sum, name) => sum + fs.statSync(path.join(OUT, name)).size, 0);
+
+fs.writeFileSync(path.join(OUT, '.nojekyll'), '');
 
 console.log(`Build complete: ${OUT}/ (${(totalBytes / 1024).toFixed(1)} KB)`);

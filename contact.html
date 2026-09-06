@@ -2,6 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script>
+        /* Canonical URL guard: keep Google on one indexable URL per page */
+        (function () {
+            var host = location.hostname;
+            var path = location.pathname;
+            if (host === 'www.onlinestampdoc.com') {
+                location.replace('https://onlinestampdoc.com' + path + location.search + location.hash);
+                return;
+            }
+            if (host !== 'onlinestampdoc.com') return;
+            if (path === '/index.html' || path === '/index') {
+                location.replace('/' + location.search + location.hash);
+                return;
+            }
+            // GitHub Pages serves /page and /page.html as duplicates — force .html canonical
+            if (path.length > 1 && !path.endsWith('/') && path.indexOf('.') === -1) {
+                location.replace(path + '.html' + location.search + location.hash);
+            }
+        })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Online Stamp Doc</title>
     <!-- Google Fonts for Multi-Language Support -->
