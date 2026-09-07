@@ -272,12 +272,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Slight delay so it slides up after load
             setTimeout(() => {
                 banner.classList.add('show');
+                document.body.classList.add('cookie-visible');
             }, 1000);
         }
 
         btn.addEventListener('click', () => {
             localStorage.setItem('stampify_cookie_consent', 'true');
             banner.classList.remove('show');
+            document.body.classList.remove('cookie-visible');
         });
     }
 
@@ -988,8 +990,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function setContainerSize(w, h) {
         // Find best fit zoom scale initially
         const wrapper = UI.doc.viewerWrapper;
-        const wrapperW = wrapper.clientWidth - 40; // padding
-        const wrapperH = wrapper.clientHeight - 40;
+        const padX = 64; // matches .document-viewer-wrapper padding (2rem * 2)
+        const padY = 64;
+        const wrapperW = Math.max(120, wrapper.clientWidth - padX);
+        const wrapperH = Math.max(120, wrapper.clientHeight - padY);
         
         // Calculate fit scale
         const scaleW = wrapperW / w;
