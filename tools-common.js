@@ -61,6 +61,52 @@ function toolDownloadBlob(blob, filename) {
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
 
+function toolIsPdf(file) {
+    return !!(file && (file.type === 'application/pdf' || /\.pdf$/i.test(file.name)));
+}
+
+function toolFormatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+    return (n / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+const TOOL_RELATED_LINKS = [
+    { href: '/', label: 'Stamp Maker' },
+    { href: 'watermark-pdf.html', label: 'Watermark' },
+    { href: 'sign-pdf.html', label: 'Sign PDF' },
+    { href: 'date-stamp.html', label: 'Date Stamp' },
+    { href: 'merge-pdf.html', label: 'Merge PDF' },
+    { href: 'split-pdf.html', label: 'Split PDF' },
+    { href: 'compress-pdf.html', label: 'Compress PDF' },
+    { href: 'delete-pdf-pages.html', label: 'Delete Pages' },
+    { href: 'pdf-to-jpg.html', label: 'PDF to JPG' },
+    { href: 'image-to-pdf.html', label: 'Image to PDF' },
+    { href: 'rotate-pdf.html', label: 'Rotate PDF' },
+    { href: 'page-numbers-pdf.html', label: 'Page Numbers' }
+];
+
+function toolCurrentPage() {
+    const name = (location.pathname.split('/').pop() || '').toLowerCase();
+    if (!name || name === 'index.html') return '/';
+    return name;
+}
+
+function toolInjectRelated() {
+    if (document.querySelector('.related-tools')) return;
+    const current = toolCurrentPage();
+    if (current === 'tools.html') return;
+    const after = document.querySelector('.tool-layout');
+    if (!after) return;
+    const others = TOOL_RELATED_LINKS.filter((t) => t.href !== current);
+    const section = document.createElement('section');
+    section.className = 'related-tools';
+    section.innerHTML = '<h2>More private tools</h2><div class="related-tools-row">' +
+        others.map((t) => `<a href="${t.href}">${t.label}</a>`).join('') +
+        '</div>';
+    after.insertAdjacentElement('afterend', section);
+}
+
 function toolInjectAdsLater() {
     const inject = () => {
         if (document.getElementById('adsbygoogle-js')) return;
@@ -75,4 +121,7 @@ function toolInjectAdsLater() {
     else setTimeout(inject, 2500);
 }
 
-document.addEventListener('DOMContentLoaded', toolInjectAdsLater);
+document.addEventListener('DOMContentLoaded', () => {
+    toolInjectRelated();
+    toolInjectAdsLater();
+});

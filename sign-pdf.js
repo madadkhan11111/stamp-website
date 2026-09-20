@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     exportBtn.addEventListener('click', exportPdf);
 
     async function handleFile(file) {
-        if (!file || file.type !== 'application/pdf') {
+        if (!toolIsPdf(file)) {
             alert('Please choose a PDF file.');
             return;
         }

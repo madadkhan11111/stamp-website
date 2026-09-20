@@ -41,14 +41,47 @@ document.addEventListener('DOMContentLoaded', () => {
         files.forEach((f, i) => {
             const li = document.createElement('li');
             li.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:0.5rem;padding:0.65rem 0.85rem;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:rgba(0,0,0,0.2);';
-            li.innerHTML = `<span><strong>${i + 1}.</strong> ${f.name}</span>`;
+            const label = document.createElement('span');
+            label.innerHTML = `<strong>${i + 1}.</strong> ${f.name}`;
+            const btns = document.createElement('div');
+            btns.className = 'tool-order-btns';
+            if (i > 0) {
+                const up = document.createElement('button');
+                up.type = 'button';
+                up.className = 'secondary-btn';
+                up.textContent = 'Up';
+                up.style.padding = '0.35rem 0.65rem';
+                up.addEventListener('click', () => {
+                    const tmp = files[i - 1];
+                    files[i - 1] = files[i];
+                    files[i] = tmp;
+                    renderList();
+                });
+                btns.appendChild(up);
+            }
+            if (i < files.length - 1) {
+                const down = document.createElement('button');
+                down.type = 'button';
+                down.className = 'secondary-btn';
+                down.textContent = 'Down';
+                down.style.padding = '0.35rem 0.65rem';
+                down.addEventListener('click', () => {
+                    const tmp = files[i + 1];
+                    files[i + 1] = files[i];
+                    files[i] = tmp;
+                    renderList();
+                });
+                btns.appendChild(down);
+            }
             const rm = document.createElement('button');
             rm.type = 'button';
             rm.className = 'secondary-btn';
             rm.textContent = 'Remove';
             rm.style.padding = '0.35rem 0.65rem';
             rm.addEventListener('click', () => { files.splice(i, 1); renderList(); });
-            li.appendChild(rm);
+            btns.appendChild(rm);
+            li.appendChild(label);
+            li.appendChild(btns);
             fileList.appendChild(li);
         });
         status.textContent = `${files.length} PDF(s) ready.`;

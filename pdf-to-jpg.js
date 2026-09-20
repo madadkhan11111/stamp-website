@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     exportAllBtn.addEventListener('click', downloadAll);
 
     async function handleFile(file) {
-        if (!file || file.type !== 'application/pdf') return alert('Choose a PDF file.');
+        if (!toolIsPdf(file)) return alert('Choose a PDF file.');
         if (file.size > 10 * 1024 * 1024) return alert('Max 10MB.');
         toolShowLoading('Loading PDF...');
         try {

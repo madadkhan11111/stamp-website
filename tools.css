@@ -277,6 +277,10 @@
     .tool-actions {
         grid-template-columns: 1fr !important;
     }
+
+    .related-tools {
+        padding: 0 1rem 1.5rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -284,4 +288,43 @@
         font-size: 0.82rem;
         padding: 0.4rem 0.7rem;
     }
+}
+
+.related-tools {
+    max-width: 1100px;
+    margin: 0 auto 2.5rem;
+    padding: 0 1.5rem;
+}
+
+.related-tools h2 {
+    font-size: 1.05rem;
+    margin-bottom: 0.75rem;
+}
+
+.related-tools-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.related-tools-row a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.related-tools-row a:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99, 102, 241, 0.45);
+}
+
+.tool-order-btns {
+    display: flex;
+    gap: 0.35rem;
+    flex-shrink: 0;
 }
