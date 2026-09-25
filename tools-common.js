@@ -269,18 +269,57 @@ function toolCurrentPage() {
     return name;
 }
 
+function toolIconFor(href) {
+    const h = String(href || '').toLowerCase();
+    if (h === '/' || h.indexOf('stamp') !== -1) return 'fa-stamp';
+    if (h.indexOf('passport') !== -1) return 'fa-id-card';
+    if (h.indexOf('sign') !== -1) return 'fa-signature';
+    if (h.indexOf('merge') !== -1) return 'fa-object-group';
+    if (h.indexOf('split') !== -1) return 'fa-scissors';
+    if (h.indexOf('compress') !== -1) return 'fa-file-zipper';
+    if (h.indexOf('crop') !== -1) return 'fa-crop';
+    if (h.indexOf('rotate') !== -1) return 'fa-rotate';
+    if (h.indexOf('flip') !== -1) return 'fa-arrows-left-right';
+    if (h.indexOf('scan') !== -1) return 'fa-camera';
+    if (h.indexOf('redact') !== -1) return 'fa-square';
+    if (h.indexOf('fill') !== -1) return 'fa-pen-to-square';
+    if (h.indexOf('watermark') !== -1) return 'fa-droplet';
+    if (h.indexOf('image') !== -1 || /jpg|png|webp|heic|avif/.test(h)) return 'fa-file-image';
+    return 'fa-file-pdf';
+}
+
+function toolPickRelated(current) {
+    const tokens = String(current).replace('.html', '').split(/[-/.]+/).filter(function (t) {
+        return t && t !== 'html' && t.length > 1;
+    });
+    return TOOL_RELATED_LINKS.filter(function (t) { return t.href !== current; }).map(function (t) {
+        const hay = (t.href + ' ' + t.label).toLowerCase();
+        let score = 0;
+        tokens.forEach(function (tok) {
+            if (hay.indexOf(tok) !== -1) score += 2;
+        });
+        if (/pdf/.test(current) && /pdf/.test(hay)) score += 1;
+        if (/(jpg|png|webp|image|photo)/.test(current) && /(jpg|png|webp|image|photo)/.test(hay)) score += 1;
+        return { t: t, score: score };
+    }).sort(function (a, b) {
+        return b.score - a.score || a.t.label.localeCompare(b.t.label);
+    }).slice(0, 6).map(function (x) { return x.t; });
+}
+
 function toolInjectRelated() {
     if (document.querySelector('.related-tools')) return;
     const current = toolCurrentPage();
     if (current === 'tools.html') return;
     const after = document.querySelector('.tool-layout');
     if (!after) return;
-    const others = TOOL_RELATED_LINKS.filter((t) => t.href !== current).slice(0, 10);
+    const others = toolPickRelated(current);
     const section = document.createElement('section');
     section.className = 'related-tools';
-    section.innerHTML = '<h2>More private tools</h2><div class="related-tools-row">' +
-        others.map((t) => `<a href="${t.href}">${t.label}</a>`).join('') +
-        '<a href="tools.html">All tools</a>' +
+    section.innerHTML = '<h2>You may also like</h2><div class="related-tools-row">' +
+        others.map(function (t) {
+            return '<a href="' + t.href + '"><i class="fa-solid ' + toolIconFor(t.href) + '"></i><span>' + t.label + '</span></a>';
+        }).join('') +
+        '<a href="tools.html"><i class="fa-solid fa-toolbox"></i><span>All tools</span></a>' +
         '</div>';
     after.insertAdjacentElement('afterend', section);
 }
