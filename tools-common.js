@@ -275,11 +275,12 @@ function toolInjectRelated() {
     if (current === 'tools.html') return;
     const after = document.querySelector('.tool-layout');
     if (!after) return;
-    const others = TOOL_RELATED_LINKS.filter((t) => t.href !== current);
+    const others = TOOL_RELATED_LINKS.filter((t) => t.href !== current).slice(0, 10);
     const section = document.createElement('section');
     section.className = 'related-tools';
     section.innerHTML = '<h2>More private tools</h2><div class="related-tools-row">' +
         others.map((t) => `<a href="${t.href}">${t.label}</a>`).join('') +
+        '<a href="tools.html">All tools</a>' +
         '</div>';
     after.insertAdjacentElement('afterend', section);
 }

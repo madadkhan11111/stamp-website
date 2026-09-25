@@ -123,9 +123,11 @@
             return;
         }
         box.hidden = false;
-        box.innerHTML = items.slice(0, 8).map(function (item, i) {
-            return '<a class="tool-search-hit" href="' + item.href + '" data-i="' + i + '">' + item.label + '</a>';
-        }).join('');
+        box.innerHTML = items.slice(0, 8).map(function (item) {
+            return '<a class="tool-search-hit" href="' + item.href + '">' + item.label + '</a>';
+        }).join('') + (items.length > 8
+            ? '<a class="tool-search-hit tool-search-more" href="' + toolsUrl(query) + '">See all ' + items.length + ' tools</a>'
+            : '');
     }
 
     function bindForm(form, opts) {
@@ -140,7 +142,9 @@
         }
 
         function applyLive() {
-            filterPage(input.value);
+            if (!form.classList.contains('tool-search-header')) {
+                filterPage(input.value);
+            }
             renderDropdown(box, currentHits(), norm(input.value));
         }
 
@@ -160,7 +164,12 @@
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             const q = input.value.trim();
+            const isHeader = form.classList.contains('tool-search-header');
             if (!q) {
+                if (isHeader) {
+                    go('tools.html');
+                    return;
+                }
                 const hero = document.getElementById('tool-search-form');
                 if (hero && hero !== form) {
                     const hi = hero.querySelector('input');
@@ -176,16 +185,10 @@
                 go(hits[0].href);
                 return;
             }
-            if (document.querySelector('.tools-grid')) {
+            if (!isHeader && document.querySelector('.tools-grid')) {
                 filterPage(q);
                 if (box) box.hidden = true;
                 return;
-            }
-            if (document.querySelector('.home-tools-grid')) {
-                filterPage(q);
-                if (box) box.hidden = true;
-                const visible = document.querySelectorAll('.home-tools-grid .home-tool-card:not([hidden])');
-                if (visible.length) return;
             }
             go(toolsUrl(q));
         });
