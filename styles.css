@@ -1565,16 +1565,18 @@ input:checked+.slider:before {
 }
 
 .app-footer {
-    background: rgba(15, 23, 42, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: #fff;
     border-top: 1px solid var(--glass-border);
-    padding: 2rem 1rem;
-    margin-top: 3rem;
+    padding: 1.5rem 1.25rem 1rem;
+    margin-top: 2rem;
+}
+
+[data-theme="dark"] .app-footer {
+    background: #111827;
 }
 
 .footer-content {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
@@ -1590,39 +1592,75 @@ input:checked+.slider:before {
     text-decoration: underline;
 }
 
-/* =========================================
-   NEW GRID FOOTER
-   ========================================= */
 .footer-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 1.25rem 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--glass-border);
 }
 
 @media (max-width: 768px) {
     .footer-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.1rem;
+    }
+
+    .footer-info {
+        grid-column: 1 / -1;
     }
 }
 
 .footer-info .logo {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.45rem;
+}
+
+.footer-info p {
+    color: var(--text-secondary);
+    font-size: 0.86rem;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 280px;
 }
 
 .footer-nav-col h4 {
     font-family: var(--font-heading);
-    font-size: 1rem;
-    letter-spacing: 0;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin: 0 0 0.65rem;
 }
 
-.footer-nav-col ul li a {
-    transition: transform 0.15s ease, color 0.15s ease;
-    display: inline-block;
+.footer-nav-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
 }
 
-.footer-nav-col ul li a:hover {
-    transform: translateX(3px);
+.footer-nav-col a,
+.footer-nav-col .cookie-settings-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+}
+
+.footer-nav-col a:hover,
+.footer-nav-col .cookie-settings-link:hover {
+    color: var(--accent-primary);
+}
+
+.footer-copy {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    margin: 0;
 }
 
 /* =========================================

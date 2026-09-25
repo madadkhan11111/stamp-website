@@ -99,6 +99,16 @@
     }
 
     function injectLegalBar() {
+        if (document.querySelector('.app-footer')) {
+            var footerSettings = document.getElementById('footer-cookie-settings');
+            if (footerSettings) {
+                footerSettings.addEventListener('click', function () {
+                    try { localStorage.removeItem(KEY); } catch (e) {}
+                    showBanner();
+                });
+            }
+            return;
+        }
         if (document.querySelector('.site-legal-bar')) return;
         var bar = document.createElement('nav');
         bar.className = 'site-legal-bar';

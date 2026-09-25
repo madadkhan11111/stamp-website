@@ -33,7 +33,7 @@
     <link rel="canonical" href="https://onlinestampdoc.com/guide-security.html">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="styles.css?v=20260925d">
+    <link rel="stylesheet" href="styles.css?v=20260925e">
     <style>
         .page-content { max-width: 900px; margin: 4rem auto; padding: 3rem; background: var(--glass-bg); backdrop-filter: blur(12px); border-radius: var(--border-radius-lg); border: 1px solid var(--glass-border); line-height: 1.8; }
         .page-content h1 { margin-bottom: 1.5rem; color: var(--accent-primary); font-size: 2.5rem; }
@@ -112,35 +112,46 @@
         </div>
     </main>
 
-    <footer class="app-footer">
+        <footer class="app-footer">
         <div class="footer-content">
-            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 2rem;">
+            <div class="footer-grid">
                 <div class="footer-info">
-                    <div class="logo" style="margin-bottom: 1rem;">
+                    <a href="/" class="logo">
                         <i class="fa-solid fa-stamp"></i>
                         <span>Online Stamp Doc</span>
-                    </div>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Professional digital stamping and document management tool. 100% private and secure.</p>
+                    </a>
+                    <p>Stamp and edit PDFs in your browser. Private — files never leave your device.</p>
                 </div>
-                <div class="footer-nav-col">
-                    <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Quick Links</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Home</a></li>
-                        <li><a href="about.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">About Us</a></li>
-                        <li><a href="contact.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Contact Us</a></li>
+                <nav class="footer-nav-col" aria-label="Popular tools">
+                    <h4>Popular tools</h4>
+                    <ul>
+                        <li><a href="tools.html">All Tools</a></li>
+                        <li><a href="/">Stamp Maker</a></li>
+                        <li><a href="compress-pdf.html">Compress PDF</a></li>
+                        <li><a href="merge-pdf.html">Merge PDF</a></li>
+                        <li><a href="pdf-to-jpg.html">PDF to JPG</a></li>
+                        <li><a href="sign-pdf.html">Sign PDF</a></li>
                     </ul>
-                </div>
-                <div class="footer-nav-col">
-                    <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Knowledge Base</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="guide-business-stamps.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Business Stamp Guide</a></li>
-                        <li><a href="guide-security.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Document Security Guide</a></li>
-                        <li><a href="privacy.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Privacy Policy</a></li>
-                        <li><a href="terms.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Terms of Service</a></li>
+                </nav>
+                <nav class="footer-nav-col" aria-label="Company">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="guide-business-stamps.html">Stamp Guide</a></li>
+                        <li><a href="guide-security.html">Security Guide</a></li>
                     </ul>
-                </div>
+                </nav>
+                <nav class="footer-nav-col" aria-label="Legal">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><button type="button" class="cookie-settings-link" id="footer-cookie-settings">Cookie settings</button></li>
+                    </ul>
+                </nav>
             </div>
-            <p style="text-align: center; color: var(--text-secondary); font-size: 0.8rem;">&copy; 2026 Online Stamp Doc. All rights reserved.</p>
+            <p class="footer-copy">&copy; 2026 Online Stamp Doc</p>
         </div>
     </footer>
 </body>
