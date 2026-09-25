@@ -10,7 +10,7 @@
     --glass-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
 
     --text-primary: #1f2937;
-    --text-secondary: #6b7280;
+    --text-secondary: #4b5563;
 
     --accent-primary: #e5322d;
     --accent-primary-hover: #c81e1a;
@@ -44,7 +44,7 @@
     --glass-border: #e6eaf0;
     --glass-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
     --text-primary: #1f2937;
-    --text-secondary: #6b7280;
+    --text-secondary: #4b5563;
     --accent-primary: #e5322d;
     --accent-primary-hover: #c81e1a;
     --accent-glow: rgba(229, 50, 45, 0.28);
@@ -1707,13 +1707,23 @@ input:checked+.slider:before {
     margin-top: 0.35rem;
     padding: 0.65rem 0.75rem;
     border-radius: var(--border-radius-sm);
-    border: 1px solid rgba(99, 102, 241, 0.35);
-    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid #f3c5c3;
+    background: #fdecea;
 }
 
 .address-type-note .easy-help {
     margin: 0;
-    color: #e4e4e7;
+    color: #7f1d1d;
+    font-weight: 600;
+}
+
+[data-theme="dark"] .address-type-note {
+    border: 1px solid rgba(248, 113, 113, 0.35);
+    background: rgba(248, 113, 113, 0.12);
+}
+
+[data-theme="dark"] .address-type-note .easy-help {
+    color: #fecaca;
 }
 
 /* Solid colors so stamp-type buttons never fall back to browser white */
@@ -1842,30 +1852,40 @@ input:checked+.slider:before {
 .more-options label {
     font-size: 0.92rem;
     font-weight: 600;
-    color: #e4e4e7;
+    color: var(--text-primary);
 }
 
 .easy-input.glass-input,
 .easy-controls .glass-input {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: #fff;
+    border: 1px solid #d1d5db;
     color: var(--text-primary);
     padding: 0.75rem 0.85rem;
     font-size: 1rem;
     margin-bottom: 0.35rem;
 }
 
+[data-theme="dark"] .easy-input.glass-input,
+[data-theme="dark"] .easy-controls .glass-input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
 .easy-controls .glass-input:focus {
     outline: none;
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .easy-help {
-    color: #c4c4cc;
+    color: #374151;
     font-size: 0.9rem;
     margin: 0 0 0.75rem;
     line-height: 1.45;
+}
+
+[data-theme="dark"] .easy-help {
+    color: #d4d4d8;
 }
 
 .easy-btn-row {
