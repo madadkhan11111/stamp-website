@@ -65,6 +65,42 @@ function toolIsPdf(file) {
     return !!(file && (file.type === 'application/pdf' || /\.pdf$/i.test(file.name)));
 }
 
+function toolIsImage(file, extra) {
+    const ok = extra || 'jpeg|jpg|png|webp';
+    if (!file) return false;
+    const typeRe = new RegExp('^image/(' + ok + ')$', 'i');
+    const nameRe = new RegExp('\\.(' + ok.replace(/jpeg\|jpg/, 'jpe?g') + ')$', 'i');
+    return typeRe.test(file.type) || nameRe.test(file.name);
+}
+
+function toolBindDrop(onFiles) {
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    if (!dropZone || !fileInput) return;
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        const list = [...e.dataTransfer.files];
+        if (list.length) onFiles(list);
+    });
+    fileInput.addEventListener('change', () => {
+        const list = [...fileInput.files];
+        if (list.length) onFiles(list);
+    });
+}
+
+function toolLoadImageFile(file) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error('Could not read image.'));
+        img.src = URL.createObjectURL(file);
+    });
+}
+
 function toolFormatBytes(n) {
     if (n < 1024) return n + ' B';
     if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
@@ -87,7 +123,22 @@ const TOOL_RELATED_LINKS = [
     { href: 'pdf-to-jpg.html', label: 'PDF to JPG' },
     { href: 'image-to-pdf.html', label: 'Image to PDF' },
     { href: 'rotate-pdf.html', label: 'Rotate PDF' },
-    { href: 'page-numbers-pdf.html', label: 'Page Numbers' }
+    { href: 'page-numbers-pdf.html', label: 'Page Numbers' },
+    { href: 'pdf-to-png.html', label: 'PDF to PNG' },
+    { href: 'grayscale-pdf.html', label: 'Grayscale PDF' },
+    { href: 'reverse-pdf.html', label: 'Reverse PDF' },
+    { href: 'text-to-pdf.html', label: 'Text to PDF' },
+    { href: 'add-blank-pages.html', label: 'Blank Pages' },
+    { href: 'resize-pdf.html', label: 'Resize PDF' },
+    { href: 'pdf-to-zip.html', label: 'PDF to ZIP' },
+    { href: 'remove-pdf-metadata.html', label: 'Remove Metadata' },
+    { href: 'nup-pdf.html', label: '2-Up PDF' },
+    { href: 'flip-pdf.html', label: 'Flip PDF' },
+    { href: 'compress-image.html', label: 'Compress Image' },
+    { href: 'resize-image.html', label: 'Resize Image' },
+    { href: 'png-to-jpg.html', label: 'PNG to JPG' },
+    { href: 'jpg-to-png.html', label: 'JPG to PNG' },
+    { href: 'webp-to-pdf.html', label: 'WEBP to PDF' }
 ];
 
 function toolCurrentPage() {

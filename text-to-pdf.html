@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        (function () {
+            var host = location.hostname;
+            var path = location.pathname;
+            if (host === 'www.onlinestampdoc.com') {
+                location.replace('https://onlinestampdoc.com' + path + location.search + location.hash);
+                return;
+            }
+            if (host !== 'onlinestampdoc.com') return;
+            if (path.length > 1 && !path.endsWith('/') && path.indexOf('.') === -1) {
+                location.replace(path + '.html' + location.search + location.hash);
+            }
+        })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to PDF Online Free – Make a PDF Privately | OnlineStampDoc</title>
+    <meta name="description" content="Convert text to PDF online free. Type or paste notes and download a PDF in your browser.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://onlinestampdoc.com/text-to-pdf.html">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="styles.css?v=20260906m">
+    <link rel="stylesheet" href="tools.css?v=20260925">
+</head>
+<body>
+    <div class="app-background"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
+    <header class="app-header">
+        <a href="/" class="logo"><i class="fa-solid fa-stamp"></i><span>Online Stamp Doc</span></a>
+        <nav class="tool-page-nav"><a href="tools.html">All Tools</a><a href="text-to-pdf.html" class="active">Text to PDF</a><a href="/">Stamp Maker</a></nav>
+    </header>
+    <section class="tool-hero">
+        <div class="tool-badge"><i class="fa-solid fa-shield-halved"></i> Private — No Upload</div>
+        <h1>Text to PDF</h1>
+        <p>Paste any text and download a clean printable PDF. Nothing is uploaded.</p>
+    </section>
+    <main class="tool-layout">
+        <aside class="glass-panel tool-panel">
+            <div class="control-group"><label for="pdf-title">Title</label><input type="text" id="pdf-title" class="glass-input" placeholder="My notes"></div>
+            <div class="control-group"><label for="body-text">Text</label><textarea id="body-text" class="glass-input" rows="12" placeholder="Paste or type your text here..." style="width:100%;min-height:240px;resize:vertical;"></textarea></div>
+            <div class="control-group"><label for="page-size">Page size</label><select id="page-size" class="glass-input"><option value="a4">A4</option><option value="letter">Letter</option></select></div>
+            <p id="status" class="easy-help" style="margin-top:0.75rem;"></p>
+            <div class="tool-actions">
+                <button type="button" class="primary-btn" id="export-btn"><i class="fa-solid fa-download"></i> Download PDF</button>
+            </div>
+        </aside>
+    </main>
+    <div class="loading-overlay hidden" id="loading-overlay"><div class="spinner"></div><p id="loading-text">Processing...</p></div>
+    <script src="tools-common.js"></script>
+    <script src="text-to-pdf.js" defer></script>
+</body>
+</html>

@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://onlinestampdoc.com/</loc>
-        <lastmod>2026-09-23</lastmod>
+        <lastmod>2026-09-25</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>https://onlinestampdoc.com/tools.html</loc>
-        <lastmod>2026-09-23</lastmod>
+        <lastmod>2026-09-25</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.95</priority>
     </url>
@@ -99,6 +99,96 @@
     <url>
         <loc>https://onlinestampdoc.com/header-footer-pdf.html</loc>
         <lastmod>2026-09-23</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/pdf-to-png.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/grayscale-pdf.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/reverse-pdf.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/text-to-pdf.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/add-blank-pages.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/resize-pdf.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/pdf-to-zip.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/remove-pdf-metadata.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/nup-pdf.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/flip-pdf.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/compress-image.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/resize-image.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/png-to-jpg.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/jpg-to-png.html</loc>
+        <lastmod>2026-09-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://onlinestampdoc.com/webp-to-pdf.html</loc>
+        <lastmod>2026-09-25</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.95</priority>
     </url>
