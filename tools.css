@@ -121,6 +121,25 @@
     margin-top: 1rem;
 }
 
+.nudge-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.45rem;
+    margin-top: 0.85rem;
+}
+
+.nudge-btn {
+    min-height: 2.5rem;
+    width: 100%;
+    margin: 0;
+}
+
+.secondary-btn.is-active {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    background: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+}
+
 .tool-actions .primary-btn,
 .tool-actions .secondary-btn {
     width: 100%;

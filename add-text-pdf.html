@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="styles.css?v=20260925i">
-    <link rel="stylesheet" href="tools.css?v=20260925f">
+    <link rel="stylesheet" href="tools.css?v=20260925g">
     <script src="ads-consent.js"></script>
 </head>
 <body>
@@ -38,7 +38,7 @@
     <section class="tool-hero">
         <div class="tool-badge"><i class="fa-solid fa-shield-halved"></i> Private — No Upload</div>
         <h1>Add Text to PDF</h1>
-        <p>Type a line, click the page, download. Use it for names, dates, or a short note.</p>
+        <p>Type a line, click once to place it, then drag or use the arrows to move it. Extra clicks will not keep adding copies.</p>
     </section>
     <main class="tool-layout">
         <aside class="glass-panel tool-panel">
@@ -60,7 +60,17 @@
                 <label for="add-color">Color</label>
                 <input type="color" id="add-color" value="#111111" aria-label="Text color">
             </div>
-            <p class="easy-help">Click the preview to drop each line. Use Prev / Next for other pages.</p>
+            <p class="easy-help">Click once to place. Then drag the box, or move it with the arrows. Click Add another only when you want a new line.</p>
+            <div class="nudge-row" role="group" aria-label="Move selected text">
+                <button type="button" class="secondary-btn nudge-btn" data-nudge="-8,0" aria-label="Move left"><i class="fa-solid fa-arrow-left"></i></button>
+                <button type="button" class="secondary-btn nudge-btn" data-nudge="0,-8" aria-label="Move up"><i class="fa-solid fa-arrow-up"></i></button>
+                <button type="button" class="secondary-btn nudge-btn" data-nudge="0,8" aria-label="Move down"><i class="fa-solid fa-arrow-down"></i></button>
+                <button type="button" class="secondary-btn nudge-btn" data-nudge="8,0" aria-label="Move right"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="tool-actions">
+                <button type="button" class="secondary-btn" id="add-another-btn" disabled>Add another</button>
+                <button type="button" class="secondary-btn" id="delete-btn" disabled>Delete selected</button>
+            </div>
             <div class="tool-actions">
                 <button type="button" class="secondary-btn" id="prev-page" disabled>Prev</button>
                 <button type="button" class="secondary-btn" id="next-page" disabled>Next</button>
@@ -74,7 +84,7 @@
         </aside>
         <section class="glass-panel">
             <h2 style="margin-bottom:1rem;">Preview</h2>
-            <div class="tool-preview-wrap" id="preview-wrap"><p style="color:var(--text-secondary);">Upload a PDF, then click where the text should go.</p></div>
+            <div class="tool-preview-wrap" id="preview-wrap"><p style="color:var(--text-secondary);">Upload a PDF, then click once where the text should go. You can drag it after that.</p></div>
         </section>
     </main>
     <div class="loading-overlay hidden" id="loading-overlay"><div class="spinner"></div><p id="loading-text">Processing...</p></div>
