@@ -69,6 +69,7 @@ const STATIC_FILES = [
     'passport-photo.html',
     'tools.css',
     'tools-common.js',
+    'tools-search.js',
     'watermark-pdf.js',
     'sign-pdf.js',
     'date-stamp.js',

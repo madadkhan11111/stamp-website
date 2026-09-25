@@ -33,8 +33,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="styles.css?v=20260925g">
-    <link rel="stylesheet" href="tools.css?v=20260925d">
+    <link rel="stylesheet" href="styles.css?v=20260925h">
+    <link rel="stylesheet" href="tools.css?v=20260925e">
     <script src="ads-consent.js"></script>
 </head>
 <body>
@@ -51,6 +51,13 @@
         <div class="tool-badge"><i class="fa-solid fa-shield-halved"></i> Private — files never leave your browser</div>
         <h1>Every tool you need to work with PDFs</h1>
         <p>Pick a tool, drop a file, download. No account, no upload, no clutter.</p>
+        <form class="tool-search tool-search-hero" id="tool-search-form" role="search" action="tools.html" method="get">
+            <label class="tool-search-sr" for="tool-search-q">Search tools</label>
+            <input type="search" id="tool-search-q" name="q" placeholder="Search JPG to PDF, passport photo, merge..." autocomplete="off">
+            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></button>
+            <div class="tool-search-results" hidden></div>
+        </form>
+        <p id="tool-search-count" class="tool-search-count" hidden></p>
     </section>
 
     <nav class="tool-cats" aria-label="Tool categories">
@@ -314,23 +321,9 @@
             <p>Black out private text before you share a PDF.</p>
         </a>
     </div>
+    <p id="tool-search-empty" class="tool-search-empty" hidden>No tools match. Try JPG, passport, merge, or compress.</p>
 
     <script src="tools-common.js"></script>
-    <script>
-        (function () {
-            var cats = document.querySelectorAll('.tool-cat');
-            var cards = document.querySelectorAll('.tool-card');
-            cats.forEach(function (btn) {
-                btn.addEventListener('click', function () {
-                    cats.forEach(function (b) { b.classList.remove('active'); });
-                    btn.classList.add('active');
-                    var f = btn.getAttribute('data-filter');
-                    cards.forEach(function (card) {
-                        card.hidden = f !== 'all' && card.getAttribute('data-cat') !== f;
-                    });
-                });
-            });
-        })();
-    </script>
+    <script src="tools-search.js"></script>
 </body>
 </html>

@@ -175,6 +175,10 @@ h4 {
     z-index: 100;
 }
 
+.app-header:has(.tool-search-header) {
+    flex-wrap: wrap;
+}
+
 [data-theme="dark"] .app-header {
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
@@ -383,10 +387,184 @@ h4 {
     text-decoration: underline;
 }
 
-.home-tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 0.75rem;
+.home-tool-card[hidden] {
+    display: none;
+}
+
+.tool-search-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.tool-search {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    max-width: 640px;
+    margin: 0.85rem auto 0;
+    background: #fff;
+    border: 1px solid #dbe1ea;
+    border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.tool-search input[type="search"] {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--text-primary);
+    padding: 0.85rem 1.15rem;
+    outline: none;
+}
+
+.tool-search input[type="search"]::placeholder {
+    color: #6b7280;
+}
+
+.tool-search button {
+    flex-shrink: 0;
+    border: 0;
+    background: var(--accent-primary);
+    color: #fff;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0 1.25rem;
+    border-radius: 999px;
+    margin: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.tool-search button:hover {
+    background: var(--accent-primary-hover);
+}
+
+.tool-search-results {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 6px);
+    z-index: 40;
+    background: #fff;
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+    padding: 0.35rem;
+    text-align: left;
+}
+
+.tool-search-hit {
+    display: block;
+    padding: 0.7rem 0.85rem;
+    border-radius: 10px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.tool-search-hit:hover,
+.tool-search-hit:focus {
+    background: #fdecea;
+    color: var(--accent-primary);
+    outline: none;
+}
+
+.tool-search-header {
+    max-width: 280px;
+    min-width: 0;
+    flex: 0 1 280px;
+    margin: 0 0 0 auto;
+    box-shadow: none;
+    overflow: hidden;
+    flex-wrap: nowrap;
+}
+
+.tool-search-header input[type="search"] {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.88rem;
+}
+
+.tool-search-header button {
+    padding: 0 0.85rem;
+    font-size: 0.82rem;
+    margin: 3px;
+}
+
+.tool-search-count,
+.tool-search-empty {
+    text-align: center;
+    color: var(--text-secondary);
+    margin: 0.75rem auto 0;
+    max-width: 1100px;
+    padding: 0 1.5rem;
+}
+
+.tool-search-empty a {
+    color: var(--accent-primary);
+    font-weight: 700;
+}
+
+[data-theme="dark"] .tool-search,
+[data-theme="dark"] .tool-search-results {
+    background: var(--glass-bg);
+    border-color: var(--glass-border);
+}
+
+[data-theme="dark"] .tool-search input[type="search"] {
+    color: var(--text-primary);
+}
+
+@media (max-width: 900px) {
+    .app-header:has(.step-nav) .tool-search-header input[type="search"] {
+        display: none;
+    }
+
+    .app-header:has(.step-nav) .tool-search-header {
+        max-width: none;
+        width: auto;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+    }
+
+    .app-header:has(.step-nav) .tool-search-header button {
+        margin: 0;
+        min-height: 44px;
+    }
+
+    .app-header:has(.step-nav) .tool-search-results {
+        display: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .tool-search-header {
+        max-width: 210px;
+    }
+
+    .tool-search-header button span {
+        display: none;
+    }
+
+    .tool-search-hero input[type="search"] {
+        padding: 0.75rem 0.9rem;
+        font-size: 0.95rem;
+    }
 }
 
 .home-tool-card {

@@ -43,7 +43,12 @@
             "@context": "https://schema.org",
             "@type": "WebSite",
             "name": "Online Stamp Doc",
-            "url": "https://onlinestampdoc.com/"
+            "url": "https://onlinestampdoc.com/",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://onlinestampdoc.com/tools.html?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
         }
     </script>
 
@@ -106,7 +111,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <link rel="stylesheet" href="styles.css?v=20260925g">
+    <link rel="stylesheet" href="styles.css?v=20260925h">
     <script src="ads-consent.js"></script>
 </head>
 <body>
@@ -550,6 +555,14 @@
             <div class="home-tools-head">
                 <h2 id="home-tools-title">Every tool you need to work with PDFs</h2>
                 <p>Same privacy model — files stay in your browser. No upload.</p>
+                <form class="tool-search tool-search-hero" id="tool-search-form" role="search" action="tools.html" method="get">
+                    <label class="tool-search-sr" for="tool-search-q">Search tools</label>
+                    <input type="search" id="tool-search-q" name="q" placeholder="Search JPG to PDF, passport photo, merge..." autocomplete="off">
+                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></button>
+                    <div class="tool-search-results" hidden></div>
+                </form>
+                <p id="tool-search-count" class="tool-search-count" hidden></p>
+                <p id="tool-search-empty" class="tool-search-empty" hidden>No tools match. <a href="tools.html" data-all-link>Search all tools</a></p>
                 <a href="tools.html" class="home-tools-all">View all tools <i class="fa-solid fa-arrow-right"></i></a>
             </div>
             <div class="home-tools-grid">
@@ -828,6 +841,8 @@
             </div>
         </div>
     </div>
-    <script src="script.js?v=20260925g" defer></script>
+    <script src="tools-common.js"></script>
+    <script src="tools-search.js"></script>
+    <script src="script.js?v=20260925h" defer></script>
 </body>
 </html>

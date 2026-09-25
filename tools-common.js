@@ -162,6 +162,7 @@ function toolEnhanceDropZone() {
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input') || document.getElementById('document-upload');
     if (!dropZone || dropZone.querySelector('.drop-select-btn')) return;
+    if (!dropZone.classList.contains('tool-drop')) return;
     const btn = document.createElement('span');
     btn.className = 'drop-select-btn';
     const accept = ((fileInput && fileInput.getAttribute('accept')) || '').toLowerCase();
@@ -287,8 +288,22 @@ function toolInjectAdsLater() {
     /* Ads + consent are handled by ads-consent.js */
 }
 
+function toolEnsureSearch() {
+    if (window.toolInitSearch) {
+        window.toolInitSearch();
+        return;
+    }
+    const s = document.createElement('script');
+    s.src = 'tools-search.js';
+    s.onload = function () {
+        if (window.toolInitSearch) window.toolInitSearch();
+    };
+    document.body.appendChild(s);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     toolEnhanceDropZone();
     toolInjectRelated();
     toolInjectAdsLater();
+    toolEnsureSearch();
 });
