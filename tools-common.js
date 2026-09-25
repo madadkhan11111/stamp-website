@@ -106,6 +106,58 @@ function toolCanvasBlob(canvas, type, quality) {
     });
 }
 
+const TOOL_PAGE_SIZES = {
+    a4: { width: 595.28, height: 841.89 },
+    letter: { width: 612, height: 792 }
+};
+
+async function toolFilesToPdf(files, filename, pageKey) {
+    await ensureToolPdfLibs();
+    const pdfDoc = await PDFLib.PDFDocument.create();
+    for (const file of files) {
+        const isPng = /png/i.test(file.type) || /\.png$/i.test(file.name);
+        let image;
+        try {
+            const bytes = await file.arrayBuffer();
+            image = isPng ? await pdfDoc.embedPng(bytes) : await pdfDoc.embedJpg(bytes);
+        } catch (e) {
+            const img = await toolLoadImageFile(file);
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            const ctx = canvas.getContext('2d');
+            if (!isPng) {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            ctx.drawImage(img, 0, 0);
+            const blob = await toolCanvasBlob(canvas, isPng ? 'image/png' : 'image/jpeg', 0.92);
+            const bytes = await blob.arrayBuffer();
+            image = isPng ? await pdfDoc.embedPng(bytes) : await pdfDoc.embedJpg(bytes);
+        }
+        let pageW = image.width;
+        let pageH = image.height;
+        let drawW = image.width;
+        let drawH = image.height;
+        let x = 0;
+        let y = 0;
+        const paper = TOOL_PAGE_SIZES[pageKey];
+        if (paper) {
+            pageW = paper.width;
+            pageH = paper.height;
+            const scale = Math.min(pageW / image.width, pageH / image.height);
+            drawW = image.width * scale;
+            drawH = image.height * scale;
+            x = (pageW - drawW) / 2;
+            y = (pageH - drawH) / 2;
+        }
+        const page = pdfDoc.addPage([pageW, pageH]);
+        page.drawImage(image, { x: x, y: y, width: drawW, height: drawH });
+    }
+    const out = await pdfDoc.save();
+    toolDownloadBlob(new Blob([out], { type: 'application/pdf' }), filename);
+}
+
 function toolEnhanceDropZone() {
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input') || document.getElementById('document-upload');
@@ -172,6 +224,9 @@ const TOOL_RELATED_LINKS = [
     { href: 'header-footer-pdf.html', label: 'Header Footer' },
     { href: 'pdf-to-jpg.html', label: 'PDF to JPG' },
     { href: 'image-to-pdf.html', label: 'Image to PDF' },
+    { href: 'jpg-to-pdf.html', label: 'JPG to PDF' },
+    { href: 'png-to-pdf.html', label: 'PNG to PDF' },
+    { href: 'passport-photo.html', label: 'Passport Photo' },
     { href: 'rotate-pdf.html', label: 'Rotate PDF' },
     { href: 'page-numbers-pdf.html', label: 'Page Numbers' },
     { href: 'pdf-to-png.html', label: 'PDF to PNG' },
