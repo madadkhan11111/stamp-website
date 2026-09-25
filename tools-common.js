@@ -207,17 +207,7 @@ function toolInjectRelated() {
 }
 
 function toolInjectAdsLater() {
-    const inject = () => {
-        if (document.getElementById('adsbygoogle-js')) return;
-        const s = document.createElement('script');
-        s.id = 'adsbygoogle-js';
-        s.async = true;
-        s.crossOrigin = 'anonymous';
-        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2509436669190309';
-        document.body.appendChild(s);
-    };
-    if ('requestIdleCallback' in window) requestIdleCallback(inject, { timeout: 5000 });
-    else setTimeout(inject, 2500);
+    /* Ads + consent are handled by ads-consent.js */
 }
 
 document.addEventListener('DOMContentLoaded', () => {

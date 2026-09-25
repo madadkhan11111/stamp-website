@@ -265,22 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkCookieConsent() {
-        const banner = document.getElementById('cookie-banner');
-        const btn = document.getElementById('accept-cookies');
-        
-        if (!localStorage.getItem('stampify_cookie_consent')) {
-            // Slight delay so it slides up after load
-            setTimeout(() => {
-                banner.classList.add('show');
-                document.body.classList.add('cookie-visible');
-            }, 1000);
-        }
-
-        btn.addEventListener('click', () => {
-            localStorage.setItem('stampify_cookie_consent', 'true');
-            banner.classList.remove('show');
-            document.body.classList.remove('cookie-visible');
-        });
+        /* Cookie banner and AdSense consent are handled by ads-consent.js */
     }
 
     function setupEventListeners() {

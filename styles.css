@@ -1993,6 +1993,50 @@ body.rotate-mode .draggable-stamp {
 .cookie-banner.show {
     bottom: 0;
 }
+
+.cookie-actions {
+    display: flex;
+    gap: 0.6rem;
+    flex-shrink: 0;
+}
+
+.site-legal-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.85rem 1.25rem;
+    padding: 1rem 1.25rem 1.35rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.site-legal-bar a {
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.site-legal-bar a:hover {
+    color: var(--accent-primary);
+}
+
+.cookie-settings-link {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.cookie-settings-link:hover {
+    color: var(--accent-primary);
+}
+
+body.cookie-visible {
+    padding-bottom: 8.5rem;
+}
 /* =========================================
    COOKIE BANNER MOBILE OPTIMIZATION
    ========================================= */
@@ -2010,6 +2054,11 @@ body.rotate-mode .draggable-stamp {
     .cookie-content p {
         font-size: 0.85rem;
         margin-bottom: 0.5rem;
+    }
+
+    .cookie-actions {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
 

@@ -106,6 +106,7 @@ const STATIC_FILES = [
     'robots.txt',
     'sitemap.xml',
     'ads.txt',
+    'ads-consent.js',
     'CNAME',
     '_headers',
     '_redirects'

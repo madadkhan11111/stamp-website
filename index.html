@@ -23,6 +23,7 @@
         })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-2509436669190309">
     <title>Free Online Stamp Maker – Stamp PDF &amp; Images | OnlineStampDoc.com</title>
     <meta name="description" content="Need to stamp a document online? Design your custom stamp in seconds and apply it to any PDF or image — free, instant, and completely private. No file uploads ever.">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -105,7 +106,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <link rel="stylesheet" href="styles.css?v=20260906m">
+    <link rel="stylesheet" href="styles.css?v=20260925c">
+    <script src="ads-consent.js"></script>
 </head>
 <body>
     <div class="app-background">
@@ -823,34 +825,6 @@
             </div>
         </div>
     </div>
-
-    <!-- COOKIE CONSENT BANNER -->
-    <div class="cookie-banner" id="cookie-banner">
-        <div class="cookie-content">
-            <p>We use cookies to enhance your experience and serve personalized ads. By using this site, you agree to our <a href="privacy.html">Privacy Policy</a> and use of cookies.</p>
-            <button class="primary-btn" id="accept-cookies">Got it!</button>
-        </div>
-    </div>
-
-    <script>
-        // Load AdSense only after the tool is interactive
-        (function loadAdsLater() {
-            const inject = () => {
-                if (document.getElementById('adsbygoogle-js')) return;
-                const s = document.createElement('script');
-                s.id = 'adsbygoogle-js';
-                s.async = true;
-                s.crossOrigin = 'anonymous';
-                s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2509436669190309';
-                document.body.appendChild(s);
-            };
-            if ('requestIdleCallback' in window) {
-                requestIdleCallback(inject, { timeout: 5000 });
-            } else {
-                setTimeout(inject, 2500);
-            }
-        })();
-    </script>
     <script src="script.js" defer></script>
 </body>
 </html>
