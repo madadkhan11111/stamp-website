@@ -199,7 +199,12 @@ const TOOL_RELATED_LINKS = [
     { href: 'flip-image.html', label: 'Flip Image' },
     { href: 'scan-to-pdf.html', label: 'Scan to PDF' },
     { href: 'split-pdf-pages.html', label: 'PDF to Single Pages' },
-    { href: 'redact-pdf.html', label: 'Redact PDF' }
+    { href: 'redact-pdf.html', label: 'Redact PDF' },
+    { href: 'add-text-pdf.html', label: 'Add Text to PDF' },
+    { href: 'fill-pdf.html', label: 'Fill PDF Form' },
+    { href: 'compress-image-kb.html', label: 'Compress to 20KB' },
+    { href: 'watermark-image.html', label: 'Watermark Image' },
+    { href: 'avif-to-jpg.html', label: 'AVIF to JPG' }
 ];
 
 function toolCurrentPage() {
