@@ -33,8 +33,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="styles.css?v=20260925c">
-    <link rel="stylesheet" href="tools.css?v=20260925b">
+    <link rel="stylesheet" href="styles.css?v=20260925d">
+    <link rel="stylesheet" href="tools.css?v=20260925d">
     <script src="ads-consent.js"></script>
 </head>
 <body>
@@ -47,219 +47,228 @@
         </nav>
     </header>
 
-    <section class="tool-hero">
-        <div class="tool-badge"><i class="fa-solid fa-toolbox"></i> Free &amp; Private Tools</div>
-        <h1>Document Tools</h1>
-        <p>Pick a tool. Every option runs in your browser — your files are never uploaded.</p>
+    <section class="tools-hero-wrap">
+        <div class="tool-badge"><i class="fa-solid fa-shield-halved"></i> Private — files never leave your browser</div>
+        <h1>Every tool you need to work with PDFs</h1>
+        <p>Pick a tool, drop a file, download. No account, no upload, no clutter.</p>
     </section>
 
+    <nav class="tool-cats" aria-label="Tool categories">
+        <button type="button" class="tool-cat active" data-filter="all">All</button>
+        <button type="button" class="tool-cat" data-filter="organize">Organize PDF</button>
+        <button type="button" class="tool-cat" data-filter="optimize">Optimize</button>
+        <button type="button" class="tool-cat" data-filter="convert">Convert</button>
+        <button type="button" class="tool-cat" data-filter="edit">Edit</button>
+        <button type="button" class="tool-cat" data-filter="image">Image</button>
+    </nav>
+
     <div class="tools-grid">
-        <a class="tool-card" href="/">
+        <a class="tool-card" data-cat="edit" href="/">
             <i class="fa-solid fa-stamp"></i>
             <h3>Stamp Maker</h3>
             <p>Design seals, address stamps, and apply them to PDF or images.</p>
         </a>
-        <a class="tool-card" href="watermark-pdf.html">
+        <a class="tool-card" data-cat="edit" href="watermark-pdf.html">
             <i class="fa-solid fa-droplet"></i>
             <h3>PDF Watermark</h3>
             <p>Add CONFIDENTIAL, DRAFT, or custom text across every PDF page.</p>
         </a>
-        <a class="tool-card" href="sign-pdf.html">
+        <a class="tool-card" data-cat="edit" href="sign-pdf.html">
             <i class="fa-solid fa-signature"></i>
             <h3>Sign PDF</h3>
             <p>Draw your signature and place it on any PDF page, then download.</p>
         </a>
-        <a class="tool-card" href="date-stamp.html">
+        <a class="tool-card" data-cat="edit" href="date-stamp.html">
             <i class="fa-solid fa-calendar-check"></i>
             <h3>Date Stamp</h3>
             <p>Create RECEIVED / PAID date seals and download as PNG instantly.</p>
         </a>
-        <a class="tool-card" href="merge-pdf.html">
+        <a class="tool-card" data-cat="organize" href="merge-pdf.html">
             <i class="fa-solid fa-object-group"></i>
             <h3>Merge PDF</h3>
             <p>Combine multiple PDF files into one document in your browser.</p>
         </a>
-        <a class="tool-card" href="pdf-to-jpg.html">
+        <a class="tool-card" data-cat="convert" href="pdf-to-jpg.html">
             <i class="fa-solid fa-file-image"></i>
             <h3>PDF to JPG</h3>
             <p>Convert each PDF page into a high-quality JPG image.</p>
         </a>
-        <a class="tool-card" href="image-to-pdf.html">
+        <a class="tool-card" data-cat="convert" href="image-to-pdf.html">
             <i class="fa-solid fa-images"></i>
             <h3>Image to PDF</h3>
             <p>Turn JPG or PNG images into a single downloadable PDF.</p>
         </a>
-        <a class="tool-card" href="rotate-pdf.html">
+        <a class="tool-card" data-cat="organize" href="rotate-pdf.html">
             <i class="fa-solid fa-rotate"></i>
             <h3>Rotate PDF</h3>
             <p>Rotate every page 90°, 180°, or 270° and download.</p>
         </a>
-        <a class="tool-card" href="page-numbers-pdf.html">
+        <a class="tool-card" data-cat="edit" href="page-numbers-pdf.html">
             <i class="fa-solid fa-list-ol"></i>
             <h3>Page Numbers</h3>
             <p>Add page numbers to any corner or edge of your PDF.</p>
         </a>
-        <a class="tool-card" href="split-pdf.html">
+        <a class="tool-card" data-cat="organize" href="split-pdf.html">
             <i class="fa-solid fa-scissors"></i>
             <h3>Split PDF</h3>
             <p>Extract a page range into a new PDF file instantly.</p>
         </a>
-        <a class="tool-card" href="compress-pdf.html">
+        <a class="tool-card" data-cat="optimize" href="compress-pdf.html">
             <i class="fa-solid fa-file-zipper"></i>
             <h3>Compress PDF</h3>
             <p>Shrink PDF file size in your browser with no upload.</p>
         </a>
-        <a class="tool-card" href="delete-pdf-pages.html">
+        <a class="tool-card" data-cat="organize" href="delete-pdf-pages.html">
             <i class="fa-solid fa-trash-can"></i>
             <h3>Delete PDF Pages</h3>
             <p>Remove pages or ranges and download a new PDF.</p>
         </a>
-        <a class="tool-card" href="organize-pdf.html">
+        <a class="tool-card" data-cat="organize" href="organize-pdf.html">
             <i class="fa-solid fa-layer-group"></i>
             <h3>Organize PDF</h3>
             <p>Reorder pages with Up / Down, then download.</p>
         </a>
-        <a class="tool-card" href="extract-pdf-text.html">
+        <a class="tool-card" data-cat="convert" href="extract-pdf-text.html">
             <i class="fa-solid fa-file-lines"></i>
             <h3>Extract PDF Text</h3>
             <p>Copy or download text from a PDF as a .txt file.</p>
         </a>
-        <a class="tool-card" href="crop-pdf.html">
+        <a class="tool-card" data-cat="edit" href="crop-pdf.html">
             <i class="fa-solid fa-crop"></i>
             <h3>Crop PDF</h3>
             <p>Trim page margins privately in your browser.</p>
         </a>
-        <a class="tool-card" href="header-footer-pdf.html">
+        <a class="tool-card" data-cat="edit" href="header-footer-pdf.html">
             <i class="fa-solid fa-heading"></i>
             <h3>Header &amp; Footer</h3>
             <p>Add labels or page numbers to the top and bottom.</p>
         </a>
-        <a class="tool-card" href="pdf-to-png.html">
+        <a class="tool-card" data-cat="convert" href="pdf-to-png.html">
             <i class="fa-solid fa-file-image"></i>
             <h3>PDF to PNG</h3>
             <p>Convert each PDF page into a PNG image.</p>
         </a>
-        <a class="tool-card" href="grayscale-pdf.html">
+        <a class="tool-card" data-cat="optimize" href="grayscale-pdf.html">
             <i class="fa-solid fa-circle-half-stroke"></i>
             <h3>Grayscale PDF</h3>
             <p>Turn a color PDF into black and white.</p>
         </a>
-        <a class="tool-card" href="reverse-pdf.html">
+        <a class="tool-card" data-cat="organize" href="reverse-pdf.html">
             <i class="fa-solid fa-arrows-up-down"></i>
             <h3>Reverse PDF</h3>
             <p>Flip page order from last page to first.</p>
         </a>
-        <a class="tool-card" href="text-to-pdf.html">
+        <a class="tool-card" data-cat="convert" href="text-to-pdf.html">
             <i class="fa-solid fa-align-left"></i>
             <h3>Text to PDF</h3>
             <p>Paste notes and download a printable PDF.</p>
         </a>
-        <a class="tool-card" href="add-blank-pages.html">
+        <a class="tool-card" data-cat="organize" href="add-blank-pages.html">
             <i class="fa-solid fa-file-circle-plus"></i>
             <h3>Add Blank Pages</h3>
             <p>Insert empty pages at the start, end, or after a page.</p>
         </a>
-        <a class="tool-card" href="resize-pdf.html">
+        <a class="tool-card" data-cat="optimize" href="resize-pdf.html">
             <i class="fa-solid fa-expand"></i>
             <h3>Resize PDF</h3>
             <p>Fit pages to A4, Letter, or Legal paper size.</p>
         </a>
-        <a class="tool-card" href="pdf-to-zip.html">
+        <a class="tool-card" data-cat="convert" href="pdf-to-zip.html">
             <i class="fa-solid fa-file-zipper"></i>
             <h3>PDF to ZIP</h3>
             <p>Export every page as JPG inside a ZIP file.</p>
         </a>
-        <a class="tool-card" href="remove-pdf-metadata.html">
+        <a class="tool-card" data-cat="optimize" href="remove-pdf-metadata.html">
             <i class="fa-solid fa-eraser"></i>
             <h3>Remove PDF Metadata</h3>
             <p>Strip title, author, and other hidden PDF info.</p>
         </a>
-        <a class="tool-card" href="nup-pdf.html">
+        <a class="tool-card" data-cat="organize" href="nup-pdf.html">
             <i class="fa-solid fa-table-cells-large"></i>
             <h3>2-Up PDF</h3>
             <p>Place two pages side by side on one sheet.</p>
         </a>
-        <a class="tool-card" href="flip-pdf.html">
+        <a class="tool-card" data-cat="organize" href="flip-pdf.html">
             <i class="fa-solid fa-arrows-left-right"></i>
             <h3>Flip PDF</h3>
             <p>Mirror pages horizontally or flip them vertically.</p>
         </a>
-        <a class="tool-card" href="compress-image.html">
+        <a class="tool-card" data-cat="image" href="compress-image.html">
             <i class="fa-solid fa-compress"></i>
             <h3>Compress Image</h3>
             <p>Shrink JPG, PNG, or WEBP size with a quality slider.</p>
         </a>
-        <a class="tool-card" href="resize-image.html">
+        <a class="tool-card" data-cat="image" href="resize-image.html">
             <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
             <h3>Resize Image</h3>
             <p>Scale photos down to a max width in your browser.</p>
         </a>
-        <a class="tool-card" href="png-to-jpg.html">
+        <a class="tool-card" data-cat="image" href="png-to-jpg.html">
             <i class="fa-solid fa-exchange-alt"></i>
             <h3>PNG to JPG</h3>
             <p>Convert PNG images to JPG with a white background.</p>
         </a>
-        <a class="tool-card" href="jpg-to-png.html">
+        <a class="tool-card" data-cat="image" href="jpg-to-png.html">
             <i class="fa-solid fa-image"></i>
             <h3>JPG to PNG</h3>
             <p>Convert JPG photos to PNG without uploading.</p>
         </a>
-        <a class="tool-card" href="webp-to-pdf.html">
+        <a class="tool-card" data-cat="convert" href="webp-to-pdf.html">
             <i class="fa-solid fa-file-pdf"></i>
             <h3>WEBP to PDF</h3>
             <p>Turn WEBP images into a single PDF file.</p>
         </a>
-        <a class="tool-card" href="heic-to-jpg.html">
+        <a class="tool-card" data-cat="image" href="heic-to-jpg.html">
             <i class="fa-solid fa-mobile-screen"></i>
             <h3>HEIC to JPG</h3>
             <p>Convert iPhone HEIC photos to JPG privately.</p>
         </a>
-        <a class="tool-card" href="heic-to-pdf.html">
+        <a class="tool-card" data-cat="convert" href="heic-to-pdf.html">
             <i class="fa-solid fa-file-pdf"></i>
             <h3>HEIC to PDF</h3>
             <p>Combine iPhone photos into a PDF file.</p>
         </a>
-        <a class="tool-card" href="extract-pdf-images.html">
+        <a class="tool-card" data-cat="convert" href="extract-pdf-images.html">
             <i class="fa-solid fa-images"></i>
             <h3>Extract PDF Images</h3>
             <p>Pull embedded photos out of a PDF as PNG files.</p>
         </a>
-        <a class="tool-card" href="webp-to-jpg.html">
+        <a class="tool-card" data-cat="image" href="webp-to-jpg.html">
             <i class="fa-solid fa-file-image"></i>
             <h3>WEBP to JPG</h3>
             <p>Turn WEBP screenshots into standard JPG photos.</p>
         </a>
-        <a class="tool-card" href="image-to-webp.html">
+        <a class="tool-card" data-cat="image" href="image-to-webp.html">
             <i class="fa-solid fa-file-image"></i>
             <h3>Image to WEBP</h3>
             <p>Convert JPG or PNG to smaller WEBP files.</p>
         </a>
-        <a class="tool-card" href="crop-image.html">
+        <a class="tool-card" data-cat="image" href="crop-image.html">
             <i class="fa-solid fa-crop"></i>
             <h3>Crop Image</h3>
             <p>Trim the edges of a photo in your browser.</p>
         </a>
-        <a class="tool-card" href="rotate-image.html">
+        <a class="tool-card" data-cat="image" href="rotate-image.html">
             <i class="fa-solid fa-rotate"></i>
             <h3>Rotate Image</h3>
             <p>Turn a sideways photo 90° at a time.</p>
         </a>
-        <a class="tool-card" href="flip-image.html">
+        <a class="tool-card" data-cat="image" href="flip-image.html">
             <i class="fa-solid fa-arrows-left-right"></i>
             <h3>Flip Image</h3>
             <p>Mirror a photo horizontally or vertically.</p>
         </a>
-        <a class="tool-card" href="scan-to-pdf.html">
+        <a class="tool-card" data-cat="convert" href="scan-to-pdf.html">
             <i class="fa-solid fa-camera"></i>
             <h3>Scan to PDF</h3>
             <p>Use your camera or photos to make a PDF.</p>
         </a>
-        <a class="tool-card" href="split-pdf-pages.html">
+        <a class="tool-card" data-cat="organize" href="split-pdf-pages.html">
             <i class="fa-solid fa-copy"></i>
             <h3>PDF to Single Pages</h3>
             <p>Split every page into its own PDF inside a ZIP.</p>
         </a>
-        <a class="tool-card" href="redact-pdf.html">
+        <a class="tool-card" data-cat="edit" href="redact-pdf.html">
             <i class="fa-solid fa-square"></i>
             <h3>Redact PDF</h3>
             <p>Black out private text before you share a PDF.</p>
@@ -267,5 +276,21 @@
     </div>
 
     <script src="tools-common.js"></script>
+    <script>
+        (function () {
+            var cats = document.querySelectorAll('.tool-cat');
+            var cards = document.querySelectorAll('.tool-card');
+            cats.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    cats.forEach(function (b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    var f = btn.getAttribute('data-filter');
+                    cards.forEach(function (card) {
+                        card.hidden = f !== 'all' && card.getAttribute('data-cat') !== f;
+                    });
+                });
+            });
+        })();
+    </script>
 </body>
 </html>

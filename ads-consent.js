@@ -6,6 +6,12 @@
 (function () {
     var PUB = 'ca-pub-2509436669190309';
     var KEY = 'osd_ad_consent';
+    try {
+        var theme = localStorage.getItem('osd_theme');
+        if (theme === 'dark' || theme === 'light') {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+    } catch (e) {}
 
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };

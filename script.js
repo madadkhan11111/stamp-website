@@ -179,7 +179,9 @@ document.addEventListener('DOMContentLoaded', () => {
        STATE MANAGEMENT
        ========================================================================= */
     const state = {
-        theme: 'dark',
+        theme: (function () {
+            try { return localStorage.getItem('osd_theme') || 'light'; } catch (e) { return 'light'; }
+        })(),
         stamp: {
             shape: 'circle',
             color: '#E63946',
@@ -273,8 +275,11 @@ document.addEventListener('DOMContentLoaded', () => {
         UI.themeToggle.addEventListener('click', () => {
             state.theme = state.theme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', state.theme);
-            UI.themeToggle.innerHTML = state.theme === 'dark' ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
+            try { localStorage.setItem('osd_theme', state.theme); } catch (e) {}
+            UI.themeToggle.innerHTML = state.theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
         });
+        UI.themeToggle.innerHTML = state.theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+        document.documentElement.setAttribute('data-theme', state.theme);
 
         // Navigation
         UI.steps.navBtns.forEach(btn => {

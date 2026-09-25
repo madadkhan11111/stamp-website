@@ -106,10 +106,27 @@ function toolCanvasBlob(canvas, type, quality) {
     });
 }
 
+function toolEnhanceDropZone() {
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input') || document.getElementById('document-upload');
+    if (!dropZone || dropZone.querySelector('.drop-select-btn')) return;
+    const btn = document.createElement('span');
+    btn.className = 'drop-select-btn';
+    const accept = ((fileInput && fileInput.getAttribute('accept')) || '').toLowerCase();
+    const multi = !!(fileInput && fileInput.hasAttribute('multiple'));
+    const pdfOnly = accept.includes('pdf') && !accept.includes('image') && !accept.includes('png') && !accept.includes('jpeg');
+    const imgOnly = (accept.includes('image') || accept.includes('png') || accept.includes('jpeg') || accept.includes('heic')) && !accept.includes('pdf');
+    if (pdfOnly) btn.textContent = multi ? 'Select PDF files' : 'Select PDF file';
+    else if (imgOnly) btn.textContent = multi ? 'Select images' : 'Select image';
+    else btn.textContent = multi ? 'Select files' : 'Select file';
+    dropZone.appendChild(btn);
+}
+
 function toolBindDrop(onFiles) {
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
     if (!dropZone || !fileInput) return;
+    toolEnhanceDropZone();
     dropZone.addEventListener('click', () => fileInput.click());
     dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
@@ -211,6 +228,7 @@ function toolInjectAdsLater() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    toolEnhanceDropZone();
     toolInjectRelated();
     toolInjectAdsLater();
 });
