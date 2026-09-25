@@ -117,6 +117,56 @@ function ensureExists(file) {
     }
 }
 
+function writeSitemap() {
+    const today = new Date().toISOString().slice(0, 10);
+    const htmlPages = STATIC_FILES.filter((f) => f.endsWith('.html'));
+    const rank = (file) => {
+        if (file === 'index.html') return 0;
+        if (file === 'tools.html') return 1;
+        if (file.startsWith('guide-')) return 3;
+        if (file === 'about.html' || file === 'contact.html') return 4;
+        if (file === 'privacy.html' || file === 'terms.html') return 5;
+        return 2;
+    };
+    htmlPages.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+
+    const urls = htmlPages.map((file) => {
+        let loc = 'https://onlinestampdoc.com/' + file;
+        let changefreq = 'weekly';
+        let priority = '0.95';
+        if (file === 'index.html') {
+            loc = 'https://onlinestampdoc.com/';
+            changefreq = 'daily';
+            priority = '1.0';
+        } else if (file.startsWith('guide-')) {
+            priority = '0.9';
+        } else if (file === 'about.html' || file === 'contact.html') {
+            changefreq = 'monthly';
+            priority = '0.8';
+        } else if (file === 'privacy.html' || file === 'terms.html') {
+            changefreq = 'yearly';
+            priority = '0.5';
+        }
+        return [
+            '    <url>',
+            `        <loc>${loc}</loc>`,
+            `        <lastmod>${today}</lastmod>`,
+            `        <changefreq>${changefreq}</changefreq>`,
+            `        <priority>${priority}</priority>`,
+            '    </url>'
+        ].join('\n');
+    });
+
+    const xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+        + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + urls.join('\n') + '\n'
+        + '</urlset>\n';
+    fs.writeFileSync('sitemap.xml', xml);
+    console.log(`Wrote sitemap.xml (${htmlPages.length} URLs)`);
+}
+
+writeSitemap();
+
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT);
 
