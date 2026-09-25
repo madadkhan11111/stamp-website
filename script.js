@@ -324,6 +324,20 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', () => setStampShape(btn.dataset.quickShape));
         });
 
+        const clearAddressBtn = document.getElementById('clear-address-btn');
+        if (clearAddressBtn) {
+            clearAddressBtn.addEventListener('click', () => {
+                for (let i = 1; i <= 5; i++) {
+                    const el = document.getElementById('addr-line' + i);
+                    if (el) el.value = '';
+                }
+                syncAddressFromInputs();
+                renderStamp();
+                const first = document.getElementById('addr-line1');
+                if (first) first.focus();
+            });
+        }
+
         // Template logic
         UI.stamp.templateBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -1863,6 +1877,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function updateDesignerChrome(shape) {
+        const title = document.getElementById('easy-step-2');
+        const hint = document.getElementById('designer-hint');
+        const copy = {
+            circle: {
+                title: 'Ink color & text',
+                hint: 'Edit the words on your seal. The preview updates as you type.'
+            },
+            rectangle: {
+                title: 'Ink color & text',
+                hint: 'Edit the words on your stamp. Leave a line blank to hide it.'
+            },
+            address: {
+                title: 'Your company details',
+                hint: 'Type your company name and address. Leave a line blank to hide it — the preview updates live.'
+            },
+            signature: {
+                title: 'Draw your signature',
+                hint: 'Sign with your mouse or finger, then tap Use Signature.'
+            }
+        };
+        const key = (shape === 'address' || shape === 'signature' || shape === 'circle') ? shape : 'rectangle';
+        const next = copy[key];
+        if (title) title.textContent = next.title;
+        if (hint) hint.textContent = next.hint;
+    }
+
     function setStampShape(shape) {
         state.stamp.shape = shape;
 
@@ -1890,19 +1931,21 @@ document.addEventListener('DOMContentLoaded', () => {
         UI.stamp.signatureControls.classList.add('hidden');
 
         const sealTemplates = document.getElementById('seal-templates-block');
-        const addressNote = document.getElementById('address-type-note');
         if (sealTemplates) {
             sealTemplates.classList.toggle('hidden', shape === 'address' || shape === 'signature');
         }
-        if (addressNote) {
-            addressNote.classList.toggle('hidden', shape !== 'address');
-        }
+
+        updateDesignerChrome(shape);
 
         if (shape === 'circle') {
             UI.stamp.circleControls.classList.remove('hidden');
         } else if (shape === 'address') {
             syncAddressFromInputs();
             UI.stamp.addressControls.classList.remove('hidden');
+            const first = document.getElementById('addr-line1');
+            if (first) {
+                first.focus({ preventScroll: true });
+            }
             if (UI.stamp.addressControls) {
                 UI.stamp.addressControls.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }

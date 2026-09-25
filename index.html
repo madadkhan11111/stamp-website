@@ -106,7 +106,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <link rel="stylesheet" href="styles.css?v=20260925f">
+    <link rel="stylesheet" href="styles.css?v=20260925g">
     <script src="ads-consent.js"></script>
 </head>
 <body>
@@ -163,6 +163,7 @@
         <!-- STEP 1: STAMP CREATOR -->
         <section class="step-section active" id="step-1">
             <div class="glass-panel controls-panel easy-controls">
+                <div class="designer-body">
                 <h2>Design Your Stamp</h2>
 
                 <!-- EASY STEP 1 -->
@@ -179,7 +180,7 @@
                     </div>
 
                     <div id="seal-templates-block" class="seal-templates-block">
-                        <p class="easy-help easy-help-tight">Quick text templates (for seals):</p>
+                        <p class="easy-help easy-help-tight">Or tap a ready-made word</p>
                         <div class="template-grid" id="acc-templates">
                             <button type="button" class="template-btn" data-template="paid">PAID</button>
                             <button type="button" class="template-btn" data-template="approved">APPROVED</button>
@@ -191,18 +192,15 @@
                             <button type="button" class="template-btn" data-template="void">VOID</button>
                         </div>
                     </div>
-
-                    <div id="address-type-note" class="address-type-note hidden">
-                        <p class="easy-help">Address stamp selected. Edit your company lines in step 2 — preview updates live.</p>
-                    </div>
                 </section>
 
                 <!-- EASY STEP 2 -->
                 <section class="easy-step" aria-labelledby="easy-step-2">
                     <div class="easy-step-head">
                         <span class="easy-step-num">2</span>
-                        <h3 id="easy-step-2">Edit color &amp; text</h3>
+                        <h3 id="easy-step-2">Ink color &amp; text</h3>
                     </div>
+                    <p id="designer-hint" class="easy-help">Edit the words on your stamp. The preview updates as you type.</p>
 
                     <div class="control-group easy-color-group" id="acc-text">
                         <label for="stamp-color">Ink color</label>
@@ -221,12 +219,12 @@
                     </div>
 
                     <div class="control-group" id="circle-controls">
-                        <label for="inner-text">Main text (center)</label>
-                        <input type="text" id="inner-text" class="glass-input easy-input" value="APPROVED" maxlength="15">
-                        <label for="outer-text">Outer ring text</label>
-                        <input type="text" id="outer-text" class="glass-input easy-input" value="AUTHORIZED SIGNATURE • OFFICIAL •">
-                        <label for="date-text">Date / bottom text</label>
-                        <input type="text" id="date-text" class="glass-input easy-input" value="15 MAR 2026" maxlength="20">
+                        <label for="inner-text">Center word</label>
+                        <input type="text" id="inner-text" class="glass-input easy-input" value="APPROVED" maxlength="15" placeholder="e.g. APPROVED">
+                        <label for="outer-text">Ring text</label>
+                        <input type="text" id="outer-text" class="glass-input easy-input" value="AUTHORIZED SIGNATURE • OFFICIAL •" placeholder="Text around the circle">
+                        <label for="date-text">Date / bottom</label>
+                        <input type="text" id="date-text" class="glass-input easy-input" value="15 MAR 2026" maxlength="20" placeholder="Date or extra line">
                         <input type="hidden" id="outer-text-size" value="24">
                         <input type="hidden" id="inner-text-size" value="36">
                         <input type="hidden" id="date-text-size" value="18">
@@ -234,27 +232,31 @@
 
                     <div class="control-group hidden" id="rect-controls">
                         <label for="rect-mid-text">Main text</label>
-                        <input type="text" id="rect-mid-text" class="glass-input easy-input" value="DO NOT DISTRIBUTE" maxlength="30">
+                        <input type="text" id="rect-mid-text" class="glass-input easy-input" value="DO NOT DISTRIBUTE" maxlength="30" placeholder="Biggest line">
                         <label for="rect-top-text">Top text</label>
-                        <input type="text" id="rect-top-text" class="glass-input easy-input" value="CONFIDENTIAL" maxlength="30">
+                        <input type="text" id="rect-top-text" class="glass-input easy-input" value="CONFIDENTIAL" maxlength="30" placeholder="Optional top line">
                         <label for="rect-bot-text">Bottom text</label>
-                        <input type="text" id="rect-bot-text" class="glass-input easy-input" value="Date: 15-03-2026" maxlength="30">
+                        <input type="text" id="rect-bot-text" class="glass-input easy-input" value="Date: 15-03-2026" maxlength="30" placeholder="Optional bottom line">
                         <input type="hidden" id="rect-top-size" value="22">
                         <input type="hidden" id="rect-mid-size" value="40">
                         <input type="hidden" id="rect-bot-size" value="18">
                     </div>
 
                     <div class="control-group hidden" id="address-controls">
-                        <label for="addr-line1">Company / title</label>
-                        <input type="text" id="addr-line1" class="glass-input easy-input" value="MH TRADERS" maxlength="40">
-                        <label for="addr-line2">Address line 1</label>
-                        <input type="text" id="addr-line2" class="glass-input easy-input" value="OFFICE NO: 505, TRADE AVENUE" maxlength="50">
-                        <label for="addr-line3">Address line 2</label>
-                        <input type="text" id="addr-line3" class="glass-input easy-input" value="HASRAT MOHANI ROAD," maxlength="50">
-                        <label for="addr-line4">City / region</label>
-                        <input type="text" id="addr-line4" class="glass-input easy-input" value="I.I. CHUNDRIGAR ROAD, KARACHI." maxlength="50">
-                        <label for="addr-line5">Phone / reference</label>
-                        <input type="text" id="addr-line5" class="glass-input easy-input" value="C.H.A.L: # 9018599" maxlength="50">
+                        <div class="addr-toolbar">
+                            <span class="addr-toolbar-label">Company lines</span>
+                            <button type="button" class="link-btn" id="clear-address-btn">Clear all</button>
+                        </div>
+                        <label for="addr-line1">Company name</label>
+                        <input type="text" id="addr-line1" class="glass-input easy-input" value="MH TRADERS" maxlength="40" placeholder="Your company name" autocomplete="organization">
+                        <label for="addr-line2">Street / office</label>
+                        <input type="text" id="addr-line2" class="glass-input easy-input" value="OFFICE NO: 505, TRADE AVENUE" maxlength="50" placeholder="Street, office, or building" autocomplete="address-line1">
+                        <label for="addr-line3">Area</label>
+                        <input type="text" id="addr-line3" class="glass-input easy-input" value="HASRAT MOHANI ROAD," maxlength="50" placeholder="Area or extra street line" autocomplete="address-line2">
+                        <label for="addr-line4">City</label>
+                        <input type="text" id="addr-line4" class="glass-input easy-input" value="I.I. CHUNDRIGAR ROAD, KARACHI." maxlength="50" placeholder="City, region, country" autocomplete="address-level2">
+                        <label for="addr-line5">Phone or extra line</label>
+                        <input type="text" id="addr-line5" class="glass-input easy-input" value="C.H.A.L: # 9018599" maxlength="50" placeholder="Phone, tax ID, or leave blank" autocomplete="tel">
                         <input type="hidden" id="addr-line1-size" value="28">
                         <input type="hidden" id="addr-line2-size" value="16">
                         <input type="hidden" id="addr-line3-size" value="14">
@@ -263,7 +265,7 @@
                     </div>
 
                     <div class="control-group hidden" id="signature-controls">
-                        <p class="easy-help"><i class="fa-solid fa-signature"></i> Draw your signature below</p>
+                        <p class="easy-help"><i class="fa-solid fa-signature"></i> Sign in the box below</p>
                         <div class="signature-pad-wrapper">
                             <canvas id="signature-pad" width="340" height="140"></canvas>
                             <div class="signature-placeholder" id="sig-placeholder">
@@ -288,17 +290,8 @@
                         <span class="easy-step-num">3</span>
                         <h3 id="easy-step-3">Apply to your document</h3>
                     </div>
-                    <p class="easy-help">Happy with the live preview? Continue to upload a PDF or image.</p>
+                    <p class="easy-help">Happy with the preview? Next you will drop a PDF or image and place this stamp.</p>
                 </section>
-
-                <div class="controls-sticky-actions">
-                    <button type="button" class="secondary-btn" id="download-stamp-img" title="Download Stamp Image">
-                        <i class="fa-solid fa-download"></i> Save PNG
-                    </button>
-                    <button type="button" class="primary-btn glow-effect" id="proceed-to-doc-btn">
-                        Next: Stamp Document <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-                </div>
 
                 <!-- Advanced options (hidden unless needed) -->
                 <details class="more-options" id="more-options">
@@ -424,6 +417,16 @@
                         <small class="easy-help">Saved in this browser only.</small>
                     </div>
                 </details>
+                </div>
+
+                <div class="controls-sticky-actions">
+                    <button type="button" class="secondary-btn" id="download-stamp-img" title="Download Stamp Image">
+                        <i class="fa-solid fa-download"></i> Save PNG
+                    </button>
+                    <button type="button" class="primary-btn glow-effect" id="proceed-to-doc-btn">
+                        Next: Stamp Document <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="glass-panel preview-panel">
@@ -813,6 +816,6 @@
             </div>
         </div>
     </div>
-    <script src="script.js" defer></script>
+    <script src="script.js?v=20260925g" defer></script>
 </body>
 </html>
