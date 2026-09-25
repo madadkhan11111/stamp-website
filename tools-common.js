@@ -73,6 +73,39 @@ function toolIsImage(file, extra) {
     return typeRe.test(file.type) || nameRe.test(file.name);
 }
 
+function toolIsHeic(file) {
+    return !!(file && (/image\/hei[cf]/i.test(file.type) || /\.hei[cf]$/i.test(file.name)));
+}
+
+function toolEnsureZip() {
+    if (window.JSZip) return Promise.resolve();
+    return toolLoadScript('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js');
+}
+
+function toolEnsureHeic() {
+    if (window.heic2any) return Promise.resolve();
+    return toolLoadScript('https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js');
+}
+
+async function toolHeicToJpegBlob(file, quality) {
+    await toolEnsureHeic();
+    const out = await window.heic2any({
+        blob: file,
+        toType: 'image/jpeg',
+        quality: quality == null ? 0.9 : quality
+    });
+    return Array.isArray(out) ? out[0] : out;
+}
+
+function toolCanvasBlob(canvas, type, quality) {
+    return new Promise((resolve, reject) => {
+        canvas.toBlob((blob) => {
+            if (!blob) reject(new Error('Could not encode image.'));
+            else resolve(blob);
+        }, type || 'image/jpeg', quality);
+    });
+}
+
 function toolBindDrop(onFiles) {
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
@@ -138,7 +171,18 @@ const TOOL_RELATED_LINKS = [
     { href: 'resize-image.html', label: 'Resize Image' },
     { href: 'png-to-jpg.html', label: 'PNG to JPG' },
     { href: 'jpg-to-png.html', label: 'JPG to PNG' },
-    { href: 'webp-to-pdf.html', label: 'WEBP to PDF' }
+    { href: 'webp-to-pdf.html', label: 'WEBP to PDF' },
+    { href: 'heic-to-jpg.html', label: 'HEIC to JPG' },
+    { href: 'heic-to-pdf.html', label: 'HEIC to PDF' },
+    { href: 'extract-pdf-images.html', label: 'Extract Images' },
+    { href: 'webp-to-jpg.html', label: 'WEBP to JPG' },
+    { href: 'image-to-webp.html', label: 'Image to WEBP' },
+    { href: 'crop-image.html', label: 'Crop Image' },
+    { href: 'rotate-image.html', label: 'Rotate Image' },
+    { href: 'flip-image.html', label: 'Flip Image' },
+    { href: 'scan-to-pdf.html', label: 'Scan to PDF' },
+    { href: 'split-pdf-pages.html', label: 'PDF to Single Pages' },
+    { href: 'redact-pdf.html', label: 'Redact PDF' }
 ];
 
 function toolCurrentPage() {

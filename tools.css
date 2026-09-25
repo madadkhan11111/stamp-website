@@ -328,3 +328,25 @@
     gap: 0.35rem;
     flex-shrink: 0;
 }
+
+.scan-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.scan-thumbs img {
+    width: 76px;
+    height: 76px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+}
+
+#cam {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 0.75rem;
+    background: #000;
+    display: none;
+}
