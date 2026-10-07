@@ -20,6 +20,9 @@
 
     document.documentElement.setAttribute('data-google-vignette', 'false');
 
+    window.adsbygoogle = window.adsbygoogle || [];
+    window.adsbygoogle.pauseAdRequests = 1;
+
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
     window.gtag('consent', 'default', {
@@ -72,9 +75,19 @@
         return !!(document.body && document.body.getAttribute('data-ads') === 'off');
     }
 
+    function ensureAdSenseScript() {
+        if (adsDisabledOnPage()) return;
+        if (document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]')) return;
+        var s = document.createElement('script');
+        s.id = 'adsbygoogle-js';
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + PUB;
+        document.head.appendChild(s);
+    }
+
     function loadAds(nonPersonalized) {
         if (adsDisabledOnPage()) return;
-        if (document.getElementById('adsbygoogle-js')) return;
         if (cookieBannerVisible() || loadingVisible()) {
             pendingNonPersonalized = nonPersonalized;
             return;
@@ -83,11 +96,8 @@
             pendingNonPersonalized = nonPersonalized;
             return;
         }
-        if (nonPersonalized) {
-            window.adsbygoogle = window.adsbygoogle || [];
-            window.adsbygoogle.requestNonPersonalizedAds = 1;
-        }
         window.adsbygoogle = window.adsbygoogle || [];
+        if (nonPersonalized) window.adsbygoogle.requestNonPersonalizedAds = 1;
         try {
             window.adsbygoogle.push({
                 google_ad_client: PUB,
@@ -95,12 +105,8 @@
                 overlays: { bottom: false }
             });
         } catch (err) { /* Auto ads config is best-effort */ }
-        var s = document.createElement('script');
-        s.id = 'adsbygoogle-js';
-        s.async = true;
-        s.crossOrigin = 'anonymous';
-        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + PUB;
-        document.head.appendChild(s);
+        ensureAdSenseScript();
+        window.adsbygoogle.pauseAdRequests = 0;
         pendingNonPersonalized = null;
     }
 
