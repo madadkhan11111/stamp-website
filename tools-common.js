@@ -306,26 +306,86 @@ function toolPickRelated(current) {
     }).slice(0, 6).map(function (x) { return x.t; });
 }
 
+function toolEscapeHtml(str) {
+    return String(str || '').replace(/[&<>"']/g, function (ch) {
+        return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch];
+    });
+}
+
+function toolRenderGuide(guide) {
+    const faqs = (guide.faqs || []).map(function (item) {
+        return '<div class="tool-faq"><h3>' + toolEscapeHtml(item.q) + '</h3><p>' + toolEscapeHtml(item.a) + '</p></div>';
+    }).join('');
+    const steps = (guide.steps || []).map(function (step) {
+        return '<li>' + toolEscapeHtml(step) + '</li>';
+    }).join('');
+    return '<h2>' + toolEscapeHtml(guide.title) + '</h2>' +
+        '<p>' + toolEscapeHtml(guide.lead) + '</p>' +
+        (steps ? '<h3>Steps</h3><ol>' + steps + '</ol>' : '') +
+        (guide.notes ? '<p>' + toolEscapeHtml(guide.notes) + '</p>' : '') +
+        (faqs ? '<h3>Questions people ask</h3>' + faqs : '');
+}
+
+function toolInjectGuide() {
+    if (document.querySelector('.tool-guide')) {
+        document.body.setAttribute('data-publisher-content', 'ready');
+        if (window.osdNotifyPublisherContent) window.osdNotifyPublisherContent();
+        return;
+    }
+    const after = document.querySelector('.tool-layout');
+    if (!after) {
+        document.body.setAttribute('data-publisher-content', 'ready');
+        if (window.osdNotifyPublisherContent) window.osdNotifyPublisherContent();
+        return;
+    }
+    const current = toolCurrentPage();
+    const guide = (window.OSD_TOOL_GUIDES || {})[current];
+    if (!guide) {
+        document.body.setAttribute('data-publisher-content', 'ready');
+        if (window.osdNotifyPublisherContent) window.osdNotifyPublisherContent();
+        return;
+    }
+    const article = document.createElement('article');
+    article.className = 'tool-guide';
+    article.setAttribute('aria-label', 'How this tool works');
+    article.innerHTML = toolRenderGuide(guide);
+    after.insertAdjacentElement('afterend', article);
+    document.body.setAttribute('data-publisher-content', 'ready');
+    if (window.osdNotifyPublisherContent) window.osdNotifyPublisherContent();
+}
+
+function toolLoadGuides(done) {
+    if (window.OSD_TOOL_GUIDES) {
+        done();
+        return;
+    }
+    const s = document.createElement('script');
+    s.src = 'tool-guides.js?v=20261007a';
+    s.onload = done;
+    s.onerror = done;
+    document.head.appendChild(s);
+}
+
 function toolInjectRelated() {
     if (document.querySelector('.related-tools')) return;
     const current = toolCurrentPage();
     if (current === 'tools.html') return;
-    const after = document.querySelector('.tool-layout');
+    const after = document.querySelector('.tool-guide') || document.querySelector('.tool-layout');
     if (!after) return;
     const others = toolPickRelated(current);
     const section = document.createElement('section');
     section.className = 'related-tools';
     section.innerHTML = '<h2>You may also like</h2><div class="related-tools-row">' +
         others.map(function (t) {
-            return '<a href="' + t.href + '"><i class="fa-solid ' + toolIconFor(t.href) + '"></i><span>' + t.label + '</span></a>';
+            return '<a href="' + t.href + '" data-google-vignette="false"><i class="fa-solid ' + toolIconFor(t.href) + '"></i><span>' + t.label + '</span></a>';
         }).join('') +
-        '<a href="tools.html"><i class="fa-solid fa-toolbox"></i><span>All tools</span></a>' +
+        '<a href="tools.html" data-google-vignette="false"><i class="fa-solid fa-toolbox"></i><span>All tools</span></a>' +
         '</div>';
     after.insertAdjacentElement('afterend', section);
 }
 
 function toolInjectAdsLater() {
-    /* Ads + consent are handled by ads-consent.js */
+    /* Ads + consent are handled by ads-consent.js after publisher content is ready */
 }
 
 function toolEnsureSearch() {
@@ -343,7 +403,10 @@ function toolEnsureSearch() {
 
 document.addEventListener('DOMContentLoaded', () => {
     toolEnhanceDropZone();
-    toolInjectRelated();
-    toolInjectAdsLater();
+    toolLoadGuides(function () {
+        toolInjectGuide();
+        toolInjectRelated();
+        toolInjectAdsLater();
+    });
     toolEnsureSearch();
 });

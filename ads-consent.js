@@ -1,17 +1,24 @@
 /**
  * AdSense + cookie consent for every page.
- * Consent Mode defaults to denied. Ads load only after a choice:
- * personalized (Accept ads) or non-personalized (Essential only).
+ * Consent Mode defaults to denied. Ads load only after a choice
+ * AND only when real publisher content is on screen — never on the
+ * cookie bar, loading overlay, or empty tool chrome.
+ * Vignette (full-screen) ads are opted out in HTML so Google is not
+ * served a screen with no publisher content between page clicks.
  */
 (function () {
     var PUB = 'ca-pub-2509436669190309';
     var KEY = 'osd_ad_consent';
+    var pendingNonPersonalized = null;
+
     try {
         var theme = localStorage.getItem('osd_theme');
         if (theme === 'dark' || theme === 'light') {
             document.documentElement.setAttribute('data-theme', theme);
         }
     } catch (e) {}
+
+    document.documentElement.setAttribute('data-google-vignette', 'false');
 
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
@@ -30,18 +37,80 @@
         document.head.appendChild(meta);
     }
 
+    function markLinksNoVignette() {
+        var links = document.querySelectorAll('a[href]');
+        for (var i = 0; i < links.length; i++) {
+            links[i].setAttribute('data-google-vignette', 'false');
+        }
+        if (document.body) document.body.setAttribute('data-google-vignette', 'false');
+    }
+
+    function cookieBannerVisible() {
+        return !!(document.body && document.body.classList.contains('cookie-visible'));
+    }
+
+    function loadingVisible() {
+        var overlay = document.getElementById('loading-overlay');
+        return !!(overlay && !overlay.classList.contains('hidden'));
+    }
+
+    function hasPublisherContent() {
+        if (!document.body) return false;
+        if (document.body.getAttribute('data-publisher-content') === 'ready') return true;
+        if (document.querySelector('.tool-guide')) return true;
+        if (document.querySelector('.tools-guide')) return true;
+        if (document.querySelector('.page-content')) return true;
+        if (document.querySelector('.designer-body') || document.getElementById('stamp-canvas')) return true;
+        return false;
+    }
+
+    function waitingForToolGuide() {
+        return !!(document.querySelector('.tool-layout') && !document.querySelector('.tool-guide'));
+    }
+
+    function adsDisabledOnPage() {
+        return !!(document.body && document.body.getAttribute('data-ads') === 'off');
+    }
+
     function loadAds(nonPersonalized) {
+        if (adsDisabledOnPage()) return;
         if (document.getElementById('adsbygoogle-js')) return;
+        if (cookieBannerVisible() || loadingVisible()) {
+            pendingNonPersonalized = nonPersonalized;
+            return;
+        }
+        if (waitingForToolGuide() || !hasPublisherContent()) {
+            pendingNonPersonalized = nonPersonalized;
+            return;
+        }
         if (nonPersonalized) {
             window.adsbygoogle = window.adsbygoogle || [];
             window.adsbygoogle.requestNonPersonalizedAds = 1;
         }
+        window.adsbygoogle = window.adsbygoogle || [];
+        try {
+            window.adsbygoogle.push({
+                google_ad_client: PUB,
+                enable_page_level_ads: true,
+                overlays: { bottom: false }
+            });
+        } catch (err) { /* Auto ads config is best-effort */ }
         var s = document.createElement('script');
         s.id = 'adsbygoogle-js';
         s.async = true;
         s.crossOrigin = 'anonymous';
         s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + PUB;
         document.head.appendChild(s);
+        pendingNonPersonalized = null;
+    }
+
+    function tryLoadPending() {
+        if (pendingNonPersonalized === null || pendingNonPersonalized === 'flush') return;
+        if (cookieBannerVisible() || loadingVisible()) return;
+        if (waitingForToolGuide() || !hasPublisherContent()) return;
+        var np = pendingNonPersonalized;
+        pendingNonPersonalized = 'flush';
+        loadAds(np === true);
     }
 
     function applyChoice(choice) {
@@ -51,11 +120,19 @@
                 ad_user_data: 'granted',
                 ad_personalization: 'granted'
             });
-            loadAds(false);
+            pendingNonPersonalized = false;
+            tryLoadPending();
         } else if (choice === 'essential') {
-            loadAds(true);
+            pendingNonPersonalized = true;
+            tryLoadPending();
         }
     }
+
+    window.osdNotifyPublisherContent = function () {
+        if (document.body) document.body.setAttribute('data-publisher-content', 'ready');
+        markLinksNoVignette();
+        tryLoadPending();
+    };
 
     function hideBanner() {
         var banner = document.getElementById('cookie-banner');
@@ -73,7 +150,7 @@
             existing.setAttribute('aria-label', 'Cookie consent');
             existing.innerHTML =
                 '<div class="cookie-content">' +
-                '<p>We use cookies for essential site features and, if you allow it, to show Google AdSense ads. Your documents are still processed only in your browser. Read our <a href="privacy.html">Privacy Policy</a>.</p>' +
+                '<p>We use cookies for essential site features and, if you allow it, to show Google AdSense ads. Your documents are still processed only in your browser. Read our <a href="privacy.html" data-google-vignette="false">Privacy Policy</a>.</p>' +
                 '<div class="cookie-actions">' +
                 '<button type="button" class="secondary-btn" id="reject-cookies">Essential only</button>' +
                 '<button type="button" class="primary-btn" id="accept-cookies">Accept ads</button>' +
@@ -114,10 +191,10 @@
         bar.className = 'site-legal-bar';
         bar.setAttribute('aria-label', 'Legal');
         bar.innerHTML =
-            '<a href="privacy.html">Privacy Policy</a>' +
-            '<a href="terms.html">Terms of Service</a>' +
-            '<a href="contact.html">Contact</a>' +
-            '<a href="about.html">About</a>' +
+            '<a href="privacy.html" data-google-vignette="false">Privacy Policy</a>' +
+            '<a href="terms.html" data-google-vignette="false">Terms of Service</a>' +
+            '<a href="contact.html" data-google-vignette="false">Contact</a>' +
+            '<a href="about.html" data-google-vignette="false">About</a>' +
             '<button type="button" class="cookie-settings-link" id="cookie-settings-btn">Cookie settings</button>';
         document.body.appendChild(bar);
         var settings = document.getElementById('cookie-settings-btn');
@@ -133,9 +210,14 @@
     try { saved = localStorage.getItem(KEY); } catch (e) { saved = null; }
 
     function boot() {
+        markLinksNoVignette();
         injectLegalBar();
+        if (document.querySelector('.page-content') || document.querySelector('.designer-body') || document.querySelector('.tools-guide')) {
+            document.body.setAttribute('data-publisher-content', 'ready');
+        }
         if (saved === 'accepted' || saved === 'essential') applyChoice(saved);
         else showBanner();
+        setTimeout(markLinksNoVignette, 800);
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

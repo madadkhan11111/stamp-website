@@ -11,6 +11,7 @@ const OUT = 'site';
 
 const STATIC_FILES = [
     'index.html',
+    '404.html',
     'about.html',
     'contact.html',
     'privacy.html',
@@ -70,6 +71,7 @@ const STATIC_FILES = [
     'tools.css',
     'tools-common.js',
     'tools-search.js',
+    'tool-guides.js',
     'watermark-pdf.js',
     'sign-pdf.js',
     'date-stamp.js',
@@ -137,7 +139,7 @@ function ensureExists(file) {
 
 function writeSitemap() {
     const today = new Date().toISOString().slice(0, 10);
-    const htmlPages = STATIC_FILES.filter((f) => f.endsWith('.html'));
+    const htmlPages = STATIC_FILES.filter((f) => f.endsWith('.html') && f !== '404.html');
     const rank = (file) => {
         if (file === 'index.html') return 0;
         if (file === 'tools.html') return 1;
